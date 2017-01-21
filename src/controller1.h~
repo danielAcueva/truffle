@@ -1,0 +1,13 @@
+//Header guard
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
+#include<iostream>
+
+using namespace std;
+
+//Functions
+void publish_moveRobot(Vector3d v_world, int robotId);
+
+//end of header guard
+#endif

@@ -1,0 +1,31 @@
+//Header guard
+#ifndef FOLLOW_H
+#define FOLLOW_H
+
+#include <iostream>
+#include <stdio.h>
+#include <eigen3/Eigen/Eigen>
+#include <boost/bind.hpp>
+#include <ros/ros.h>
+#include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/Twist.h>
+#include "soccerref/GameState.h"
+#include "globals.h"
+
+using namespace std;
+using namespace geometry_msgs;
+using namespace Eigen;
+
+//Function definitions
+//TEST. Follow the ball!
+void test_followBall(RobotPose robot, Vector2d ball, int robotId);
+
+/*class Follow{
+public:
+
+void testIt();
+
+};*/
+
+//end of header guard
+#endif

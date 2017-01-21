@@ -1,0 +1,22 @@
+//Header guard
+#ifndef MOVE_H
+#define MOVE_H
+
+#include <stdio.h>
+#include <eigen3/Eigen/Eigen>
+#include <boost/bind.hpp>
+#include <ros/ros.h>
+#include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/Twist.h>
+#include "soccerref/GameState.h"
+#include "globals.h"
+
+using namespace std;
+using namespace geometry_msgs;
+using namespace Eigen;
+
+//Functions
+void moveRobot(Vector3d v_world, int robotId);
+
+//end of header guard
+#endif
