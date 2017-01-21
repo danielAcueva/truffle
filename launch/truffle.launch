@@ -14,10 +14,10 @@
     <arg name="other_side" value="away" if="$(eval team_side == 'home')" />
     <arg name="other_side" value="home" if="$(eval team_side == 'away')" />
 
-    <group ns="truffleshuffle_$(arg team_side)">
+    <group ns="truffle_$(arg team_side)">
         
         <!-- start up the controller for ally1 and ally2 -->
-        <node name="controller1" pkg="truffleshuffle" type="controller1">
+        <node name="controller1" pkg="truffle" type="controller1">
             <param name="team" value="$(arg team_side)" />
 
             <remap from="ally1_vision" to="/vision/$(arg team_side)1" />
