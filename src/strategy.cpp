@@ -65,14 +65,21 @@ void skill_goToPoint(RobotPose robot, Vector2d point, int robotId)
 void play_rushGoal(RobotPose robot, Vector2d ball, int robotId)
 {
     // normal vector from ball to goal
+    //Send the difference between goal position and ball position
+    //Normalized vector returned
     Vector2d n = utility_unitVector(goal - ball);
 
     // compute position 10cm behind ball, but aligned with goal.
+    // Ball position - 10 cm (nomalized vector aligning the ball and goal)
+    //This should put the robot behind the ball
     Vector2d position = ball - 0.2*n;
 
-    if(utility_vecLength(position - robot.pos) < 0.21)
+    //Keep going towards goal
+    if(utility_vecLength(position - robot.pos) < 0.21){
         skill_goToPoint(robot, goal, robotId);
-    else
+    }
+    else{
         skill_goToPoint(robot, position, robotId);
+    }
 }
 

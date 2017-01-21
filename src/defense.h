@@ -19,5 +19,8 @@ using namespace Eigen;
 
 void playDefense(int robotNumber);
 
+void playArchDefense(int robotNumber);
+
+
 //end of header guard
 #endif

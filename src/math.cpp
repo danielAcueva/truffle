@@ -23,11 +23,13 @@ Vector3d utility_saturateVelocity(Vector3d v)
     return v;
 }
 
+//Find the vector length. Hypotenuese
 double utility_vecLength(Vector2d v)
 {
     return sqrt(v(0)*v(0) + v(1)*v(1));
 }
 
+//returns normalized vector
 Vector2d utility_unitVector(Vector2d v)
 {
     return v / utility_vecLength(v);
