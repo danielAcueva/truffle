@@ -35,6 +35,8 @@ void skill_goToPoint(RobotPose robot, Vector2d point, int robotId);
 // defense would be a strategy.
 void play_rushGoal(RobotPose robot, Vector2d ball, int robotId);
 
+void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId);
+
 
 
 //end of header guard

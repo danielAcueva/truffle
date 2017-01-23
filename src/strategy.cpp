@@ -19,6 +19,18 @@ void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int ro
     //CONTROL times offset between ball(y) and robot Y position
     double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
 
+    if (abs(ball(1)) > 0.75) // if playing defense_arch, keeps out of corners
+    {
+        if(ball(1) < 0)
+            vy = CONTROL_K_XY * (-0.5 - robot.pos(1)); 
+        else
+            vy = CONTROL_K_XY * (0.5 - robot.pos(1));
+    }
+    else
+        vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
+
+    
+
     // control angle to face the goal
     Vector2d dirGoal = goal - robot.pos;						//Offset from robot to goal
     double theta_d = atan2(dirGoal(1), dirGoal(0));				//Theta is the arc tan of the goal
@@ -81,5 +93,78 @@ void play_rushGoal(RobotPose robot, Vector2d ball, int robotId)
     else{
         skill_goToPoint(robot, position, robotId);
     }
+}
+
+// skill - go to point
+//   Travels towards a point. Angle always faces the goal.
+void skill_goToBall(RobotPose robot, Vector2d point, int robotId)
+{
+    //Find the unit vector from point to robot difference
+    Vector2d pointDiff = utility_unitVector(point - robot.pos);
+    Vector2d vxy;                                       //Create a vector
+    if ((utility_vecLength(robot.pos - ball)) > .6){    //When we are far from ball
+        vxy = pointDiff * CONTROL_K_XY;                 //Go to max velocity
+    }
+    else if ((utility_vecLength(robot.pos - ball)) < .1){   //When we are close to the ball
+        vxy = pointDiff * CONTROL_K_XY;                     //Go to a slower velocity
+    }
+    else{
+        vxy = pointDiff;                                //Go to a slower velocity       
+    }
+    // control angle to face the goal
+    Vector2d dirGoal = goal - robot.pos;
+    double theta_d = atan2(dirGoal(1), dirGoal(0));
+    double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+
+    // Output velocities to motors
+    Vector3d v;
+    v << vxy, omega;
+    v = utility_saturateVelocity(v);
+    publish_moveRobot(v, robotId);
+}
+
+void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
+{
+    /*
+    *   ___________________________
+    *  |             :             |
+    * _|     Q2      :     Q1      |_
+    *|...............*...............|
+    *|_              :^Ball         _|
+    *  |     Q3      :     Q4      |
+    *  |_____________:_____________|
+    */
+    Vector2d point;                     //Create a point
+    if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
+                                        //the robot is in Q1 or Q4 
+        if (robot.pos(1) < ball(1)){    //The robot is in Q1
+            point = ball;
+            point(1) -= .2;             //Go to a point above the wall
+        }
+        else{                           //The robot is in Q4
+            point = ball;
+            point(1) += .2;             //Go to a point below the ball
+        }
+    }
+    else{                               //The robot is behind the ball
+                                        //Go to the ball
+        // normal vector from ball to goal
+        //This returns a normalized vector alligned with ball and goal
+        Vector2d n = utility_unitVector(goal - ball);
+
+        // compute position 10cm behind ball, but aligned with goal.
+        //subtract 10 cm (from vector) to the current ball position
+        point = ball - 0.2*n;
+
+        //This is the point we want to get to. we may be in front of the ball though
+        //This would cause us to go straight for the point, hitting the ball in the wrong direction
+        if(utility_vecLength(point - robot.pos) < 0.21){ //|| 
+                            //((point - robot.pos) > 0.18))
+            skill_goToBall(robot, ball, robotId);
+            return;                     //Go to the ball
+        }
+    }
+    skill_goToBall(robot, point, robotId);
+    return;
 }
 
