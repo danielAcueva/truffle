@@ -19,6 +19,18 @@ void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int ro
     //CONTROL times offset between ball(y) and robot Y position
     double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
 
+    if (abs(ball(1)) > 0.75) // if playing defense_arch, keeps out of corners
+    {
+        if(ball(1) < 0)
+            vy = CONTROL_K_XY * (-0.5 - robot.pos(1)); 
+        else
+            vy = CONTROL_K_XY * (0.5 - robot.pos(1));
+    }
+    else
+        vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
+
+    
+
     // control angle to face the goal
     Vector2d dirGoal = goal - robot.pos;						//Offset from robot to goal
     double theta_d = atan2(dirGoal(1), dirGoal(0));				//Theta is the arc tan of the goal

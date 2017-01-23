@@ -4,6 +4,9 @@ using namespace std;
 using namespace geometry_msgs; 
 using namespace Eigen;
 
+#define PI 3.14159265
+
+
 void playDefense(int robotNumber)
 {
 	if (robotNumber == 1)
@@ -19,13 +22,18 @@ void playArchDefense(int robotNumber)
 
 	//own_goal = goal(0) - FIELD_WIDTH;
 
-	double theta = -atan((ball(1) - goal(1))/(ball(0) - 0));
+	double ballx_pos = ball(0) + (FIELD_WIDTH/2);
 
+	double theta = 4.0 * atan(ball(1)/ballx_pos);
 
-	double x_pos = (-1.0 * cos(theta));
+	double temp = sin(theta + (PI/2));
+	if(temp < 0)
+		temp = -temp;
+
+	double x_posArch = temp - (FIELD_WIDTH/2) - 0.5;
 
 	if (robotNumber == 1)
-		skill_followBallOnLine(ally1, ball, -1, 1);
+		skill_followBallOnLine(ally1, ball, x_posArch, 1);
 	else if (robotNumber == 2)
-		skill_followBallOnLine(ally2, ball, -1, 2);
+		skill_followBallOnLine(ally2, ball, x_posArch, 2);
 }
