@@ -4,7 +4,12 @@ using namespace std;
 using namespace geometry_msgs; 
 using namespace Eigen;
 
+<<<<<<< HEAD
 #define PI 3.14159
+=======
+#define PI 3.14159265
+
+>>>>>>> c8218673ab64e93cc26e77eef039bb1d72ca1388
 
 void playDefense(int robotNumber)
 {
