@@ -11,7 +11,11 @@
 #include "globals.h"
 #include "controller1.h"
 #include "math.h"
-#include "strategy.h"
+#include "strategy/strategy.h"
+#include "quadrant.h"
+#include "offensive_plays/O_Avoid_Corner.h"
+#include "offensive_plays/O_Dribble_Ball.h"
+#include "offensive_plays/O_Intercept_Ball.h"
 
 using namespace std;
 using namespace geometry_msgs;

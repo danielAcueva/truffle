@@ -9,7 +9,7 @@
 #include "globals.h"
 #include "test.h"
 #include "controller1.h"
-#include "strategy.h"
+#include "strategy/strategy.h"
 #include "offense.h"
 #include "defense.h"
 
