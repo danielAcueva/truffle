@@ -12,10 +12,14 @@
 #include "../controller1.h"
 #include "../math.h"
 #include "../quadrant.h"
+#include "../skills.h"
+#include "../helper.h"
 
 using namespace std;
 using namespace geometry_msgs;
 using namespace Eigen;
+
+bool is_dribble_running();
 
 //Call the play on or off
 void set_call_play_dribble(bool input);

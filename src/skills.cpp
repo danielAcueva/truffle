@@ -33,28 +33,59 @@ void skill_go_to_quadrant(RobotPose robot, Vector2d point, int robotId)
     publish_moveRobot(v, robotId);
 }
 
-void skill_ball_align_quadrant(RobotPose robot, int quadrant, int robotId)
+void skill_go_to_point(RobotPose robot, Vector2d point, int robotId)
+{
+    Vector2d dirPoint = point - robot.pos;
+    Vector2d vxy = dirPoint;// * CONTROL_K_XY;
+
+    // control angle to face the point
+    //Vector2d dirGoal = point - robot.pos;
+    double theta_d = atan2(dirPoint(1), dirPoint(0));
+    double omega = CONTROL_K_OMEGA * (robot.theta - theta_d); 
+
+    // Output velocities to motors
+    Vector3d v;
+    v << vxy, omega;
+    v = utility_saturateVelocity(v);
+    publish_moveRobot(v, robotId);
+}
+
+/*void skill_go_to_quadrant(RobotPose robot, Vector2d point, int robotId)
+{
+    Vector2d dirPoint = point - robot.pos;
+    Vector2d vxy = dirPoint;// * CONTROL_K_XY;
+
+    // control angle to face the goal
+    Vector2d dirGoal = goal - robot.pos;
+    double theta_d = atan2(dirGoal(1), dirGoal(0));
+    double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+
+    // Output velocities to motors
+    Vector3d v;
+    v << vxy, omega;
+    v = utility_saturateVelocity(v);
+    publish_moveRobot(v, robotId);
+}*/
+
+bool skill_ball_align_quadrant(RobotPose robot, int quadrant, int robotId)
 {           
 	Vector2d quadrant_center = get_quadrant_center(quadrant);
 
     // normal vector from ball to goal
-    //This returns a normalized vector alligned with ball and goal
+    //This returns a normalized vector alligned with quadrant and goal
     Vector2d n = utility_unitVector(quadrant_center - ball);
-
-    ///////STOPPED HERE
 
     // compute position 10cm behind ball, but aligned with goal.
     //subtract 10 cm (from vector) to the current ball position
-    //int point = ball - 0.2*n;
+    Vector2d position = ball - 0.2*n;
 
-    //This is the point we want to get to. we may be in front of the ball though
-    //This would cause us to go straight for the point, hitting the ball in the wrong direction
-    //if(utility_vecLength(point - robot.pos) < 0.21){ //|| 
-                        //((point - robot.pos) > 0.18))
-        //skill_go_to_quadrant(robot, ball, robotId);
-        //return;                     //Go to the ball
-    //}
-    //skill_go_to_quadrant(robot, point, robotId);
-    //return;
+    //If you are at the point, push towards the quadrant
+    if(utility_vecLength(position - robot.pos) < 0.03){
+        return true;
+    }
+    else{
+        skill_go_to_point(robot, position, robotId);
+    }
+    return false;
 }
 

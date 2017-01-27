@@ -19,9 +19,9 @@ using namespace Eigen;
 
 void skill_go_to_quadrant(RobotPose robot, Vector2d point, int robotId);
 
-void skill_ball_align_quadrant(RobotPose robot, int quadrant, int robotId);
+void skill_go_to_point(RobotPose robot, Vector2d point, int robotId);
 
-
+bool skill_ball_align_quadrant(RobotPose robot, int quadrant, int robotId);
 
 //end of header guard
 #endif

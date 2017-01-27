@@ -16,7 +16,7 @@ using namespace Eigen;
 
 //Controller constants
 #define ROBOT_MAX_VXY 2.0
-#define ROBOT_MAX_OMEGA 2*M_PI
+#define ROBOT_MAX_OMEGA 6*M_PI //Was 2*M_PI
 #define CONTROL_K_XY 5
 #define CONTROL_K_OMEGA 2
 #define FIELD_WIDTH 3.40  // in meters
@@ -38,6 +38,7 @@ extern RobotPose opp1, opp2;						//Opponents are made of struct pose
 extern Vector2d ball;								//Ball is a 2d vector
 extern Vector2d ally1_startingPos;					//starting position. 2d vector
 extern Vector2d ally2_startingPos;					//starting position. 2d vector
+
 
 //Functions
 

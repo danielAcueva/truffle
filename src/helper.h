@@ -11,6 +11,7 @@
 #include "globals.h"
 #include "controller1.h"
 #include "math.h"
+#include "quadrant.h"
 
 using namespace std;
 using namespace geometry_msgs;
@@ -20,6 +21,10 @@ using namespace Eigen;
 //If the ball is close to the robot, and between the robot and
 //the goal, the robot has the ball
 bool robot_has_ball(RobotPose robot, bool myTeam);
+
+bool robot_in_quadrant_middle(RobotPose robot, int quadrant);
+
+bool ball_in_area(RobotPose robot);
 
 //end of header guard
 #endif

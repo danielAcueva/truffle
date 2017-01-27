@@ -12,6 +12,7 @@
 #include "strategy/strategy.h"
 #include "offense.h"
 #include "defense.h"
+#include "offensive_plays/O_Dribble_Ball.h"
 
 using namespace std;
 using namespace geometry_msgs;
@@ -137,6 +138,7 @@ int main(int argc, char **argv)
     {
         if (gameState.play)								//We are playing. Play ball!
         {
+            dribble_ball_tick();                            //Tick function for dribble
 	
             // Choose strategies
 
