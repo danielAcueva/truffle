@@ -1,6 +1,6 @@
 //Header guard
-#ifndef TEST_H
-#define TEST_H
+#ifndef HELPER_H
+#define HELPER_H
 
 #include <stdio.h>
 #include <eigen3/Eigen/Eigen>
@@ -16,9 +16,10 @@ using namespace std;
 using namespace geometry_msgs;
 using namespace Eigen;
 
-//Functions
-//TEST. Follow the ball!
-void test_followBall(RobotPose robot, Vector2d ball, int robotId);
+//This function returns whether the specified robot has the ball
+//If the ball is close to the robot, and between the robot and
+//the goal, the robot has the ball
+bool robot_has_ball(RobotPose robot, bool myTeam);
 
 //end of header guard
 #endif

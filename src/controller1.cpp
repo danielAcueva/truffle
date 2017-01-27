@@ -7,7 +7,7 @@
 #include <geometry_msgs/Twist.h>
 #include "soccerref/GameState.h"
 #include "globals.h"
-#include "test.h"
+#include "helper.h"
 #include "controller1.h"
 #include "strategy/strategy.h"
 #include "offense.h"
@@ -144,8 +144,21 @@ int main(int argc, char **argv)
             playOffense(1);
             //play_rushGoal(ally1, ball, 1);
 
+            if (robot_has_ball(ally1, true))
+            {
+                Vector3d zeroVel;                           
+                zeroVel << 0, .1, 0;                         //Mo more movements
+                publish_moveRobot(zeroVel, 2);
+            }
+            else
+            {
+                Vector3d zeroVel;                           
+                zeroVel << 0, -.1, 0;                         //Mo more movements
+                publish_moveRobot(zeroVel, 2);               
+            }
+
             // robot #2 stays on line, following the ball, facing the goal
-            playDefense(2);
+            //playDefense(2);
             //skill_followBallOnLine(ally2, ball, -2 * FIELD_WIDTH / 6, 2);
 			
             /*********************************************************************/
