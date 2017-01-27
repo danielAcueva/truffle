@@ -35,19 +35,19 @@ int get_quadrant_row(Vector2d field_item)
 	//Find the row
 	if (y_pos > (FIELD_HEIGHT/4))		//Row 3 cutoff
 	{
-		row_num = 3;					//We are in row 3
+		row_num = 0;					//We are in row 3
 	}
 	else if (y_pos > 0)					//Row 2 cutoff
 	{
-		row_num = 2;					//We are in row 2
+		row_num = 1;					//We are in row 2
 	} 
 	else if (y_pos > -(FIELD_HEIGHT/4))	//Row 1 cutoff
 	{
-		row_num = 1;					//We are in row 1
+		row_num = 2;					//We are in row 1
 	}	
 	else								//Row 0 cutoff
 	{ 
-		row_num = 0;					//We are in row 0 
+		row_num = 3;					//We are in row 0 
 	}	
 	return row_num;						//Return the row number						
 }
@@ -118,22 +118,22 @@ Vector2d get_quadrant_center(int quadrant)
 	{
 		case 0:										//Row 0
 		{
-			position(0) = -(3*(FIELD_HEIGHT/8)); 	//(3/8) down the field
+			position(1) = (3*(FIELD_HEIGHT/8)); 	//(3/8) down the field
 			break;
 		}
 		case 1:										//Row 1
 		{
-			position(0) = -(FIELD_HEIGHT/8); 		//(1/8) down the field
+			position(1) = (FIELD_HEIGHT/8); 		//(1/8) down the field
 			break;
 		}
 		case 2:										//Row 2
 		{
-			position(0) = (FIELD_HEIGHT/8); 		//(1/8) up the field
+			position(1) = -(FIELD_HEIGHT/8); 		//(1/8) up the field
 			break;
 		}
 		default:									//Row 3
 		{
-			position(0) = 3*(FIELD_HEIGHT/8); 		//(3/8) up the field
+			position(1) = -(3*(FIELD_HEIGHT/8)); 		//(3/8) up the field
 			break;			
 		}
 	}
@@ -141,22 +141,22 @@ Vector2d get_quadrant_center(int quadrant)
 	{
 		case 0:										//column 0
 		{
-			position(1) = -(3*(FIELD_WIDTH/8)); 	//(3/8) down the field
+			position(0) = -(3*(FIELD_WIDTH/8)); 	//(3/8) down the field
 			break;
 		}
 		case 1:										//column 1
 		{
-			position(1) = -(FIELD_WIDTH/8); 		//(1/8) down the field
+			position(0) = -(FIELD_WIDTH/8); 		//(1/8) down the field
 			break;
 		}
 		case 2:										//column 2
 		{
-			position(1) = (FIELD_WIDTH/8); 			//(1/8) up the field
+			position(0) = (FIELD_WIDTH/8); 			//(1/8) up the field
 			break;
 		}
 		default:									//column 3
 		{
-			position(1) = 3*(FIELD_WIDTH/8); 		//(3/8) up the field
+			position(0) = 3*(FIELD_WIDTH/8); 		//(3/8) up the field
 			break;			
 		}
 	}
