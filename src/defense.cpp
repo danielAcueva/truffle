@@ -8,6 +8,9 @@ using namespace Eigen;
 
 void playDefense(int robotNumber)
 {
+
+
+	
 	if (robotNumber == 1)
 		playArchDefense(1);
 	else if (robotNumber == 2)

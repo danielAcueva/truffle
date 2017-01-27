@@ -51,5 +51,8 @@ int get_quadrant(Vector2d field_item);
 // This is useful if you need to move to a quadrant
 Vector2d get_quadrant_center(int quadrant);
 
+//Find the open quadrant to bribble to
+int find_open_quadrant(Vector2d field_item);
+
 //end of header guard
 #endif

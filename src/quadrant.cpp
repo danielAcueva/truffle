@@ -163,3 +163,126 @@ Vector2d get_quadrant_center(int quadrant)
 	return position;								//Return the calculated position
 }
 
+int find_open_quadrant(Vector2d field_item)
+{
+	int my_quadrant = get_quadrant(field_item);		//Return the quadrant you are in
+	int opp_quadrant1 = get_quadrant(opp1.pos);		//Return the quadrant of opponent 1
+	int opp_quadrant2 = get_quadrant(opp2.pos);		//Return the quadrant of opponent 2
+	//Boundary cases, If in the corner, move out towards the goal
+	if ((my_quadrant == 2) || (my_quadrant == 3))	//Check if in the top right corner
+	{
+		return 7;									//Move down to goal
+	}
+	if ((my_quadrant == 14) || (my_quadrant == 15))	//Check if in the bottom right corner
+	{
+		return 11;									//Move up to goal
+	}
+	//Simple quadrant finding algorithm
+	else
+	{
+		int my_row = return_row(my_quadrant);
+		int quadrant_up_right = my_quadrant - ROW_OFFSET + 1;
+		int quadrant_down_right = my_quadrant + ROW_OFFSET + 1;
+		int quadrant_right = my_quadrant + 1;
+		switch(my_row)
+		{
+			case 0:									//We are in row 0
+			{
+				//check if there is nobody down and to the right
+				//Best move if nobody there
+				if ((opp_quadrant1 != quadrant_down_right) && 
+					(opp_quadrant2 != quadrant_down_right))
+				{
+					return quadrant_down_right;		//Go down and to the right
+				}
+				//Check if there is nobody to the right
+				//Next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_right) && 
+						(opp_quadrant2 != quadrant_right))
+				{
+					return quadrant_right;			//Move to the right
+				}
+				//Default to the next best move
+				return quadrant_down_right;		//Move down and to the right
+			}
+			case 1:									//We are in row 1
+			{
+				//Check if there is nobody to the right
+				//best move if nobody there
+				if ((opp_quadrant1 != quadrant_right) && 
+						(opp_quadrant2 != quadrant_right))
+				{
+					return quadrant_right;			//Move to the right
+				}
+				//check if there is nobody down and to the right
+				//next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_down_right) && 
+					(opp_quadrant2 != quadrant_down_right))
+				{
+					return quadrant_down_right;		//Go down and to the right
+				}
+				//Check if there is nobody up and to the right
+				//Next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_up_right) && 
+						(opp_quadrant2 != quadrant_up_right))
+				{
+					if (my_quadrant != 6)
+					{
+					return quadrant_up_right;		//Move up and to the right
+					}
+				}
+				//Default to the next best move
+				return quadrant_right;			//Move down and to the right
+			}
+			case 2:									//We are in row 2
+			{
+				//Check if there is nobody to the right
+				//best move if nobody there
+				if ((opp_quadrant1 != quadrant_right) && 
+						(opp_quadrant2 != quadrant_right))
+				{
+					return quadrant_right;			//Move to the right
+				}
+				//check if there is nobody up and to the right
+				//next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_up_right) && 
+					(opp_quadrant2 != quadrant_up_right))
+				{
+					return quadrant_up_right;		//Go up and to the right
+				}
+				//Check if there is nobody down and to the right
+				//Next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_down_right) && 
+						(opp_quadrant2 != quadrant_down_right))
+				{
+					if (my_quadrant != 10)
+					{
+					return quadrant_down_right;		//Move down and to the right
+					}
+				}
+				//Default to the next best move
+				return quadrant_right;			//Move down and to the right
+			}
+			case 3:									//We are in row 3
+			{
+				//Check if there is nobody up and to the right
+				//best move if nobody there
+				if ((opp_quadrant1 != quadrant_up_right) && 
+						(opp_quadrant2 != quadrant_up_right))
+				{
+					return quadrant_up_right;			//Move up and to the right
+				}
+				//check if there is nobody to the right
+				//next best move if nobody there
+				else if ((opp_quadrant1 != quadrant_right) && 
+					(opp_quadrant2 != quadrant_right))
+				{
+					return quadrant_right;		//Go to the right
+				}
+				//Go to the next best move
+				return quadrant_up_right;			//Move to the right
+			}
+		}
+	}
+}
+
