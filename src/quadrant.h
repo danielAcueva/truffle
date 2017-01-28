@@ -64,3 +64,5 @@ bool get_robot_in_quad(int quadrant, RobotPose* robot);
 int get_quad_col(int quadrant);
 
 int get_quad_row(int quadrant);
+
+int get_quadrant(int col, int row);

@@ -1,4 +1,5 @@
 #include "strategy.h"
+#include "../quadrant.h"
 
 using namespace std;
 using namespace geometry_msgs; 
@@ -123,6 +124,90 @@ void skill_goToBall(RobotPose robot, Vector2d point, int robotId)
     publish_moveRobot(v, robotId);
 }
 
+Vector2d avoid_robots(Vector2d point)
+{
+    RobotPose opp_quad;
+    int quad = get_quadrant(point);
+    int row = get_quad_row(quad);
+    int col = get_quad_col(quad);
+
+    // check if any robots are in the way of point
+    if (get_robot_in_quad(quad, &opp_quad))
+    {
+        if (row == 1)
+        {
+            point(1) -= .5; 
+            /*
+            // change pos to row 2 if possible
+            if (is_robot_in_quad(quad, opp_quad) != 2)
+            {
+                row = 2;
+            }
+            else
+            {
+                row = 3;
+            }
+            */
+        }
+
+        else if (row == 2)
+        {
+                point(1) += .5; 
+
+            /*
+            // change pos to row 2 if possible
+            if (is_robot_in_quad(quad, opp_quad) != 1)
+            {
+                row = 1;
+            }
+            else
+            {
+                row = 3;
+            }  
+             */  
+        }
+        else if (row == 3)
+        {
+            point(1) += .5; 
+
+            /*    
+            // change pos to row 2 if possible
+            if (is_robot_in_quad(quad, opp_quad) != 2)
+            {
+                row = 2;
+            }
+            else
+            {
+                row = 1;
+            }   
+             */ 
+        }  
+        else
+        {
+                point(1) -= .5; 
+
+
+            /*
+            // change pos to row 2 if possible
+            if (is_robot_in_quad(quad, opp_quad) != 1)
+            {
+                row = 1;
+            }
+            else
+            {
+                row = 2;
+            }  
+             */  
+        }
+
+       // quad = get_quadrant(col, row);
+        //return get_quadrant_center(quad);
+    }
+
+    return point;
+
+}
+
 void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
 {
     /*
@@ -134,20 +219,22 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
     *  |     Q3      :     Q4      |
     *  |_____________:_____________|
     */
+      
     Vector2d point;                     //Create a point
     if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
                                         //the robot is in Q1 or Q4 
         if (robot.pos(1) < ball(1)){    //The robot is in Q1
             point = ball;
-            point(1) -= .2;             //Go to a point above the wall
+            point(1) -= .2;             //Go to a point above the ball
         }
         else{                           //The robot is in Q4
             point = ball;
             point(1) += .2;             //Go to a point below the ball
         }
     }
-    else{                               //The robot is behind the ball
-                                        //Go to the ball
+    else
+    {   //The robot is behind the ball
+        //Go to the ball
         // normal vector from ball to goal
         //This returns a normalized vector alligned with ball and goal
         Vector2d n = utility_unitVector(goal - ball);
@@ -158,13 +245,20 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
 
         //This is the point we want to get to. we may be in front of the ball though
         //This would cause us to go straight for the point, hitting the ball in the wrong direction
-        if(utility_vecLength(point - robot.pos) < 0.21){ //|| 
-                            //((point - robot.pos) > 0.18))
-            skill_goToBall(robot, ball, robotId);
-            return;                     //Go to the ball
+        if(utility_vecLength(point - robot.pos) < 0.21)
+        { 
+              //point = avoid_robots(ball);
+             // skill_goToBall(robot, point, robotId);
+              skill_goToBall(robot, ball, robotId);
+
+              return;
         }
+    
     }
+    point = avoid_robots(point);
     skill_goToBall(robot, point, robotId);
     return;
-}
+
+    }
+
 
