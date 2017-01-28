@@ -90,15 +90,21 @@ int get_quadrant(Vector2d field_item)
 	return quadrant;										//Return the Quadrant
 }
 
+int get_quadrant(int col, int row)
+{
+	return (row*ROW_OFFSET) + col;	//Compute the quadrant
+
+}
+
 //Return the row number from the quadrant number
-int return_row(int quadrant)
+int get_quad_row(int quadrant)
 {
 	return quadrant/4;					//This will return the row. It will round down
 										//From divided value to return row
 }
 
 //Return the column number from the quadrant number
-int return_column(int quadrant)
+int get_quad_col(int quadrant)
 {
 	return quadrant%4;					//This will return the column. It will return
 										//the modded value to return column
@@ -112,8 +118,8 @@ Vector2d get_quadrant_center(int quadrant)
 													//to hold return value
 	position(0) = 0;								//Init x to 0
 	position(1) = 0;								//init y to 0
-	int row = return_row(quadrant);					//Get the row. for switch statements
-	int column = return_column(quadrant);			//Get the column. for switch statements
+	int row = get_quad_row(quadrant);					//Get the row. for switch statements
+	int column = get_quad_col(quadrant);			//Get the column. for switch statements
 	switch (row)									//Switch on row to find y position
 	{
 		case 0:										//Row 0
@@ -180,7 +186,7 @@ int find_open_quadrant(Vector2d field_item)
 	//Simple quadrant finding algorithm
 	else
 	{
-		int my_row = return_row(my_quadrant);
+		int my_row = get_quad_row(my_quadrant);
 		int quadrant_up_right = my_quadrant - ROW_OFFSET + 1;
 		int quadrant_down_right = my_quadrant + ROW_OFFSET + 1;
 		int quadrant_right = my_quadrant + 1;
@@ -286,3 +292,29 @@ int find_open_quadrant(Vector2d field_item)
 	}
 }
 
+bool is_robot_in_quad(int quadrant, RobotPose robot)
+{
+	if (get_quadrant(robot.pos) == quadrant)
+		return true;
+
+	return false;
+}
+
+// returns opp in way
+bool get_robot_in_quad(int quadrant, RobotPose* robot)
+{
+
+	if (get_quadrant(opp1.pos) == quadrant)
+	{
+		*robot = opp1;
+		return true;
+	}
+	else if (get_quadrant(opp2.pos) == quadrant)
+	{
+		*robot = opp2;
+		return true;		
+	}
+
+	return false;
+
+}

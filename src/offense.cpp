@@ -6,28 +6,44 @@ using namespace Eigen;
 
 void playOffense(int robotNumber)
 {
-	if (robotNumber == 1){
-		set_call_play_dribble(true);
-		/*if (robot_has_ball(ally1, true))
+	if (robotNumber == 1)
+	{
+		// if the other team has control of the ball
+		if (robot_has_ball(opp1, false))
 		{
-			set_call_play_dribble(true);
+
+			play_test(ally1, opp1, 1);
+
+		}
+		else if (robot_has_ball(opp2, false))
+		{
+			play_test(ally1, opp2, 1);
+	
 		}
 		else
 		{
-			//play_getBehindBall(ally1, ball, 1);
-			set_call_play_dribble(false);
+			play_getBehindBall(ally1, ball, 1);
 		}
-		if (!is_dribble_running())
-		{
-			//play_getBehindBall(ally1, ball, 1);
-		}*/
-		//play_rushGoal(ally1, ball, 1);
-		////play_getBehindBall(ally1, ball, 1);
-		//skill_goToPoint(ally1, get_quadrant_center(9), 1);
-		//bool mybool = robot_has_ball(ally1, true, 1);
 	}
-	else if (robotNumber == 2){
-		//play_rushGoal(ally2, ball, 2);
-		play_getBehindBall(ally1, ball, 1);
+
+	
+	else if (robotNumber == 2)
+	{
+		// if the other team has control of the ball
+		if (robot_has_ball(opp1, false))
+		{
+
+			play_test(ally1, opp1, 1);
+
+		}
+		else if (robot_has_ball(opp2, false))
+		{
+			play_test(ally1, opp2, 1);
+	
+		}
+		else
+		{
+			play_getBehindBall(ally1, ball, 1);
+		}
 	}
 }

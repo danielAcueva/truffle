@@ -16,6 +16,9 @@ using namespace std;
 using namespace geometry_msgs;
 using namespace Eigen;
 
+//end of header guard
+#endif
+
 /////////Quadrant Coordinate System\\\\\\\\\\
 
     /*   Col0 . Col1 . Col2 . Col3
@@ -54,5 +57,10 @@ Vector2d get_quadrant_center(int quadrant);
 //Find the open quadrant to bribble to
 int find_open_quadrant(Vector2d field_item);
 
-//end of header guard
-#endif
+bool is_robot_in_quad(int quadrant, RobotPose robot);
+
+bool get_robot_in_quad(int quadrant, RobotPose* robot);
+
+int get_quad_col(int quadrant);
+
+int get_quad_row(int quadrant);
