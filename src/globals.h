@@ -39,6 +39,15 @@ extern Vector2d ball;								//Ball is a 2d vector
 extern Vector2d ally1_startingPos;					//starting position. 2d vector
 extern Vector2d ally2_startingPos;					//starting position. 2d vector
 
+extern Vector2d ball_values[10];
+
+void reset_ball_values();
+
+void push_ball_values(Vector2d data);
+
+Vector2d *return_ball_values();
+
+Vector2d avg_distance_between_samples();
 
 //Functions
 
