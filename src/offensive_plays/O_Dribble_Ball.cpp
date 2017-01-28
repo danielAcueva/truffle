@@ -13,7 +13,6 @@ enum DB_States { wait_for_play, find_target_quadrant, align_with_ball,
 
 bool call_play_dribble = false;
 int target_quadrant = 0;
-int current_quadrant = 0;
 bool dribble_running = false;
 
 bool is_dribble_running()
@@ -24,6 +23,20 @@ bool is_dribble_running()
 void set_call_play_dribble(bool input)
 {
 	call_play_dribble = input;
+}
+
+bool in_shooting_range()
+{
+	int current_quadrant_ball = get_quadrant(ball);
+	if ((current_quadrant_ball == 7) ||
+		(current_quadrant_ball == 11))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void dribble_ball_tick()
@@ -41,7 +54,15 @@ void dribble_ball_tick()
 		}
 		case find_target_quadrant:
 		{
-			DB_state = align_with_ball;
+			//Check if we are in shooting range
+			if (in_shooting_range())
+			{
+				DB_state = wait_for_play;		//In shooting range, no need to dribble
+			}
+			else								
+			{
+				DB_state = align_with_ball;		//Not in shooting range. Continue
+			}
 			break;
 		}
 		case align_with_ball:

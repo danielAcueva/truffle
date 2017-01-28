@@ -40,6 +40,7 @@ void skill_go_to_point(RobotPose robot, Vector2d point, int robotId)
 
     // control angle to face the point
     //Vector2d dirGoal = point - robot.pos;
+    dirPoint = point - ball;
     double theta_d = atan2(dirPoint(1), dirPoint(0));
     double omega = CONTROL_K_OMEGA * (robot.theta - theta_d); 
 
