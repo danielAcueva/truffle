@@ -37,7 +37,7 @@ void play_rushGoal(RobotPose robot, Vector2d ball, int robotId);
 
 void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId);
 
-
+void skill_goToBall(RobotPose robot, Vector2d point, int robotId);
 
 //end of header guard
 #endif

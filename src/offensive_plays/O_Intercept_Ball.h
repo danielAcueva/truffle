@@ -20,3 +20,4 @@ using namespace Eigen;
 
 //end of header guard
 #endif
+void play_test(RobotPose robot, RobotPose opp, int robotId);
