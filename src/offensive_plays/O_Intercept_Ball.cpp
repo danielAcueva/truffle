@@ -30,7 +30,7 @@ using namespace Eigen;
 *
 * opp robot that has control of the ball
 */
-void play_test(RobotPose robot, RobotPose opp, int robotId)
+void wait_to_intercept(RobotPose robot, RobotPose opp, int robotId)
 {
 	// opp has control of ball, so position robot between opp and goal
 

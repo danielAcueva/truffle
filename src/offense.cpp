@@ -12,12 +12,12 @@ void playOffense(int robotNumber)
 		if (robot_has_ball(opp1, false))
 		{
 
-			play_test(ally1, opp1, 1);
+			wait_to_intercept(ally1, opp1, 1);
 
 		}
 		else if (robot_has_ball(opp2, false))
 		{
-			play_test(ally1, opp2, 1);
+			wait_to_intercept(ally1, opp2, 1);
 	
 		}
 		else
@@ -33,12 +33,12 @@ void playOffense(int robotNumber)
 		if (robot_has_ball(opp1, false))
 		{
 
-			play_test(ally1, opp1, 1);
+			wait_to_intercept(ally1, opp1, 1);
 
 		}
 		else if (robot_has_ball(opp2, false))
 		{
-			play_test(ally1, opp2, 1);
+			wait_to_intercept(ally1, opp2, 1);
 	
 		}
 		else
