@@ -22,6 +22,10 @@ void playDefense(int robotNumber);
 
 void playArchDefense(int robotNumber);
 
+void playTriDefense(int robotNumber);
+
+void playMovingScreen(int robotNumber);
+
 
 //end of header guard
 #endif

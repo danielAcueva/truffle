@@ -162,9 +162,9 @@ int main(int argc, char **argv)
                 publish_moveRobot(zeroVel, 2);               
             }
 
-            // robot #2 stays on line, following the ball, facing the goal
-            //playDefense(2);
-            //skill_followBallOnLine(ally2, ball, -2 * FIELD_WIDTH / 6, 2);
+            
+            playDefense(2);
+            
 			
             /*********************************************************************/
         }

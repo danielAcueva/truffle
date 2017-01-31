@@ -8,21 +8,67 @@ using namespace Eigen;
 
 void playDefense(int robotNumber)
 {
+	if(ball(0) > 0)
+	{
+		if (robotNumber == 1)
+			playMovingScreen(1);
+		else if (robotNumber == 2)
+			playMovingScreen(2);
+	}
+	else
+	{
+		if (robotNumber == 1)
+			playTriDefense(1);
+		else if (robotNumber == 2)
+			playTriDefense(2);
+	}
+}
 
 
+void playMovingScreen(int robotNumber)
+{
+	// Midpoint Calulcation
+	// Midpoint between oponent and ball
+	// assumes opponent1 is the offensive opponent
+
+	double x_mid = (ball(0) + opp1.pos(0))/2;
+	double y_mid = (ball(1) + opp1.pos(1))/2;
+
+	Vector2d p;
+
+	p << x_mid, y_mid;
 	
 	if (robotNumber == 1)
-		playArchDefense(1);
+		skill_goToPoint(ally1,p,1);
 	else if (robotNumber == 2)
-		playArchDefense(2);
+		skill_goToPoint(ally2,p,2);
 }
+
+void playTriDefense(int robotNumber)
+{
+
+	//Triangle Calculations
+
+	double abs_ball = abs(ball(1));
+
+	double x_posTri = (abs_ball + 2) / -1.5; // y = mx + b
+											// x = (y - b)/m
+
+
+	if (robotNumber == 1)
+		skill_followBallOnLine(ally1, ball, x_posTri, 1);
+	else if (robotNumber == 2)
+		skill_followBallOnLine(ally2, ball, x_posTri, 2);
+}
+
+
+
+
+
 
 void playArchDefense(int robotNumber)
 {
 	//Arch Calculations
-	//double own_goal = 0;
-
-	//own_goal = goal(0) - FIELD_WIDTH;
 
 	double ballx_pos = ball(0) + (FIELD_WIDTH/2);
 
