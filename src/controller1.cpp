@@ -132,12 +132,15 @@ int main(int argc, char **argv)
     ally2_startingPos << -1.0, 0;
 
 	int count = 0;
+
+    reset_ball_values();
 	
     ros::Rate loop_rate(30);							//30 cycles a second
     while(ros::ok())									//Run until ctrl+c
     {
         if (gameState.play)								//We are playing. Play ball!
         {
+            push_ball_values(ball);
             dribble_ball_tick();                            //Tick function for dribble
 	
             // Choose strategies

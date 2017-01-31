@@ -24,6 +24,15 @@ void playOffense(int robotNumber)
 		{
 			play_getBehindBall(ally1, ball, 1);
 		}
+		//ROS_ERROR_STREAM("What do you think " << avg_distance_between_samples());
+		//if (utility_vecLength(avg_distance_between_samples()) < .1)	//not moving
+		//{
+			//play_getBehindBall(ally1, ball, 1);
+		//}
+		//else			//Ball moving
+		//{
+			//play_getBehindBall(ally1, ball - (avg_distance_between_samples()*30), 1);
+		//}
 	}
 
 	

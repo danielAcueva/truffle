@@ -40,6 +40,7 @@ Vector2d *return_ball_values()
 	{
 		return_values[index] = ball_values[temp_tail];
 		temp_tail = ((temp_tail + 1) % 10);
+		index++;
 	}
 	return return_values;
 }
