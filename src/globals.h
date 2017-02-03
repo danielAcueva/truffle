@@ -9,19 +9,30 @@
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Twist.h>
 #include "soccerref/GameState.h"
+#include <queue>
 
 using namespace std;
 using namespace geometry_msgs;
 using namespace Eigen;
 
 //Controller constants
+#define PI 3.14159
 #define ROBOT_MAX_VXY 2.0
-#define ROBOT_MAX_OMEGA 6*M_PI //Was 2*M_PI
+#define ROBOT_MAX_OMEGA 6*PI //Was 2*M_PI
 #define CONTROL_K_XY 5
 #define CONTROL_K_OMEGA 2
 #define FIELD_WIDTH 3.40  // in meters
 #define FIELD_HEIGHT 2.38 
 #define ROBOT_RADIUS 0.10
+
+//use the standard queue
+//This standard queue is infinite
+//start by filling the queue to a size with 0's
+//Create a function that checks if it is a certain size
+//if it is pop and push; (like an overwrite push)
+extern queue<Vector2d> stored_ball_values;// = new queue<Vector2d>();
+//Create another function that prints the queue
+//Just copy the queue and pop each element. Store in 
 
 //Structs
 struct RobotPose

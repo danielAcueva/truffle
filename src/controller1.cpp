@@ -126,6 +126,8 @@ int main(int argc, char **argv)
     game_state_sub = nh.subscribe<soccerref::GameState>("/game_state", 1, gameStateCallback);
     motor_pub1 = nh.advertise<geometry_msgs::Twist>("ally1/vel_cmds", 5);
     motor_pub2 = nh.advertise<geometry_msgs::Twist>("ally2/vel_cmds", 5);
+    
+
 
     // This is sort of ad-hoc (would be much better to be a parameter) but it works for now
     ally1_startingPos << -0.5, 0;
@@ -135,12 +137,13 @@ int main(int argc, char **argv)
 
     reset_ball_values();
 	
-    ros::Rate loop_rate(30);							//30 cycles a second
+    ros::Rate loop_rate(100);							//30 cycles a second
     while(ros::ok())									//Run until ctrl+c
     {
         if (gameState.play)								//We are playing. Play ball!
         {
             push_ball_values(ball);
+            Vector2d avgValues = avg_distance_between_samples(); 
             dribble_ball_tick();                            //Tick function for dribble
 	
             // Choose strategies
@@ -149,21 +152,11 @@ int main(int argc, char **argv)
             playOffense(1);
             //play_rushGoal(ally1, ball, 1);
 
-            if (robot_has_ball(ally1, true))
-            {
-                Vector3d zeroVel;                           
-                zeroVel << 0, .1, 0;                         //Mo more movements
-                publish_moveRobot(zeroVel, 2);
-            }
-            else
-            {
-                Vector3d zeroVel;                           
-                zeroVel << 0, -.1, 0;                         //Mo more movements
-                publish_moveRobot(zeroVel, 2);               
-            }
-
-            
-            playDefense(2);
+            Vector2d predict;
+            predict = ball - (avgValues*100);
+            predict(1) = predict(1) - .5;
+            skill_go_to_point(ally2, predict, 2);
+            //playDefense(2);
             
 			
             /*********************************************************************/

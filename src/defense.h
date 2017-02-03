@@ -13,6 +13,7 @@
 #include "math.h"
 #include "strategy/strategy.h"
 #include "defensive_plays/D_Moving_Screen.h"
+#include "skills.h"
 
 using namespace std;
 using namespace geometry_msgs;
@@ -25,6 +26,8 @@ void playArchDefense(int robotNumber);
 void playTriDefense(int robotNumber);
 
 void playMovingScreen(int robotNumber);
+
+void playSpin(int robotNumber);
 
 
 //end of header guard

@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include "globals.h"
 
-Vector2d ball_values[10];
+//Vector2d ball_values[10];
+#define QUEUE_SIZE 10
+
+using namespace std;
+
+queue<Vector2d> stored_ball_values;
 
 int tail = 0;
 int head = 0;
@@ -9,37 +14,37 @@ int head = 0;
 void reset_ball_values()
 {
 	//init all queue values to 0
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < QUEUE_SIZE; i++)
 	{
-		ball_values[i](0) = 0;
-		ball_values[i](1) = 0;
+		Vector2d queue_data;
+		queue_data(0) = 0;
+		queue_data(1) = 0;
+		stored_ball_values.push(queue_data);
 	}
-	tail = 1;
-	head = 0;
 }
 
 void push_ball_values(Vector2d data)
 {
-	int next_index = ((head+1)%10);	//Next index with rollover logic
-	if (next_index == tail)			//The queue is full
+	if (stored_ball_values.size() < QUEUE_SIZE)
 	{
-		//When queue is full, overwrite push. Get rid of old element
-		tail = ((tail + 1) % 10);	//Increment the tail with rollover logic
-	} 
-	ball_values[next_index] = data;
-	head = next_index;
+		stored_ball_values.push(data);
+	}
+	else
+	{
+		stored_ball_values.pop();
+		stored_ball_values.push(data);
+	}
 }
 
 Vector2d *return_ball_values()
 {
 	Vector2d return_values[10];
+	queue<Vector2d> temp_queue = stored_ball_values;
 	int index = 0;
-	int temp_tail = tail;
-	int temp_head = head;
-	while ((temp_tail != temp_head) || (index < 10))
+	for (int i =0; i < QUEUE_SIZE; i++)
 	{
-		return_values[index] = ball_values[temp_tail];
-		temp_tail = ((temp_tail + 1) % 10);
+		return_values[index] = temp_queue.front();
+		temp_queue.pop();
 		index++;
 	}
 	return return_values;
@@ -47,8 +52,15 @@ Vector2d *return_ball_values()
 
 Vector2d avg_distance_between_samples()
 {
-	Vector2d* samples = return_ball_values();
-	//Vector2d avg_distance[9];
+	Vector2d samples[10];
+	queue<Vector2d> temp_queue = stored_ball_values;
+	int index = 0;
+	for (int i =0; i < QUEUE_SIZE; i++)
+	{
+		samples[index] = temp_queue.front();
+		temp_queue.pop();
+		index++;
+	}
 	Vector2d sum_distance;
 	sum_distance(0) = 0;
 	sum_distance(1) = 0;

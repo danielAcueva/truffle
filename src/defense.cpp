@@ -4,25 +4,43 @@ using namespace std;
 using namespace geometry_msgs; 
 using namespace Eigen;
 
-#define PI 3.14159265
+//#define PI 3.14159265
 
 void playDefense(int robotNumber)
 {
-	if(ball(0) > 0)
+
+
+	if(robotNumber == 1)
 	{
-		if (robotNumber == 1)
-			playMovingScreen(1);
-		else if (robotNumber == 2)
-			playMovingScreen(2);
+		if( ( ((ally1.pos(0) - ball(0)) > -0.2) ) && (abs(ball(1)- ally1.pos(1)) < 0.1))
+		{
+			play_getBehindBall(ally1, ball, 1);
+		}
+		else
+		{
+			if(ball(0) > 0)
+				playMovingScreen(1);
+			else
+				playTriDefense(1);
+		}
 	}
 	else
 	{
-		if (robotNumber == 1)
-			playTriDefense(1);
-		else if (robotNumber == 2)
-			playTriDefense(2);
+		if( ( ((ally2.pos(0) - ball(0)) > -0.2) ) && (abs(ball(1)- ally2.pos(1)) < 0.1))
+		{
+			play_getBehindBall(ally2, ball, 2);
+		}
+		else
+		{
+			if(ball(0) > 0)
+				playMovingScreen(2);
+			else
+				playTriDefense(2);
+		}
 	}
 }
+
+
 
 
 void playMovingScreen(int robotNumber)
@@ -54,7 +72,6 @@ void playTriDefense(int robotNumber)
 	double x_posTri = (abs_ball + 2) / -1.5; // y = mx + b
 											// x = (y - b)/m
 
-
 	if (robotNumber == 1)
 		skill_followBallOnLine(ally1, ball, x_posTri, 1);
 	else if (robotNumber == 2)
@@ -84,4 +101,17 @@ void playArchDefense(int robotNumber)
 		skill_followBallOnLine(ally1, ball, x_posArch, 1);
 	else if (robotNumber == 2)
 		skill_followBallOnLine(ally2, ball, x_posArch, 2);
+}
+
+void playSpin(int robotNumber)
+{
+	Vector3d v;
+
+    v(0) = 0;
+    v(1) = 0;
+    v(2) = 5.9*PI;
+
+    v = utility_saturateVelocity(v);
+    publish_moveRobot(v, robotNumber);
+
 }

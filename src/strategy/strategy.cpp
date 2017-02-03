@@ -104,10 +104,10 @@ void skill_goToBall(RobotPose robot, Vector2d point, int robotId)
     Vector2d pointDiff = utility_unitVector(point - robot.pos);
     Vector2d vxy;                                       //Create a vector
     if ((utility_vecLength(robot.pos - ball)) > .6){    //When we are far from ball
-        vxy = pointDiff * CONTROL_K_XY;                 //Go to max velocity
+        vxy = pointDiff;// * CONTROL_K_XY;                 //Go to max velocity
     }
     else if ((utility_vecLength(robot.pos - ball)) < .1){   //When we are close to the ball
-        vxy = pointDiff * CONTROL_K_XY;                     //Go to a slower velocity
+        vxy = pointDiff;// * CONTROL_K_XY;                     //Go to a slower velocity
     }
     else{
         vxy = pointDiff;                                //Go to a slower velocity       
@@ -255,7 +255,7 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
         }
     
     }
-    point = avoid_robots(point);
+    //point = avoid_robots(point);
     skill_goToBall(robot, point, robotId);
     return;
 
