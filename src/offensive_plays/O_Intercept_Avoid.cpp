@@ -29,6 +29,40 @@ void set_call_play_avoid(bool input)
 
 void intercept_avoid_tick()
 {
+	switch(IA_state)	//State Actions
+	{
+		case wait_for_play:
+		{
+			break;
+		}
+		case check_avoid_point:
+		{
+			state_count = 0; 			//Reset the state count
+			break;
+		}
+		case go_to_avoid_point:
+		{
+			cout << "curr point: " << ally1.pos(0) << ", " << ally1.pos(1) << endl;
+			cout << "ally point: " << ally2.pos(0) << ", " << ally2.pos(1) << endl;
+
+			cout << "new point: " << avoid_point(0) << ", " << avoid_point(1) << endl;
+
+			skill_goToPoint(ally1, avoid_point, 1);
+			state_count++;
+			break;
+		}
+		case go_to_ball:
+		{
+			play_getBehindBall(ally1, ball, 1);
+			state_count++;
+			break;
+		}
+		case arrived:
+		{
+			break;
+		}
+	}
+
 	switch(IA_state)	//State Transitions
 	{
 		case wait_for_play:
@@ -79,32 +113,5 @@ void intercept_avoid_tick()
 			break;
 		}
 	}
-	switch(IA_state)	//State Actions
-	{
-		case wait_for_play:
-		{
-			break;
-		}
-		case check_avoid_point:
-		{
-			state_count = 0; 			//Reset the state count
-			break;
-		}
-		case go_to_avoid_point:
-		{
-			skill_goToPoint(ally1, avoid_point, 1);
-			state_count++;
-			break;
-		}
-		case go_to_ball:
-		{
-			play_getBehindBall(ally1, ball, 1);
-			state_count++;
-			break;
-		}
-		case arrived:
-		{
-			break;
-		}
-	}
+
 }

@@ -327,67 +327,9 @@ void play_go_to_ball(RobotPose robot, Vector2d ball, int robotId)
 	        }			
 		}
 		else{
-			cout << "Nope" << endl;
+			//cout << "Nope" << endl;
 		}
-		/*if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp1_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp1_unit_vector(1))) < .05) &&
-			(dist_from_opp1 < dist))
-		{
-	        if (robot.pos(1) < opp1.pos(1)){    //The robot is in Q1
-	            point1 = opp1.pos;
-	            point1(1) -= .6;             //Go to a point above the opp1.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp1.pos;
-	            point1(1) += .6;             //Go to a point below the opp1.pos
-	        }			
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp2_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp2_unit_vector(1))) < .05) &&
-			(dist_from_opp2 < dist))
-		{
-	        if (robot.pos(1) < opp2.pos(1)){    //The robot is in Q1
-	            point1 = opp2.pos;
-	            point1(1) -= .6;             //Go to a point above the opp2.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp2.pos;
-	            point1(1) += .6;             //Go to a point below the opp2.pos
-	        }
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}*/
 
-		//Start with furthest one to overwrite
-		//Closest one will have final say
-		//rank them
-
-        // compute position 10cm behind ball, but aligned with goal.
-        //subtract 10 cm (from vector) to the current ball position
-        //point = ball - 0.2*n;
-
-        //This is the point we want to get to. we may be in front of the ball though
-        //This would cause us to go straight for the point, hitting the ball in the wrong direction
-        /*if(utility_vecLength(point - robot.pos) < 0.21)
-        { 
-              //point = avoid_robots(ball);
-             // skill_goToBall(robot, point, robotId);
-              skill_goToBall(robot, ball, robotId);
-
-              return;
-        }*/
-    
-    //point = avoid_robots(point);
     skill_goToBall(robot, point, robotId);
     return;
 
@@ -451,78 +393,62 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 			(dist_from_ally < dist) &&
 			(abs(dist - dist_from_ally) > .2))
 		{
-			cout << "This dude is in my way!" << endl;
-	        if (robot.pos(1) < ally2.pos(1)){    //The robot is in Q1
+
+			double x_diff = abs(robot.pos(0) - ally2.pos(0));
+			double y_diff = abs(robot.pos(1) - ally2.pos(1));
+
+        	point = ally2.pos;
+
+			// Are the y positions closer?
+			//cout << "This dude is in my way!" << endl;
+			if (y_diff < x_diff)
+		        if (robot.pos(1) < ally2.pos(1)){    //The ally is in Q1 (below me)
+		            point(0) = ally2.pos(0);
+		            point(1) -= .5;             //Go to a point above the ally2.pos
+		        }
+		        else{                           //The ally is in Q4 (above me)
+		            point(0) = ally2.pos(0);
+		            point(1) += .5;             //Go to a point below the ally2.pos
+		        }	
+        	else // the x positions are closer
+        	{
+		        if (robot.pos(1) < ally2.pos(1)){    //The ally is in Q1 (below me)
+		            point(1) = ally2.pos(1);
+		            point(0) -= .5;             //Go to a point above the ally2.pos
+		        }
+		        else{                           //The ally is in Q4 (above me)
+		            point(1) = ally2.pos(1);
+		            point(0) += .5;             //Go to a point below the ally2.pos
+		        }	
+        	}
+
+			// Are the x positions closer?
+
+			// Do adjustments for moving left and right
+
+
+/*
+	        // if x position of both is close,
+	        // do adjustments for moving up and down
+			//cout << "This dude is in my way!" << endl;
+	        if (robot.pos(0) < ally2.pos(0)){    // I am to the left of the ally
 	            point = ally2.pos;
-	            point(0) = ally2.pos(0);
-	            point(1) -= .5;             //Go to a point above the ally2.pos
+	            point(0) -= .5;             // Go to a point left of the ally2.pos
+	            point(1) = ally2.pos(1);
+	            
 	        }
-	        else{                           //The robot is in Q4
+	        else{                           //The ally is in Q4 (above me)
 	            point = ally2.pos;
-	            point(0) = ally2.pos(0);
-	            point(1) += .5;             //Go to a point below the ally2.pos
-	        }			
+	            point(0) += .5;             // Go to a point right of the ally2.pos
+	            point(1) = ally2.pos(1);
+	        }	
+	        */
+
 		}
 		else{
-			cout << "Nope" << endl;
+			//cout << "Nope" << endl;
 		}
-		/*if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp1_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp1_unit_vector(1))) < .05) &&
-			(dist_from_opp1 < dist))
-		{
-	        if (robot.pos(1) < opp1.pos(1)){    //The robot is in Q1
-	            point1 = opp1.pos;
-	            point1(1) -= .6;             //Go to a point above the opp1.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp1.pos;
-	            point1(1) += .6;             //Go to a point below the opp1.pos
-	        }			
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp2_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp2_unit_vector(1))) < .05) &&
-			(dist_from_opp2 < dist))
-		{
-	        if (robot.pos(1) < opp2.pos(1)){    //The robot is in Q1
-	            point1 = opp2.pos;
-	            point1(1) -= .6;             //Go to a point above the opp2.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp2.pos;
-	            point1(1) += .6;             //Go to a point below the opp2.pos
-	        }
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}*/
-
-		//Start with furthest one to overwrite
-		//Closest one will have final say
-		//rank them
-
-        // compute position 10cm behind ball, but aligned with goal.
-        //subtract 10 cm (from vector) to the current ball position
-        //point = ball - 0.2*n;
-
-        //This is the point we want to get to. we may be in front of the ball though
-        //This would cause us to go straight for the point, hitting the ball in the wrong direction
-        /*if(utility_vecLength(point - robot.pos) < 0.21)
-        { 
-              //point = avoid_robots(ball);
-             // skill_goToBall(robot, point, robotId);
-              skill_goToBall(robot, ball, robotId);
-
-              return;
-        }*/
+		
 	return point;
 }
 
@@ -584,75 +510,11 @@ bool object_in_path(RobotPose robot)
 		{
 			cout << "This dude is in my way!" << endl;
 			return true;
-	        if (robot.pos(1) < ally2.pos(1)){    //The robot is in Q1
-	            point = ally2.pos;
-	            point(1) -= .5;             //Go to a point above the ally2.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point = ally2.pos;
-	            point(1) += .5;             //Go to a point below the ally2.pos
-	        }			
 		}
 		else{
-			cout << "Nope" << endl;
+			//cout << "Nope" << endl;
 		}
-		/*if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp1_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp1_unit_vector(1))) < .05) &&
-			(dist_from_opp1 < dist))
-		{
-	        if (robot.pos(1) < opp1.pos(1)){    //The robot is in Q1
-	            point1 = opp1.pos;
-	            point1(1) -= .6;             //Go to a point above the opp1.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp1.pos;
-	            point1(1) += .6;             //Go to a point below the opp1.pos
-	        }			
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}
-		if (((abs(my_unit_vector(0) - opp2_unit_vector(0))) < .05) && 
-			((abs(my_unit_vector(1) - opp2_unit_vector(1))) < .05) &&
-			(dist_from_opp2 < dist))
-		{
-	        if (robot.pos(1) < opp2.pos(1)){    //The robot is in Q1
-	            point1 = opp2.pos;
-	            point1(1) -= .6;             //Go to a point above the opp2.pos
-	        }
-	        else{                           //The robot is in Q4
-	            point1 = opp2.pos;
-	            point1(1) += .6;             //Go to a point below the opp2.pos
-	        }
-		}
-		if (utility_vecLength(robot.pos - point1) < utility_vecLength(robot.pos - point))
-		{
-			point = point1;
-		}*/
-
-		//Start with furthest one to overwrite
-		//Closest one will have final say
-		//rank them
-
-        // compute position 10cm behind ball, but aligned with goal.
-        //subtract 10 cm (from vector) to the current ball position
-        //point = ball - 0.2*n;
-
-        //This is the point we want to get to. we may be in front of the ball though
-        //This would cause us to go straight for the point, hitting the ball in the wrong direction
-        /*if(utility_vecLength(point - robot.pos) < 0.21)
-        { 
-              //point = avoid_robots(ball);
-             // skill_goToBall(robot, point, robotId);
-              skill_goToBall(robot, ball, robotId);
-
-              return;
-        }*/
+		
 	return false;
 }
 
