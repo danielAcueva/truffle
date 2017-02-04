@@ -9,8 +9,8 @@ using namespace Eigen;
 void playDefense(int robotNumber)
 {
 
-
-	if(robotNumber == 1)
+	playTriDefense(2);
+	/*if(robotNumber == 1)
 	{
 		if( ( ((ally1.pos(0) - ball(0)) > -0.2) ) && (abs(ball(1)- ally1.pos(1)) < 0.1))
 		{
@@ -37,7 +37,7 @@ void playDefense(int robotNumber)
 			else
 				playTriDefense(2);
 		}
-	}
+	}*/
 }
 
 

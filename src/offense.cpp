@@ -34,7 +34,11 @@ void playOffense(int robotNumber)
 			//play_getBehindBall(ally1, ball - (avg_distance_between_samples()*30), 1);
 		//}*/
 
-		play_getBehindBall(ally1, ball, 1);
+		//play_getBehindBall(ally1, ball, 1);
+		//play_go_to_ball(ally1, ball, 1);
+		/////skill_goToBall(ally1, ball, 1);
+		/////check_collision(ally1, ball, 1);
+		set_call_play_avoid(true);
 	}
 
 	

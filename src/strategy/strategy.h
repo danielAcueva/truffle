@@ -39,5 +39,11 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId);
 
 void skill_goToBall(RobotPose robot, Vector2d point, int robotId);
 
+void play_go_to_ball(RobotPose robot, Vector2d ball, int robotId);
+
+Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId);
+
+bool object_in_path(RobotPose robot);
+
 //end of header guard
 #endif

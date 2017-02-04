@@ -13,6 +13,7 @@
 #include "offense.h"
 #include "defense.h"
 #include "offensive_plays/O_Dribble_Ball.h"
+#include "offensive_plays/O_Intercept_Avoid.h"
 
 using namespace std;
 using namespace geometry_msgs;
@@ -144,6 +145,7 @@ int main(int argc, char **argv)
         {
             push_ball_values(ball);
             Vector2d avgValues = avg_distance_between_samples(); 
+            intercept_avoid_tick();                         //Tick function for intercept with avoidance
             dribble_ball_tick();                            //Tick function for dribble
 	
             // Choose strategies
@@ -155,7 +157,7 @@ int main(int argc, char **argv)
             Vector2d predict;
             predict = ball - (avgValues*100);
             predict(1) = predict(1) - .5;
-            skill_go_to_point(ally2, predict, 2);
+            //skill_go_to_point(ally2, predict, 2);
             //playDefense(2);
             
 			

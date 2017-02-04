@@ -16,6 +16,7 @@
 #include "offensive_plays/O_Avoid_Corner.h"
 #include "offensive_plays/O_Dribble_Ball.h"
 #include "offensive_plays/O_Intercept_Ball.h"
+#include "offensive_plays/O_Intercept_Avoid.h"
 #include "helper.h"
 
 using namespace std;
