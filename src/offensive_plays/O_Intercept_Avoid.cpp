@@ -42,10 +42,10 @@ void intercept_avoid_tick()
 		}
 		case go_to_avoid_point:
 		{
-			cout << "curr point: " << ally1.pos(0) << ", " << ally1.pos(1) << endl;
-			cout << "ally point: " << ally2.pos(0) << ", " << ally2.pos(1) << endl;
+			//cout << "curr point: " << ally1.pos(0) << ", " << ally1.pos(1) << endl;
+			//cout << "ally point: " << ally2.pos(0) << ", " << ally2.pos(1) << endl;
 
-			cout << "new point: " << avoid_point(0) << ", " << avoid_point(1) << endl;
+			//cout << "new point: " << avoid_point(0) << ", " << avoid_point(1) << endl;
 
 			skill_goToPoint(ally1, avoid_point, 1);
 			state_count++;
