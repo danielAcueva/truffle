@@ -67,6 +67,17 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -121,17 +132,6 @@ test:
 test/fast: test
 
 .PHONY : test/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -372,6 +372,19 @@ soccerref_generate_messages_cpp: cmake_check_build_system
 soccerref_generate_messages_cpp/fast:
 	$(MAKE) -f CMakeFiles/soccerref_generate_messages_cpp.dir/build.make CMakeFiles/soccerref_generate_messages_cpp.dir/build
 .PHONY : soccerref_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named controller1
+
+# Build rule for target.
+controller1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 controller1
+.PHONY : controller1
+
+# fast build rule for target.
+controller1/fast:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/build
+.PHONY : controller1/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_eus
@@ -737,6 +750,384 @@ gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
+src/controller1.o: src/controller1.cpp.o
+
+.PHONY : src/controller1.o
+
+# target to build an object file
+src/controller1.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/controller1.cpp.o
+.PHONY : src/controller1.cpp.o
+
+src/controller1.i: src/controller1.cpp.i
+
+.PHONY : src/controller1.i
+
+# target to preprocess a source file
+src/controller1.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/controller1.cpp.i
+.PHONY : src/controller1.cpp.i
+
+src/controller1.s: src/controller1.cpp.s
+
+.PHONY : src/controller1.s
+
+# target to generate assembly for a file
+src/controller1.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/controller1.cpp.s
+.PHONY : src/controller1.cpp.s
+
+src/defense.o: src/defense.cpp.o
+
+.PHONY : src/defense.o
+
+# target to build an object file
+src/defense.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defense.cpp.o
+.PHONY : src/defense.cpp.o
+
+src/defense.i: src/defense.cpp.i
+
+.PHONY : src/defense.i
+
+# target to preprocess a source file
+src/defense.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defense.cpp.i
+.PHONY : src/defense.cpp.i
+
+src/defense.s: src/defense.cpp.s
+
+.PHONY : src/defense.s
+
+# target to generate assembly for a file
+src/defense.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defense.cpp.s
+.PHONY : src/defense.cpp.s
+
+src/defensive_plays/D_Moving_Screen.o: src/defensive_plays/D_Moving_Screen.cpp.o
+
+.PHONY : src/defensive_plays/D_Moving_Screen.o
+
+# target to build an object file
+src/defensive_plays/D_Moving_Screen.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o
+.PHONY : src/defensive_plays/D_Moving_Screen.cpp.o
+
+src/defensive_plays/D_Moving_Screen.i: src/defensive_plays/D_Moving_Screen.cpp.i
+
+.PHONY : src/defensive_plays/D_Moving_Screen.i
+
+# target to preprocess a source file
+src/defensive_plays/D_Moving_Screen.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i
+.PHONY : src/defensive_plays/D_Moving_Screen.cpp.i
+
+src/defensive_plays/D_Moving_Screen.s: src/defensive_plays/D_Moving_Screen.cpp.s
+
+.PHONY : src/defensive_plays/D_Moving_Screen.s
+
+# target to generate assembly for a file
+src/defensive_plays/D_Moving_Screen.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s
+.PHONY : src/defensive_plays/D_Moving_Screen.cpp.s
+
+src/globals.o: src/globals.cpp.o
+
+.PHONY : src/globals.o
+
+# target to build an object file
+src/globals.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/globals.cpp.o
+.PHONY : src/globals.cpp.o
+
+src/globals.i: src/globals.cpp.i
+
+.PHONY : src/globals.i
+
+# target to preprocess a source file
+src/globals.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/globals.cpp.i
+.PHONY : src/globals.cpp.i
+
+src/globals.s: src/globals.cpp.s
+
+.PHONY : src/globals.s
+
+# target to generate assembly for a file
+src/globals.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/globals.cpp.s
+.PHONY : src/globals.cpp.s
+
+src/helper.o: src/helper.cpp.o
+
+.PHONY : src/helper.o
+
+# target to build an object file
+src/helper.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/helper.cpp.o
+.PHONY : src/helper.cpp.o
+
+src/helper.i: src/helper.cpp.i
+
+.PHONY : src/helper.i
+
+# target to preprocess a source file
+src/helper.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/helper.cpp.i
+.PHONY : src/helper.cpp.i
+
+src/helper.s: src/helper.cpp.s
+
+.PHONY : src/helper.s
+
+# target to generate assembly for a file
+src/helper.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/helper.cpp.s
+.PHONY : src/helper.cpp.s
+
+src/math.o: src/math.cpp.o
+
+.PHONY : src/math.o
+
+# target to build an object file
+src/math.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/math.cpp.o
+.PHONY : src/math.cpp.o
+
+src/math.i: src/math.cpp.i
+
+.PHONY : src/math.i
+
+# target to preprocess a source file
+src/math.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/math.cpp.i
+.PHONY : src/math.cpp.i
+
+src/math.s: src/math.cpp.s
+
+.PHONY : src/math.s
+
+# target to generate assembly for a file
+src/math.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/math.cpp.s
+.PHONY : src/math.cpp.s
+
+src/offense.o: src/offense.cpp.o
+
+.PHONY : src/offense.o
+
+# target to build an object file
+src/offense.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offense.cpp.o
+.PHONY : src/offense.cpp.o
+
+src/offense.i: src/offense.cpp.i
+
+.PHONY : src/offense.i
+
+# target to preprocess a source file
+src/offense.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offense.cpp.i
+.PHONY : src/offense.cpp.i
+
+src/offense.s: src/offense.cpp.s
+
+.PHONY : src/offense.s
+
+# target to generate assembly for a file
+src/offense.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offense.cpp.s
+.PHONY : src/offense.cpp.s
+
+src/offensive_plays/O_Avoid_Corner.o: src/offensive_plays/O_Avoid_Corner.cpp.o
+
+.PHONY : src/offensive_plays/O_Avoid_Corner.o
+
+# target to build an object file
+src/offensive_plays/O_Avoid_Corner.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o
+.PHONY : src/offensive_plays/O_Avoid_Corner.cpp.o
+
+src/offensive_plays/O_Avoid_Corner.i: src/offensive_plays/O_Avoid_Corner.cpp.i
+
+.PHONY : src/offensive_plays/O_Avoid_Corner.i
+
+# target to preprocess a source file
+src/offensive_plays/O_Avoid_Corner.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i
+.PHONY : src/offensive_plays/O_Avoid_Corner.cpp.i
+
+src/offensive_plays/O_Avoid_Corner.s: src/offensive_plays/O_Avoid_Corner.cpp.s
+
+.PHONY : src/offensive_plays/O_Avoid_Corner.s
+
+# target to generate assembly for a file
+src/offensive_plays/O_Avoid_Corner.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s
+.PHONY : src/offensive_plays/O_Avoid_Corner.cpp.s
+
+src/offensive_plays/O_Dribble_Ball.o: src/offensive_plays/O_Dribble_Ball.cpp.o
+
+.PHONY : src/offensive_plays/O_Dribble_Ball.o
+
+# target to build an object file
+src/offensive_plays/O_Dribble_Ball.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o
+.PHONY : src/offensive_plays/O_Dribble_Ball.cpp.o
+
+src/offensive_plays/O_Dribble_Ball.i: src/offensive_plays/O_Dribble_Ball.cpp.i
+
+.PHONY : src/offensive_plays/O_Dribble_Ball.i
+
+# target to preprocess a source file
+src/offensive_plays/O_Dribble_Ball.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i
+.PHONY : src/offensive_plays/O_Dribble_Ball.cpp.i
+
+src/offensive_plays/O_Dribble_Ball.s: src/offensive_plays/O_Dribble_Ball.cpp.s
+
+.PHONY : src/offensive_plays/O_Dribble_Ball.s
+
+# target to generate assembly for a file
+src/offensive_plays/O_Dribble_Ball.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s
+.PHONY : src/offensive_plays/O_Dribble_Ball.cpp.s
+
+src/offensive_plays/O_Intercept_Avoid.o: src/offensive_plays/O_Intercept_Avoid.cpp.o
+
+.PHONY : src/offensive_plays/O_Intercept_Avoid.o
+
+# target to build an object file
+src/offensive_plays/O_Intercept_Avoid.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o
+.PHONY : src/offensive_plays/O_Intercept_Avoid.cpp.o
+
+src/offensive_plays/O_Intercept_Avoid.i: src/offensive_plays/O_Intercept_Avoid.cpp.i
+
+.PHONY : src/offensive_plays/O_Intercept_Avoid.i
+
+# target to preprocess a source file
+src/offensive_plays/O_Intercept_Avoid.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i
+.PHONY : src/offensive_plays/O_Intercept_Avoid.cpp.i
+
+src/offensive_plays/O_Intercept_Avoid.s: src/offensive_plays/O_Intercept_Avoid.cpp.s
+
+.PHONY : src/offensive_plays/O_Intercept_Avoid.s
+
+# target to generate assembly for a file
+src/offensive_plays/O_Intercept_Avoid.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s
+.PHONY : src/offensive_plays/O_Intercept_Avoid.cpp.s
+
+src/offensive_plays/O_Intercept_Ball.o: src/offensive_plays/O_Intercept_Ball.cpp.o
+
+.PHONY : src/offensive_plays/O_Intercept_Ball.o
+
+# target to build an object file
+src/offensive_plays/O_Intercept_Ball.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o
+.PHONY : src/offensive_plays/O_Intercept_Ball.cpp.o
+
+src/offensive_plays/O_Intercept_Ball.i: src/offensive_plays/O_Intercept_Ball.cpp.i
+
+.PHONY : src/offensive_plays/O_Intercept_Ball.i
+
+# target to preprocess a source file
+src/offensive_plays/O_Intercept_Ball.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i
+.PHONY : src/offensive_plays/O_Intercept_Ball.cpp.i
+
+src/offensive_plays/O_Intercept_Ball.s: src/offensive_plays/O_Intercept_Ball.cpp.s
+
+.PHONY : src/offensive_plays/O_Intercept_Ball.s
+
+# target to generate assembly for a file
+src/offensive_plays/O_Intercept_Ball.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s
+.PHONY : src/offensive_plays/O_Intercept_Ball.cpp.s
+
+src/quadrant.o: src/quadrant.cpp.o
+
+.PHONY : src/quadrant.o
+
+# target to build an object file
+src/quadrant.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/quadrant.cpp.o
+.PHONY : src/quadrant.cpp.o
+
+src/quadrant.i: src/quadrant.cpp.i
+
+.PHONY : src/quadrant.i
+
+# target to preprocess a source file
+src/quadrant.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/quadrant.cpp.i
+.PHONY : src/quadrant.cpp.i
+
+src/quadrant.s: src/quadrant.cpp.s
+
+.PHONY : src/quadrant.s
+
+# target to generate assembly for a file
+src/quadrant.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/quadrant.cpp.s
+.PHONY : src/quadrant.cpp.s
+
+src/skills.o: src/skills.cpp.o
+
+.PHONY : src/skills.o
+
+# target to build an object file
+src/skills.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/skills.cpp.o
+.PHONY : src/skills.cpp.o
+
+src/skills.i: src/skills.cpp.i
+
+.PHONY : src/skills.i
+
+# target to preprocess a source file
+src/skills.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/skills.cpp.i
+.PHONY : src/skills.cpp.i
+
+src/skills.s: src/skills.cpp.s
+
+.PHONY : src/skills.s
+
+# target to generate assembly for a file
+src/skills.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/skills.cpp.s
+.PHONY : src/skills.cpp.s
+
+src/strategy/strategy.o: src/strategy/strategy.cpp.o
+
+.PHONY : src/strategy/strategy.o
+
+# target to build an object file
+src/strategy/strategy.cpp.o:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o
+.PHONY : src/strategy/strategy.cpp.o
+
+src/strategy/strategy.i: src/strategy/strategy.cpp.i
+
+.PHONY : src/strategy/strategy.i
+
+# target to preprocess a source file
+src/strategy/strategy.cpp.i:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i
+.PHONY : src/strategy/strategy.cpp.i
+
+src/strategy/strategy.s: src/strategy/strategy.cpp.s
+
+.PHONY : src/strategy/strategy.s
+
+# target to generate assembly for a file
+src/strategy/strategy.cpp.s:
+	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s
+.PHONY : src/strategy/strategy.cpp.s
+
 src/vision1.o: src/vision1.cpp.o
 
 .PHONY : src/vision1.o
@@ -771,6 +1162,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... edit_cache"
 	@echo "... std_srvs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
@@ -788,6 +1180,7 @@ help:
 	@echo "... std_srvs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... soccerref_generate_messages_cpp"
+	@echo "... controller1"
 	@echo "... list_install_components"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_eus"
@@ -818,9 +1211,50 @@ help:
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... soccerref_generate_messages_nodejs"
 	@echo "... test"
-	@echo "... edit_cache"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... src/controller1.o"
+	@echo "... src/controller1.i"
+	@echo "... src/controller1.s"
+	@echo "... src/defense.o"
+	@echo "... src/defense.i"
+	@echo "... src/defense.s"
+	@echo "... src/defensive_plays/D_Moving_Screen.o"
+	@echo "... src/defensive_plays/D_Moving_Screen.i"
+	@echo "... src/defensive_plays/D_Moving_Screen.s"
+	@echo "... src/globals.o"
+	@echo "... src/globals.i"
+	@echo "... src/globals.s"
+	@echo "... src/helper.o"
+	@echo "... src/helper.i"
+	@echo "... src/helper.s"
+	@echo "... src/math.o"
+	@echo "... src/math.i"
+	@echo "... src/math.s"
+	@echo "... src/offense.o"
+	@echo "... src/offense.i"
+	@echo "... src/offense.s"
+	@echo "... src/offensive_plays/O_Avoid_Corner.o"
+	@echo "... src/offensive_plays/O_Avoid_Corner.i"
+	@echo "... src/offensive_plays/O_Avoid_Corner.s"
+	@echo "... src/offensive_plays/O_Dribble_Ball.o"
+	@echo "... src/offensive_plays/O_Dribble_Ball.i"
+	@echo "... src/offensive_plays/O_Dribble_Ball.s"
+	@echo "... src/offensive_plays/O_Intercept_Avoid.o"
+	@echo "... src/offensive_plays/O_Intercept_Avoid.i"
+	@echo "... src/offensive_plays/O_Intercept_Avoid.s"
+	@echo "... src/offensive_plays/O_Intercept_Ball.o"
+	@echo "... src/offensive_plays/O_Intercept_Ball.i"
+	@echo "... src/offensive_plays/O_Intercept_Ball.s"
+	@echo "... src/quadrant.o"
+	@echo "... src/quadrant.i"
+	@echo "... src/quadrant.s"
+	@echo "... src/skills.o"
+	@echo "... src/skills.i"
+	@echo "... src/skills.s"
+	@echo "... src/strategy/strategy.o"
+	@echo "... src/strategy/strategy.i"
+	@echo "... src/strategy/strategy.s"
 	@echo "... src/vision1.o"
 	@echo "... src/vision1.i"
 	@echo "... src/vision1.s"

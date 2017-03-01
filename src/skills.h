@@ -17,6 +17,8 @@ using namespace std;
 using namespace geometry_msgs;
 using namespace Eigen;
 
+void skill_followBallOnLine1(RobotPose robot, Vector2d ball, double x_pos, int robotId);
+
 void skill_go_to_quadrant(RobotPose robot, Vector2d point, int robotId);
 
 void skill_go_to_point(RobotPose robot, Vector2d point, int robotId);
