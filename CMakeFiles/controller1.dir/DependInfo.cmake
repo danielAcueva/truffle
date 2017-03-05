@@ -24,13 +24,13 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
   "ROSCONSOLE_BACKEND_LOG4CXX"
+  "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"truffle\""
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "include"
-  "/home/robot/catkin_ws/devel/include"
+  "truffle/include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/include/opencv-3.1.0-dev/opencv"
   "/opt/ros/kinetic/include/opencv-3.1.0-dev"

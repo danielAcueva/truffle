@@ -13,8 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o"
   "CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o"
   "CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o"
-  "devel/lib/truffle/controller1.pdb"
-  "devel/lib/truffle/controller1"
+  "../devel/lib/truffle/controller1.pdb"
+  "../devel/lib/truffle/controller1"
 )
 
 # Per-language clean rules from dependency scanning.

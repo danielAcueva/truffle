@@ -46,7 +46,10 @@ void publish_moveRobot(Vector3d v_world, int robotId)
     v.angular.z = v_world(2);				//Move z
 
     if(robotId == 1)						//If robot number 1
+    {
         motor_pub1.publish(v);				//Publish the move
+        cout << "Motor Publish: X " << v.linear.x << " Y " << v.linear.y << " Z " << v.angular.z << endl;
+    }
     //else if(robotId == 2)					//If robot number 2
         //motor_pub2.publish(v);				//Publish the move
 }
@@ -151,9 +154,9 @@ int main(int argc, char **argv)
     while(ros::ok())									//Run until ctrl+c
     {
         if (ally1.pos(0) != 0)
-            cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
+            //cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
         if (ball(0) != 0)
-            cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
+            //cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
         //cout << "x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
         /*if (gameState.play)								//We are playing. Play ball!
         {
@@ -193,8 +196,8 @@ int main(int argc, char **argv)
 
        // playDefense(1);
 
-        skill_followBallOnLine(ally1, ball, -2 * FIELD_WIDTH / 6, 1);
-
+        //skill_followBallOnLine1(ally1, ball, -2 * FIELD_WIDTH / 6, 1);
+        playDefense(1);
         /*Vector3d v;
         v << 1, 0, -1;
         v = utility_saturateVelocity(v);
@@ -208,9 +211,9 @@ int main(int argc, char **argv)
     }
 
     // Clean up
-    Vector3d zeroVel;
-    zeroVel << 0, 0, 0;
-    publish_moveRobot(zeroVel, 1);
+    //Vector3d zeroVel;
+    //zeroVel << 0, 0, 0;
+    //publish_moveRobot(zeroVel, 1);
     //publish_moveRobot(zeroVel, 2);
     return 0;
 }

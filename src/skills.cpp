@@ -11,7 +11,8 @@ using namespace Eigen;
 void skill_followBallOnLine1(RobotPose robot, Vector2d ball, double x_pos, int robotId)
 {
     // control x position to stay on current line
-    double vx = CONTROL_K_XY * (x_pos - robot.pos(0));
+    //double vx = CONTROL_K_XY * (x_pos - robot.pos(0));
+    double vx = 0;
 
     // control y position to match the ball's y-position
     double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
@@ -19,7 +20,8 @@ void skill_followBallOnLine1(RobotPose robot, Vector2d ball, double x_pos, int r
     // control angle to face the goal
     Vector2d dirGoal = goal - robot.pos;
     double theta_d = atan2(dirGoal(1), dirGoal(0));
-    double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+    //double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+    double omega = 0;
     
     // Output velocities to motors  
     Vector3d v;

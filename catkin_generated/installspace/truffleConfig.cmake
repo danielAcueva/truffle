@@ -68,7 +68,7 @@ set(truffle_CONFIG_INCLUDED TRUE)
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
   set(truffle_SOURCE_PREFIX /home/robot/catkin_ws/src/truffle)
-  set(truffle_DEVEL_PREFIX /home/robot/catkin_ws/src/truffle/devel)
+  set(truffle_DEVEL_PREFIX /home/robot/catkin_ws/src/devel)
   set(truffle_INSTALL_PREFIX "")
   set(truffle_PREFIX ${truffle_DEVEL_PREFIX})
 else()
@@ -153,7 +153,7 @@ foreach(t ${truffle_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "roscpp;rospy;std_msgs;std_srvs;geometry_msgs;message_runtime;soccerref")
+set(depends "roscpp;rospy;std_msgs;std_srvs;geometry_msgs;message_runtime")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

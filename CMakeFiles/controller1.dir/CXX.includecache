@@ -6,22 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/robot/catkin_ws/devel/include/soccerref/GameState.h
-string
--
-vector
--
-map
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-
 /home/robot/catkin_ws/src/truffle/src/controller1.cpp
 iostream
 -
@@ -37,8 +21,6 @@ geometry_msgs/Pose2D.h
 -
 geometry_msgs/Twist.h
 -
-soccerref/GameState.h
-/home/robot/catkin_ws/src/truffle/src/soccerref/GameState.h
 globals.h
 /home/robot/catkin_ws/src/truffle/src/globals.h
 helper.h
@@ -131,8 +113,6 @@ geometry_msgs/Pose2D.h
 -
 geometry_msgs/Twist.h
 -
-soccerref/GameState.h
-/home/robot/catkin_ws/src/truffle/src/soccerref/GameState.h
 queue
 -
 

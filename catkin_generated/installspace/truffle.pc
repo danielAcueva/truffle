@@ -5,4 +5,4 @@ Description: Description of truffle
 Version: 0.0.0
 Cflags: 
 Libs: -L/usr/local/lib 
-Requires: roscpp rospy std_msgs std_srvs geometry_msgs message_runtime soccerref
+Requires: roscpp rospy std_msgs std_srvs geometry_msgs message_runtime

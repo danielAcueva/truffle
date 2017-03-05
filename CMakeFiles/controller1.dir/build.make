@@ -43,354 +43,354 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/robot/catkin_ws/src/truffle
+CMAKE_SOURCE_DIR = /home/robot/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/robot/catkin_ws/src/truffle
+CMAKE_BINARY_DIR = /home/robot/catkin_ws/src
 
 # Include any dependencies generated for this target.
-include CMakeFiles/controller1.dir/depend.make
+include truffle/CMakeFiles/controller1.dir/depend.make
 
 # Include the progress variables for this target.
-include CMakeFiles/controller1.dir/progress.make
+include truffle/CMakeFiles/controller1.dir/progress.make
 
 # Include the compile flags for this target's objects.
-include CMakeFiles/controller1.dir/flags.make
+include truffle/CMakeFiles/controller1.dir/flags.make
 
-CMakeFiles/controller1.dir/src/controller1.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/controller1.cpp.o: src/controller1.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/controller1.dir/src/controller1.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/controller1.cpp.o -c /home/robot/catkin_ws/src/truffle/src/controller1.cpp
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o: truffle/src/controller1.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/controller1.cpp.o -c /home/robot/catkin_ws/src/truffle/src/controller1.cpp
 
-CMakeFiles/controller1.dir/src/controller1.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/controller1.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/controller1.cpp > CMakeFiles/controller1.dir/src/controller1.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/controller1.cpp > CMakeFiles/controller1.dir/src/controller1.cpp.i
 
-CMakeFiles/controller1.dir/src/controller1.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/controller1.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/controller1.cpp -o CMakeFiles/controller1.dir/src/controller1.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/controller1.cpp -o CMakeFiles/controller1.dir/src/controller1.cpp.s
 
-CMakeFiles/controller1.dir/src/controller1.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/controller1.cpp.o.provides: CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/controller1.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/controller1.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/controller1.cpp.o.provides.build: CMakeFiles/controller1.dir/src/controller1.cpp.o
+truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o
 
 
-CMakeFiles/controller1.dir/src/globals.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/globals.cpp.o: src/globals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/controller1.dir/src/globals.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/globals.cpp.o -c /home/robot/catkin_ws/src/truffle/src/globals.cpp
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.o: truffle/src/globals.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object truffle/CMakeFiles/controller1.dir/src/globals.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/globals.cpp.o -c /home/robot/catkin_ws/src/truffle/src/globals.cpp
 
-CMakeFiles/controller1.dir/src/globals.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/globals.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/globals.cpp > CMakeFiles/controller1.dir/src/globals.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/globals.cpp > CMakeFiles/controller1.dir/src/globals.cpp.i
 
-CMakeFiles/controller1.dir/src/globals.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/globals.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/globals.cpp -o CMakeFiles/controller1.dir/src/globals.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/globals.cpp -o CMakeFiles/controller1.dir/src/globals.cpp.s
 
-CMakeFiles/controller1.dir/src/globals.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/globals.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/globals.cpp.o.provides: CMakeFiles/controller1.dir/src/globals.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/globals.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/globals.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/globals.cpp.o.provides.build: CMakeFiles/controller1.dir/src/globals.cpp.o
+truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/globals.cpp.o
 
 
-CMakeFiles/controller1.dir/src/helper.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/helper.cpp.o: src/helper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/controller1.dir/src/helper.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/helper.cpp.o -c /home/robot/catkin_ws/src/truffle/src/helper.cpp
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.o: truffle/src/helper.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object truffle/CMakeFiles/controller1.dir/src/helper.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/helper.cpp.o -c /home/robot/catkin_ws/src/truffle/src/helper.cpp
 
-CMakeFiles/controller1.dir/src/helper.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/helper.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/helper.cpp > CMakeFiles/controller1.dir/src/helper.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/helper.cpp > CMakeFiles/controller1.dir/src/helper.cpp.i
 
-CMakeFiles/controller1.dir/src/helper.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/helper.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/helper.cpp -o CMakeFiles/controller1.dir/src/helper.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/helper.cpp -o CMakeFiles/controller1.dir/src/helper.cpp.s
 
-CMakeFiles/controller1.dir/src/helper.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/helper.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/helper.cpp.o.provides: CMakeFiles/controller1.dir/src/helper.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/helper.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/helper.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/helper.cpp.o.provides.build: CMakeFiles/controller1.dir/src/helper.cpp.o
+truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/helper.cpp.o
 
 
-CMakeFiles/controller1.dir/src/math.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/math.cpp.o: src/math.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/controller1.dir/src/math.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/math.cpp.o -c /home/robot/catkin_ws/src/truffle/src/math.cpp
+truffle/CMakeFiles/controller1.dir/src/math.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/math.cpp.o: truffle/src/math.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object truffle/CMakeFiles/controller1.dir/src/math.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/math.cpp.o -c /home/robot/catkin_ws/src/truffle/src/math.cpp
 
-CMakeFiles/controller1.dir/src/math.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/math.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/math.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/math.cpp > CMakeFiles/controller1.dir/src/math.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/math.cpp > CMakeFiles/controller1.dir/src/math.cpp.i
 
-CMakeFiles/controller1.dir/src/math.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/math.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/math.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/math.cpp -o CMakeFiles/controller1.dir/src/math.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/math.cpp -o CMakeFiles/controller1.dir/src/math.cpp.s
 
-CMakeFiles/controller1.dir/src/math.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/math.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/math.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/math.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/math.cpp.o.provides: CMakeFiles/controller1.dir/src/math.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/math.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/math.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/math.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/math.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/math.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/math.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/math.cpp.o.provides.build: CMakeFiles/controller1.dir/src/math.cpp.o
+truffle/CMakeFiles/controller1.dir/src/math.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/math.cpp.o
 
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o: src/strategy/strategy.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o -c /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o: truffle/src/strategy/strategy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o -c /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp > CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp > CMakeFiles/controller1.dir/src/strategy/strategy.cpp.i
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp -o CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/strategy/strategy.cpp -o CMakeFiles/controller1.dir/src/strategy/strategy.cpp.s
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides: CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides.build: CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o
+truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o
 
 
-CMakeFiles/controller1.dir/src/offense.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/offense.cpp.o: src/offense.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/controller1.dir/src/offense.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offense.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offense.cpp
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.o: truffle/src/offense.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object truffle/CMakeFiles/controller1.dir/src/offense.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offense.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offense.cpp
 
-CMakeFiles/controller1.dir/src/offense.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/offense.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offense.cpp > CMakeFiles/controller1.dir/src/offense.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offense.cpp > CMakeFiles/controller1.dir/src/offense.cpp.i
 
-CMakeFiles/controller1.dir/src/offense.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/offense.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offense.cpp -o CMakeFiles/controller1.dir/src/offense.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offense.cpp -o CMakeFiles/controller1.dir/src/offense.cpp.s
 
-CMakeFiles/controller1.dir/src/offense.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/offense.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/offense.cpp.o.provides: CMakeFiles/controller1.dir/src/offense.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offense.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/offense.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/offense.cpp.o.provides.build: CMakeFiles/controller1.dir/src/offense.cpp.o
+truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/offense.cpp.o
 
 
-CMakeFiles/controller1.dir/src/defense.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/defense.cpp.o: src/defense.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/controller1.dir/src/defense.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/defense.cpp.o -c /home/robot/catkin_ws/src/truffle/src/defense.cpp
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.o: truffle/src/defense.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object truffle/CMakeFiles/controller1.dir/src/defense.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/defense.cpp.o -c /home/robot/catkin_ws/src/truffle/src/defense.cpp
 
-CMakeFiles/controller1.dir/src/defense.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/defense.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/defense.cpp > CMakeFiles/controller1.dir/src/defense.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/defense.cpp > CMakeFiles/controller1.dir/src/defense.cpp.i
 
-CMakeFiles/controller1.dir/src/defense.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/defense.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/defense.cpp -o CMakeFiles/controller1.dir/src/defense.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/defense.cpp -o CMakeFiles/controller1.dir/src/defense.cpp.s
 
-CMakeFiles/controller1.dir/src/defense.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/defense.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/defense.cpp.o.provides: CMakeFiles/controller1.dir/src/defense.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defense.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/defense.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/defense.cpp.o.provides.build: CMakeFiles/controller1.dir/src/defense.cpp.o
+truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/defense.cpp.o
 
 
-CMakeFiles/controller1.dir/src/skills.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/skills.cpp.o: src/skills.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/controller1.dir/src/skills.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/skills.cpp.o -c /home/robot/catkin_ws/src/truffle/src/skills.cpp
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.o: truffle/src/skills.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object truffle/CMakeFiles/controller1.dir/src/skills.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/skills.cpp.o -c /home/robot/catkin_ws/src/truffle/src/skills.cpp
 
-CMakeFiles/controller1.dir/src/skills.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/skills.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/skills.cpp > CMakeFiles/controller1.dir/src/skills.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/skills.cpp > CMakeFiles/controller1.dir/src/skills.cpp.i
 
-CMakeFiles/controller1.dir/src/skills.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/skills.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/skills.cpp -o CMakeFiles/controller1.dir/src/skills.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/skills.cpp -o CMakeFiles/controller1.dir/src/skills.cpp.s
 
-CMakeFiles/controller1.dir/src/skills.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/skills.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/skills.cpp.o.provides: CMakeFiles/controller1.dir/src/skills.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/skills.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/skills.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/skills.cpp.o.provides.build: CMakeFiles/controller1.dir/src/skills.cpp.o
+truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/skills.cpp.o
 
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/quadrant.cpp.o: src/quadrant.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/controller1.dir/src/quadrant.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/quadrant.cpp.o -c /home/robot/catkin_ws/src/truffle/src/quadrant.cpp
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o: truffle/src/quadrant.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/quadrant.cpp.o -c /home/robot/catkin_ws/src/truffle/src/quadrant.cpp
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/quadrant.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/quadrant.cpp > CMakeFiles/controller1.dir/src/quadrant.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/quadrant.cpp > CMakeFiles/controller1.dir/src/quadrant.cpp.i
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/quadrant.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/quadrant.cpp -o CMakeFiles/controller1.dir/src/quadrant.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/quadrant.cpp -o CMakeFiles/controller1.dir/src/quadrant.cpp.s
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides: CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides.build: CMakeFiles/controller1.dir/src/quadrant.cpp.o
+truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o
 
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o: src/defensive_plays/D_Moving_Screen.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o -c /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o: truffle/src/defensive_plays/D_Moving_Screen.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o -c /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp > CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp > CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.i
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp -o CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/defensive_plays/D_Moving_Screen.cpp -o CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.s
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides: CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides.build: CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o
+truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o
 
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o: src/offensive_plays/O_Avoid_Corner.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o: truffle/src/offensive_plays/O_Avoid_Corner.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.i
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Avoid_Corner.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.s
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides: CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides.build: CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o
 
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o: src/offensive_plays/O_Dribble_Ball.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o: truffle/src/offensive_plays/O_Dribble_Ball.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.i
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Dribble_Ball.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.s
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides: CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides.build: CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o
 
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o: src/offensive_plays/O_Intercept_Ball.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o: truffle/src/offensive_plays/O_Intercept_Ball.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.i
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Ball.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.s
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides.build: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o
 
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o: CMakeFiles/controller1.dir/flags.make
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o: src/offensive_plays/O_Intercept_Avoid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o: truffle/CMakeFiles/controller1.dir/flags.make
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o: truffle/src/offensive_plays/O_Intercept_Avoid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o"
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o -c /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp > CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.i
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s: cmake_force
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s
+	cd /home/robot/catkin_ws/src/truffle && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/robot/catkin_ws/src/truffle/src/offensive_plays/O_Intercept_Avoid.cpp -o CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.s
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires:
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires:
 
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
-	$(MAKE) -f CMakeFiles/controller1.dir/build.make CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides.build
-.PHONY : CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
+	$(MAKE) -f truffle/CMakeFiles/controller1.dir/build.make truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides.build
+.PHONY : truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides
 
-CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides.build: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o
+truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.provides.build: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o
 
 
 # Object files for target controller1
@@ -413,21 +413,21 @@ controller1_OBJECTS = \
 # External object files for target controller1
 controller1_EXTERNAL_OBJECTS =
 
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/controller1.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/globals.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/helper.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/math.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/offense.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/defense.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/skills.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/quadrant.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/build.make
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/globals.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/helper.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/math.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/offense.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/defense.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/skills.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/build.make
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libcv_bridge.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libopencv_xphoto3.so.3.1.0
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libopencv_xobjdetect3.so.3.1.0
@@ -478,7 +478,6 @@ devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libtinyxml.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libclass_loader.so
 devel/lib/truffle/controller1: /usr/lib/libPocoFoundation.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libdl.so
-devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libroslib.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libroscpp.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
@@ -488,6 +487,7 @@ devel/lib/truffle/controller1: /opt/ros/kinetic/lib/librosconsole_backend_interf
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libboost_regex.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libxmlrpcpp.so
+devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libroslib.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libroscpp_serialization.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/librostime.so
 devel/lib/truffle/controller1: /opt/ros/kinetic/lib/libcpp_common.so
@@ -498,37 +498,37 @@ devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/truffle/controller1: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
-devel/lib/truffle/controller1: CMakeFiles/controller1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/robot/catkin_ws/src/truffle/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable devel/lib/truffle/controller1"
-	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/controller1.dir/link.txt --verbose=$(VERBOSE)
+devel/lib/truffle/controller1: truffle/CMakeFiles/controller1.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/robot/catkin_ws/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable ../devel/lib/truffle/controller1"
+	cd /home/robot/catkin_ws/src/truffle && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/controller1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/controller1.dir/build: devel/lib/truffle/controller1
+truffle/CMakeFiles/controller1.dir/build: devel/lib/truffle/controller1
 
-.PHONY : CMakeFiles/controller1.dir/build
+.PHONY : truffle/CMakeFiles/controller1.dir/build
 
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/globals.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/helper.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/math.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/offense.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/defense.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/skills.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
-CMakeFiles/controller1.dir/requires: CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/controller1.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/globals.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/helper.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/math.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/strategy/strategy.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/offense.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/defense.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/skills.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/quadrant.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/defensive_plays/D_Moving_Screen.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Avoid_Corner.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Dribble_Ball.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Ball.cpp.o.requires
+truffle/CMakeFiles/controller1.dir/requires: truffle/CMakeFiles/controller1.dir/src/offensive_plays/O_Intercept_Avoid.cpp.o.requires
 
-.PHONY : CMakeFiles/controller1.dir/requires
+.PHONY : truffle/CMakeFiles/controller1.dir/requires
 
-CMakeFiles/controller1.dir/clean:
-	$(CMAKE_COMMAND) -P CMakeFiles/controller1.dir/cmake_clean.cmake
-.PHONY : CMakeFiles/controller1.dir/clean
+truffle/CMakeFiles/controller1.dir/clean:
+	cd /home/robot/catkin_ws/src/truffle && $(CMAKE_COMMAND) -P CMakeFiles/controller1.dir/cmake_clean.cmake
+.PHONY : truffle/CMakeFiles/controller1.dir/clean
 
-CMakeFiles/controller1.dir/depend:
-	cd /home/robot/catkin_ws/src/truffle && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src/truffle/CMakeFiles/controller1.dir/DependInfo.cmake --color=$(COLOR)
-.PHONY : CMakeFiles/controller1.dir/depend
+truffle/CMakeFiles/controller1.dir/depend:
+	cd /home/robot/catkin_ws/src && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/robot/catkin_ws/src /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src /home/robot/catkin_ws/src/truffle /home/robot/catkin_ws/src/truffle/CMakeFiles/controller1.dir/DependInfo.cmake --color=$(COLOR)
+.PHONY : truffle/CMakeFiles/controller1.dir/depend
 

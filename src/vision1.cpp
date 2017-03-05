@@ -45,7 +45,7 @@ Scalar purple[] = {Scalar(145, 128, 128), Scalar(155, 255, 255)};
 Scalar white[]  = {Scalar(0,  0, 156), Scalar(150,  10, 255)};
 Scalar gold[]   = {Scalar(19,  106, 152), Scalar(40,  190, 215)};
 Scalar diagColor[] = {Scalar(0, 0, 138), Scalar(179, 255, 255)};
-Scalar pink[]    = {Scalar(172,  45, 232), Scalar(176,  255, 255)}; // ball color
+Scalar pink[]    = {Scalar(128,  41, 180), Scalar(179,  255, 255)}; // ball color
 Scalar field[]    = {Scalar(42,  29, 120), Scalar(80,  242, 211)}; 
 
 
@@ -66,12 +66,36 @@ int firstRun = 0;
 
 Ptr<LineSegmentDetector> ls = createLineSegmentDetector(LSD_REFINE_ADV);
 
+//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20);
 
+Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20);
+
+
+/*
+
+C++: Ptr<LineSegmentDetector> createLineSegmentDetector
+(int refine, double scale, double sigma_scale, 
+ double quant, double ang_th, double log_eps, 
+ double density_th, int n_bins
+)
+
+LSD_REFINE_NONE - No refinement applied.
+LSD_REFINE_STD - Standard refinement is applied. E.g. breaking arches into smaller straighter line approximations.
+LSD_REFINE_ADV - Advanced refinement. Number of false alarms is calculated, lines are refined through increase of precision, decrement in size, etc.
+scale – The scale of the image that will be used to find the lines. Range (0..1].
+
+sigma_scale – Sigma for Gaussian filter. It is computed as sigma = _sigma_scale/_scale.
+quant – Bound to the quantization error on the gradient norm.
+ang_th – Gradient angle tolerance in degrees.
+log_eps – Detection threshold: -log10(NFA) > log_eps. Used only when advancent refinement is chosen.
+density_th – Minimal density of aligned region points in the enclosing rectangle. (0 to 1)
+n_bins – Number of bins in pseudo-ordering of gradient modulus.
+*/
 /*************
 
     1) Could we get ride of all the subscriber publisher for everthing that is not robot and ball
             get rid of opponents and ally
-
+            NO
 
 
 
@@ -100,7 +124,7 @@ void thresholdImage(Mat& imgHSV, Mat& imgGray, Scalar color[])
 
     if (color == blue) // robot
     {
-        imshow("Pre-Morphological", imgGray);
+        //imshow("Pre-Morphological", imgGray);
     }
 
     //erode(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(4, 4)));
@@ -213,9 +237,9 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
     Mat imgGray;
     thresholdImage(imgHsv, imgGray, color);
 
-    imshow("HSV", imgHsv);
+    //imshow("HSV", imgHsv);
 
-    imshow(GUI_NAME, imgGray);
+   // imshow(GUI_NAME, imgGray);
 
     waitKey(60);
 
@@ -279,44 +303,23 @@ void processImage(Mat frame)
     // Publish positions
     home1_pub.publish(poseHome1);
 
-    cout << "Ball X: " << poseBall.x << endl;
-    cout << "Ball Y: " << poseBall.y << endl;
+    //cout << "Ball X: " << poseBall.x << endl;
+    //cout << "Ball Y: " << poseBall.y << endl;
     ball_pub.publish(poseBall);
 
 }
 
 void getCenter(Mat frame)
 {
-    /*Mat imgHSV;
-    Mat gray;
-    Mat bgr;
-    cvtColor(frame, imgHSV, COLOR_BGR2HSV);
-
-
-    Mat imgGray;
-
-    inRange(imgHSV, field[0], field[1], imgGray);
-
-    dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(20, 20)));
-    //erode(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(10, 10)));
-
-    cvtColor(imgGray, bgr, COLOR_HSV2BGR);
-    */
-
- 
-
-    //imshow("CENTER", imgGray);
-
-    //waitKey(60);
-
-   // cvtColor(bgr, gray, COLOR_BGR2GRAY);
-
-/////////////////////////////////////////////
+    //cout << "getcenter" << endl;
 
 
     Mat imgHsv;
     Mat gray;
     Mat imgGray;
+    Mat gray2;
+
+
 
 
     //thresholdImage(imgHsv, imgGray, color);
@@ -335,16 +338,50 @@ void getCenter(Mat frame)
      // Detects lines for field framing
      //
     //LSD Lines detected in grayscale.
+
+
     cvtColor(frame, gray, COLOR_BGR2GRAY);
+    cvtColor(frame, gray2, COLOR_BGR2GRAY);
+
     //cvtColor(imgGray, gray, COLOR_BGR2GRAY);
     vector<Vec4f> lines_std;
+    vector<Vec4f> lines_std2;
 
     // Detect lines. Use the grayscale converted image
     ls->detect(gray, lines_std);
     Mat drawnLines(gray);
     ls->drawSegments(drawnLines, lines_std);
-    imshow("CHECK", gray);
+    imshow("LS Original", drawnLines);
 
+
+    dilate(gray2, gray2, getStructuringElement(MORPH_RECT, Size(20, 20)));
+   // dilate(gray2, gray2, getStructuringElement(MORPH_RECT, Size(15, 15)));
+
+    // Use an to ignore the ceiling
+    // I cropped the least amount I could.
+    // The first two parameters of rect should be the top left x and y values!
+    Rect roi(30, 0, 790, 480);
+    Mat roiImage = gray2(roi);
+
+    ls2->detect(roiImage, lines_std2);
+    Mat drawnLines2(roiImage);
+    ls2->drawSegments(drawnLines2, lines_std2);
+
+    dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(5, 5)));
+
+
+
+
+    imshow("LS2", drawnLines2);
+
+
+   // Mat corners, dilated_corners;
+    //preCornerDetect(gray, corners, 21);
+    // dilation with 3x3 rectangular structuring element
+   // dilate(corners, dilated_corners, Mat(), Size(1,1));
+   // Mat corner_mask = corners == dilated_corners;
+   // imshow("corners", dilated_corners);
+    //dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
 
 
     // Sort lines into vertical and horizontal groups
@@ -523,7 +560,7 @@ void getCenter(Mat frame)
     center_field.x = centerX;
     center_field.y = centerY;
     
-getCenter(frame);
+    //getCenter(frame);
   //  cout << "Center: " << center_field.x << ", " << center_field.y << endl;
 
     //
@@ -570,13 +607,12 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
         if (firstRun == 0)
         {
-          //   getCenter(frame);
-             firstRun = 0;
+             //getCenter(frame);
+             firstRun = 1;
         }
-        //getCenter(frame);
+        getCenter(frame);
         processImage(frame);
 
-        firstRun++;
         waitKey(60);
     }
     catch (cv_bridge::Exception& e)
@@ -631,6 +667,14 @@ void createHSVTrackbars() {
     createTrackbar( "S_MAX", GUI_NAME, &S_MAX, 255, on_trackbar );
     createTrackbar( "V_MIN", GUI_NAME, &V_MIN, 255, on_trackbar );
     createTrackbar( "V_MAX", GUI_NAME, &V_MAX, 255, on_trackbar );
+    /*
+    createTrackbar( "H_MIN", "Pre-Morphological", &H_MIN, 179, on_trackbar );
+    createTrackbar( "H_MAX", "Pre-Morphological", &H_MAX, 179, on_trackbar );
+    createTrackbar( "S_MIN", "Pre-Morphological", &S_MIN, 255, on_trackbar );
+    createTrackbar( "S_MAX", "Pre-Morphological", &S_MAX, 255, on_trackbar );
+    createTrackbar( "V_MIN", "Pre-Morphological", &V_MIN, 255, on_trackbar );
+    createTrackbar( "V_MAX", "Pre-Morphological", &V_MAX, 255, on_trackbar );
+    */
 }
 
 void setPlayerColors(int val[])
