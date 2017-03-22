@@ -5,30 +5,6 @@ using namespace std;
 using namespace geometry_msgs; 
 using namespace Eigen;
 
-// skill - follow ball on line
-//   Follows the y-position of the ball, while maintaining x-position at x_pos. 
-//   Angle always faces the goal.
-void skill_followBallOnLine1(RobotPose robot, Vector2d ball, double x_pos, int robotId)
-{
-    // control x position to stay on current line
-    //double vx = CONTROL_K_XY * (x_pos - robot.pos(0));
-    double vx = 0;
-
-    // control y position to match the ball's y-position
-    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
-
-    // control angle to face the goal
-    Vector2d dirGoal = goal - robot.pos;
-    double theta_d = atan2(dirGoal(1), dirGoal(0));
-    //double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
-    double omega = 0;
-    
-    // Output velocities to motors  
-    Vector3d v;
-    v << vx, vy, omega;
-    v = utility_saturateVelocity(v);
-    publish_moveRobot(v, robotId);
-}
 
 
 // skill - go to point

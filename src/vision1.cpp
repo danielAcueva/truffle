@@ -22,8 +22,8 @@
 using namespace std;
 using namespace cv;
 
-#define FIELD_WIDTH     3.53  // in meters
-#define FIELD_HEIGHT    2.39 
+#define FIELD_WIDTH     3.175  // in meters
+#define FIELD_HEIGHT    2.22 
 #define ROBOT_RADIUS    0.10
 #define GUI_NAME "Soccer Overhead Camera"
 #define LINES_WINDOW "Trackbars"
@@ -31,24 +31,34 @@ using namespace cv;
 // Mouse click parameters, empirically found
 // The smaller the number, the more positive the error
 // (i.e., it will be above the mouse in +y region)
-#define FIELD_WIDTH_PIXELS      577.0 // measured from threshold of goal to goal
-#define FIELD_HEIGHT_PIXELS     388.0 // measured from inside of wall to wall
-#define CAMERA_WIDTH            865.0
-#define CAMERA_HEIGHT           480.0
+#define FIELD_WIDTH_PIXELS      642.0 // measured from threshold of goal to goal
+#define FIELD_HEIGHT_PIXELS     440.0 // measured from inside of wall to wall
 
 // These colours need to match the Gazebo materials
 Scalar red[]    = {Scalar(158,  80, 200), Scalar(179,  255, 255)}; // first scalar is low, second is high
 Scalar yellow[] = {Scalar(20,  128, 128), Scalar(30,  255, 255)};
 Scalar green[]  = {Scalar(47,  167, 170), Scalar(95,  255, 255)};
-Scalar blue[]   = {Scalar(92, 53, 214), Scalar(102, 163, 241)};
+//Scalar blue[]   = {Scalar(92, 53, 214), Scalar(102, 163, 241)};
+
+// 10:00 pm. Pretty dark
+Scalar blue[]   = {Scalar(77, 89, 228), Scalar(101, 156, 255)};
+
+
+//Scalar blue[]   = {Scalar(75, 113, 212), Scalar(103, 199, 255)};
 Scalar purple[] = {Scalar(145, 128, 128), Scalar(155, 255, 255)};
 Scalar white[]  = {Scalar(0,  0, 156), Scalar(150,  10, 255)};
 Scalar gold[]   = {Scalar(19,  106, 152), Scalar(40,  190, 215)};
 Scalar diagColor[] = {Scalar(0, 0, 138), Scalar(179, 255, 255)};
-Scalar pink[]    = {Scalar(128,  41, 180), Scalar(179,  255, 255)}; // ball color
+Scalar pink[]    = {Scalar(170,  24, 180), Scalar(179,  72, 255)}; // ball color
 Scalar field[]    = {Scalar(42,  29, 120), Scalar(80,  242, 211)}; 
+// Scalar pink[]    = {Scalar(128,  41, 180), Scalar(179,  255, 255)}; // ball color
 
 
+float topYBorder;
+float bottomYBorder;
+
+float leftXBorder;
+float rightXBorder;
 
 Point2d center_field;
 
@@ -64,11 +74,13 @@ int V_MAX = 255;
 Mat global_frame; 
 int firstRun = 0;
 
-Ptr<LineSegmentDetector> ls = createLineSegmentDetector(LSD_REFINE_ADV);
+//Ptr<LineSegmentDetector> ls = createLineSegmentDetector(LSD_REFINE_ADV);
 
-//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20);
 
-Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20);
+Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20); // better?
+
+//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 3.0, 13.0, 20);
+//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 3.0, 13.0, 20);
 
 
 /*
@@ -128,7 +140,17 @@ void thresholdImage(Mat& imgHSV, Mat& imgGray, Scalar color[])
     }
 
     //erode(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(4, 4)));
-    dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+
+
+    if (color == pink)
+    {
+        dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(8, 8)));
+
+    }
+    else
+    {
+        dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+    }
 }
 
 Point2d getCenterOfMass(Moments moment)
@@ -154,8 +176,29 @@ Point2d imageToWorldCoordinates(Point2d point_i)
 
     // You have to split up the pixel to meter conversion
     // because it is a rect, not a square!
+    center_w.x *= (FIELD_WIDTH/FIELD_WIDTH_PIXELS); //-.005; // quick hack
+    center_w.y *= (FIELD_HEIGHT/FIELD_HEIGHT_PIXELS);
+
+
+    //cout << "x: " << center_w.x << ", Y: " << center_w.y << endl;
+
+    // Reflect y
+    center_w.y = -center_w.y;
+    
+    return center_w;
+}
+
+Point2d centerToWorldCoordinates(Point2d point_i)
+{
+    Point2d center_w = (point_i - center_field);
+
+    // You have to split up the pixel to meter conversion
+    // because it is a rect, not a square!
     center_w.x *= (FIELD_WIDTH/FIELD_WIDTH_PIXELS);
     center_w.y *= (FIELD_HEIGHT/FIELD_HEIGHT_PIXELS);
+
+
+    //cout << "x: " << center_w.x << ", Y: " << center_w.y << endl;
 
     // Reflect y
     center_w.y = -center_w.y;
@@ -167,30 +210,34 @@ void getRobotPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& robotPose)
 {
 
     Mat imgGray;
+
     //imgHsv and imgGray are passed by reference
     thresholdImage(imgHsv, imgGray, color);
-   // imshow("HSV", imgHsv);
+        imshow("hsv", imgHsv);
 
-    //imshow(GUI_NAME, imgGray);
 
-   // waitKey(60);
+    imshow("threshold me", imgGray);
+    waitKey(60);
+
 
     vector< vector<Point> > contours;
     vector<Moments> mm;
     vector<Vec4i> hierarchy;
+
     //Find countour, fill up the vector
     findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
-   // imshow(GUI_NAME, imgGray);
 
-    
+    //cout << "get robo" << endl;
 
     //Heirarchy shows how many objects are found.
     //We want to make sure there are two
     //we have two colored identifiers on the robot jersey
-
     if (hierarchy.size() != 2)
+    {
+        //cout << "bad hierarchy" << endl;
         return;
+    }
 
     //Add to vector of moments, the heirarchy data
     for(int i = 0; i < hierarchy.size(); i++)
@@ -210,8 +257,8 @@ void getRobotPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& robotPose)
 
     //convert angle to degrees
     angle = angle *180/M_PI;
-    robotPose.x = robotCenter.x - 2.52 ;
-    robotPose.y = robotCenter.y + 1.5 ;
+    robotPose.x = robotCenter.x;// - 2.52 ;
+    robotPose.y = robotCenter.y;// + 1.5 ;
     robotPose.theta = angle;
 
     cout << "ROBOT X_POS: " << robotPose.x << endl;
@@ -239,22 +286,16 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
 
     //imshow("HSV", imgHsv);
 
-   // imshow(GUI_NAME, imgGray);
+    //imshow(GUI_NAME, imgGray);
 
-    waitKey(60);
-
-
- //   imshow("HSV", imgHsv);
-
-   // imshow(GUI_NAME, imgGray);
+    //waitKey(60);
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
     findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+   
 
-    
-
-    waitKey(60);
+    //waitKey(60);
 
     if (hierarchy.size() != 1)
         return;
@@ -262,11 +303,11 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
     Moments mm = moments((Mat)contours[0]);
     Point2d ballCenter = imageToWorldCoordinates(getCenterOfMass(mm));
 
-    ballPose.x = ballCenter.x - 2.52;   //Center of field offset
-    ballPose.y = ballCenter.y + 1.50;   //Center of field offset
+    ballPose.x = ballCenter.x;   //Center of field offset
+    ballPose.y = ballCenter.y;   //Center of field offset
     ballPose.theta = 0;
 
-    //cout << "Ball X: " << ballPose.x << endl;
+   //cout << "Ball X: " << ballPose.x << endl;
     //cout << "Ball Y: " << ballPose.y << endl;
 }
 
@@ -278,27 +319,22 @@ void processImage(Mat frame)
     Mat gray;
     cvtColor(frame, imgHsv, COLOR_BGR2HSV);
 
-    /*
-     * Using border values, crop the image.
-     * The field is roughly 600 pixels wide and 415 pixels tall
-     * The first two parameters of rect should be the top left x and y values!
-    */
-   // cout << "Center: " << center_field.x << ", " << center_field.y << endl;
+    Rect roi(30, 0, 790, 480);
+    Mat roiFrame1 = imgHsv(roi);
 
-   // int width = 640;
-   // int height = 435;
-    //Rect roi(center_field.x - width/2, center_field.y - height/2, width, height);
-   // Mat roiImage = imgHsv(roi);
+    Rect roi2(leftXBorder + 4, topYBorder + 6, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
+    Mat roiFrame2 = roiFrame1(roi2);
 
+
+
+    imshow("original", roiFrame2);
     waitKey(60);
 
     //Calculate the robot position. imgHsv and poseHome1 are passed by reference
-    getRobotPose(imgHsv, blue, poseHome1);
+    getRobotPose(roiFrame2, blue, poseHome1);
 
     // Calculate the ball position
-    getBallPose(imgHsv, pink, poseBall);
-
-
+    getBallPose(roiFrame2, pink, poseBall);
 
     // Publish positions
     home1_pub.publish(poseHome1);
@@ -311,51 +347,16 @@ void processImage(Mat frame)
 
 void getCenter(Mat frame)
 {
-    //cout << "getcenter" << endl;
-
-
     Mat imgHsv;
     Mat gray;
     Mat imgGray;
     Mat gray2;
 
-
-
-
-    //thresholdImage(imgHsv, imgGray, color);
-
-    //vector< vector<Point> > contours;
-    //vector<Vec4i> hierarchy;
-    //findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-    //vector<Vec4f> lines_std;
-
-    //Mat drawnLines(gray);
-    //ls->drawSegments(drawnLines, lines_std);
-    //ls->drawSegments(drawnLines, lines_std);
-    //imshow("CHECK", gray);
-
-    // Line segment detection. 
-     // Detects lines for field framing
-     //
-    //LSD Lines detected in grayscale.
-
-
-    cvtColor(frame, gray, COLOR_BGR2GRAY);
     cvtColor(frame, gray2, COLOR_BGR2GRAY);
 
-    //cvtColor(imgGray, gray, COLOR_BGR2GRAY);
-    vector<Vec4f> lines_std;
     vector<Vec4f> lines_std2;
 
-    // Detect lines. Use the grayscale converted image
-    ls->detect(gray, lines_std);
-    Mat drawnLines(gray);
-    ls->drawSegments(drawnLines, lines_std);
-    imshow("LS Original", drawnLines);
-
-
     dilate(gray2, gray2, getStructuringElement(MORPH_RECT, Size(20, 20)));
-   // dilate(gray2, gray2, getStructuringElement(MORPH_RECT, Size(15, 15)));
 
     // Use an to ignore the ceiling
     // I cropped the least amount I could.
@@ -365,235 +366,129 @@ void getCenter(Mat frame)
 
     ls2->detect(roiImage, lines_std2);
     Mat drawnLines2(roiImage);
-    ls2->drawSegments(drawnLines2, lines_std2);
+
 
     dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(5, 5)));
 
+    // Undo the dilation a little
+    erode(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(4, 4)));
 
-
-
-    imshow("LS2", drawnLines2);
-
-
-   // Mat corners, dilated_corners;
-    //preCornerDetect(gray, corners, 21);
-    // dilation with 3x3 rectangular structuring element
-   // dilate(corners, dilated_corners, Mat(), Size(1,1));
-   // Mat corner_mask = corners == dilated_corners;
-   // imshow("corners", dilated_corners);
-    //dilate(imgGray, imgGray, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
-
+   // imshow("ugh", drawnLines2);
 
     // Sort lines into vertical and horizontal groups
     vector<Vec4f> v_lines; // (x,y) (x, y)
     vector<Vec4f> h_lines;
     vector<Vec4f> d_lines;
 
-
     float x1, x2, y1, y2;
 
-    for (int i = 0; i < lines_std.size(); i++)
+    for (int i = 0; i < lines_std2.size(); i++)
     {
         // if the x's are about the same, it's vertical
-        if (abs(lines_std[i][0] - lines_std[i][2]) < (abs(lines_std[i][1] - lines_std[i][3])/30))
+        if (abs(lines_std2[i][0] - lines_std2[i][2]) < (abs(lines_std2[i][1] - lines_std2[i][3])/30))
         {
-            v_lines.push_back(lines_std[i]);
+            v_lines.push_back(lines_std2[i]);
             x1 = v_lines[i][0];
             y1 = v_lines[i][1];
             x2 = v_lines[i][2];
             y2 = v_lines[i][3];
-           // cout << x1 << " " << y1 << "/" << x2 << " " << y2 << endl;
         }
 
         // if the y's are about the same, it's horizontal
-        if (abs(lines_std[i][1] - lines_std[i][3]) < (abs(lines_std[i][0] - lines_std[i][2])/50))
+        if (abs(lines_std2[i][1] - lines_std2[i][3]) < (abs(lines_std2[i][0] - lines_std2[i][2])/50))
         {
-            double length = lines_std[i][0] - lines_std[i][2];
+            double length = lines_std2[i][0] - lines_std2[i][2];
             //cout << length << endl;
-            h_lines.push_back(lines_std[i]);
-        }
-        if (abs((abs(lines_std[i][1] - lines_std[i][3])) - abs(lines_std[i][0] - lines_std[i][2])) < .3)
-        {
-            d_lines.push_back(lines_std[i]);
+            h_lines.push_back(lines_std2[i]);
         }
     }
 
-    vector<Vec4f> long_lines;
-    //In this algorithm, I am assuming anything with a similar 
-    //y value is on the same line
-    //I believe this is a safe assumption since we have our tolerance so tight.
-    //It will take a starting XY from a line, then find all the horizontal lines that line up with it
-    //then finally when it finds the last line, it will use that lines ending XY to create a long line.
-    //Check the end of one line with the beginning of the next
-    //Store start and end points of long lines
-  //  float x1, x2, y1, y2;
-    int count = 0;
-    bool line_to_add = false;
-     for (int i = 0; i < h_lines.size(); i++)
-    {
-        // store the first point
-        x1 = h_lines[i][0];
-        y1 = h_lines[i][1];
-        x2 = h_lines[i][2];
-        y2 = h_lines[i][3];
-      //  cout << x1 << " " << y1 << "/" << x2 << " " << y2 << endl;
-        count = 0;
-        line_to_add = false;
-        //Start with the next line
-        //Check to see if it is part of the same line
-        //If so, add it to the line
-        for (int j = i; j < h_lines.size() - 1; j++)
-        {
-            //check if the next line is part of the same horizontal line
-            if (abs(h_lines[j+1][1] - h_lines[i][1]) < 10)
-            {
-                if ((abs(h_lines[j+1][0] - x2) < 40))// && (abs(h_lines[j+1][1] - y2) < 10))
-                {
-                    //It's on the same horizontal plane. Assume it's part of the line.
-                    //Store the ending x and y values to add them
-                    x2 = h_lines[j+1][2];
-                    y2 = h_lines[j+1][3];
-                    //h_lines.erase(h_lines.begin()+(j+1)); // <--  with this
-                    line_to_add = true; 
-                    //Already been through this line, don't need to do it again in outer loop
-                    ////count++;  
-                }        
-            }  
-            //The line is not part of the longer stitched line we are building 
-            ////else
-            ////{  
-                ////break; 
-            ////}      
-        }
-        //Increment the number of lines we have already used on the line stitch
-        ////i += count;
-        //We have an addtional point to create a line
-        if (line_to_add)
-        {
-            long_lines.push_back(Vec4f(x1, y1, x2, y2));
-        }
-    }   
+    ls2->drawSegments(drawnLines2, lines_std2);
 
-
-
-    vector<Vec4f> long_v_lines;
-    //In this algorithm, I am assuming anything with a similar 
-    //y value is on the same line
-    //I believe this is a safe assumption since we have our tolerance so tight.
-    //It will take a starting XY from a line, then find all the horizontal lines that line up with it
-    //then finally when it finds the last line, it will use that lines ending XY to create a long line.
-    //Check the end of one line with the beginning of the next
-    //Store start and end points of long lines
-    count = 0;
-    line_to_add = false;
-     for (int i = 0; i < v_lines.size(); i++)
-    {
-        // store the first point
-        x1 = v_lines[i][0];
-        y1 = v_lines[i][1];
-        x2 = v_lines[i][2];
-        y2 = v_lines[i][3];
-       // cout << x1 << " " << y1 << "/" << x2 << " " << y2 << endl;
-        count = 0;
-        line_to_add = false;
-        //Start with the next line
-        //Check to see if it is part of the same line
-        //If so, add it to the line
-        for (int j = i; j < v_lines.size() - 1; j++)
-        {
-            //check if the next line is part of the same horizontal line
-            if (abs(v_lines[j+1][0] - x1) < 10)
-            {
-                if ((abs(v_lines[j+1][1] - y2) < 40))// && (abs(h_lines[j+1][1] - y2) < 10))
-                {
-                    //It's on the same horizontal plane. Assume it's part of the line.
-                    //Store the ending x and y values to add them
-                    x2 = v_lines[j+1][2];
-                    y2 = v_lines[j+1][3];
-                    //h_lines.erase(h_lines.begin()+(j+1)); // <--  with this
-                    line_to_add = true; 
-                    //Already been through this line, don't need to do it again in outer loop
-                    ////count++;  
-                }        
-            }  
-            //The line is not part of the longer stitched line we are building  
-        }
-        //Increment the number of lines we have already used on the line stitch
-        //We have an addtional point to create a line
-        if (line_to_add)
-        {
-            long_v_lines.push_back(Vec4f(x1, y1, x2, y2));
-        }
-    }   
-
+    int leftCount = 0;
+    float leftSum = 0;
+    int rightCount = 0;
+    float rightSum = 0;
     int topCount = 0;
     float topSum = 0;
     int bottomCount = 0;
     float bottomSum = 0;
 
 
+
+    // x < 340 => left side
+    // x > 420 => right side
+    for (int i = 0; i < v_lines.size(); i++)
+    {
+        if (v_lines[i][0] < 340)
+        {
+            leftSum += v_lines[i][0];
+            leftCount++;
+        }
+        else if (v_lines[i][0] > 420)
+        {
+            rightSum += v_lines[i][0];
+            rightCount++;
+        }
+    }
+
+
     // lines with y < 30 is top
     // lines with y > 420 is bottom
-    for (int i = 0; i < long_lines.size(); i++)
+    for (int i = 0; i < h_lines.size(); i++)
     {
-        if (long_lines[i][1] < 30)
+        if (h_lines[i][1] < 30)
         {
-            topSum += long_lines[i][1];
+            topSum += h_lines[i][1];
             topCount++;
         }
-        else if (long_lines[i][1] > 420)
+        else if (h_lines[i][1] > 420)
         {
-            bottomSum += long_lines[i][1];
+            bottomSum += h_lines[i][1];
             bottomCount++;
         }
     }
     
+    topYBorder = topSum/topCount;
+    bottomYBorder = bottomSum/bottomCount;
 
-    float topYBorder = topSum/topCount;
-    float bottomYBorder = bottomSum/bottomCount;
+    leftXBorder = leftSum/leftCount;
 
-   // float centerY = (topYBorder + bottomYBorder)/2;
-    float centerY = 245;
+    rightXBorder = rightSum/rightCount;
 
-    float centerX = 415;
+  //  imshow("LS222", drawnLines2);
+
+    waitKey(60);
+
+
+    // Using border values, crop the image.
+    // The field is roughly 600 pixels wide and 415 pixels tall
+    // The first two parameters of rect should be the top left x and y values!
+    Rect roi2(leftXBorder, topYBorder, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
+
+    Mat roiImage2 = drawnLines2(roi2);
+
+
+    // calculate the center using the ROI
+    float centerY = (bottomYBorder - topYBorder)/2;
+    float centerX = (rightXBorder - leftXBorder)/2;
 
     center_field.x = centerX;
     center_field.y = centerY;
-    
-    //getCenter(frame);
-  //  cout << "Center: " << center_field.x << ", " << center_field.y << endl;
 
-    //
-     // Using border values, crop the image.
-     // The field is roughly 600 pixels wide and 415 pixels tall
-     // The first two parameters of rect should be the top left x and y values!
-     //
-
-    /*int width = 640;
-    int height = 435;
-    Rect roi(centerX - width/2, centerY - height/2, width, height);
-   // Mat source;
-    Mat roiImage = frame(roi);
+    cout << "Center: " << center_field.x << ", " << center_field.y << endl;
 
 
-    // do a fancy visual test
-    // hack for x
-    long_lines.push_back(Vec4f(415 - 10, centerY - 10, 415 + 10, centerY + 10));
+    Point2d center_point (centerX, centerY);
 
-    Mat drawnLines(frame);
-    ls->drawSegments(drawnLines, d_lines);
-    //ls->drawSegments(drawnLines, lines_std);
-    imshow("CHECK", roiImage);*/
+    centerToWorldCoordinates(center_point);
 
 
-   // waitKey(60);
+    // The center is DIFFERENT for the ROI image.
 
-    //Calculate the robot position. imgHsv and poseHome1 are passed by reference
-    //getRobotPose(imgHsv, gold,   poseHome1);
+  //  imshow("LS222", drawnLines2);
 
-    //publish posehome1
-    //home1_pub.publish(poseHome1);
-    
+  //  waitKey(60);
 }
 
 //Called when data is subscribed
@@ -607,12 +502,22 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
         if (firstRun == 0)
         {
-             //getCenter(frame);
+             getCenter(frame);
              firstRun = 1;
         }
-        getCenter(frame);
+        //getCenter(frame);
         processImage(frame);
 
+        // Show the cropped field
+        Rect roi(30, 0, 790, 480);
+        Mat roiFrame1 = frame(roi);
+
+        Rect roi2(leftXBorder + 4, topYBorder + 6, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
+        //Rect roi2(leftXBorder, topYBorder, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
+
+        Mat roiFrame2 = roiFrame1(roi2);
+
+         imshow("Cropped Frame", roiFrame2);
         waitKey(60);
     }
     catch (cv_bridge::Exception& e)
@@ -643,19 +548,22 @@ void mouseCallback(int event, int x, int y, int flags, void* userdata) {
 
 // This function is called whenever a trackbar changes
 void on_trackbar( int, void* ) {
-    pink[0](0) = H_MIN;
-    pink[0](1) = S_MIN;
-    pink[0](2) = V_MIN;
 
-    pink[1](0) = H_MAX;
-    pink[1](1) = S_MAX;
-    pink[1](2) = V_MAX;
+    //cout << "Trackbar" << endl;
+
+    blue[0](0) = H_MIN;
+    blue[0](1) = S_MIN;
+    blue[0](2) = V_MIN;
+
+    blue[1](0) = H_MAX;
+    blue[1](1) = S_MAX;
+    blue[1](2) = V_MAX;
 
 }
 
 void createHSVTrackbars() {
     //create window for trackbars
-    namedWindow(LINES_WINDOW, 0);
+    //namedWindow(LINES_WINDOW, 0);
 
     //create trackbars and insert them into window
     //3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
@@ -690,7 +598,6 @@ int main(int argc, char **argv)
 
     ros::NodeHandle priv_nh("~");                       //Create private nado handle
     //priv_nh.param<string>("team", team, "home");
-
 
     // Create OpenCV Window and add a mouse callback for clicking
     namedWindow(GUI_NAME, CV_WINDOW_AUTOSIZE);

@@ -38,7 +38,8 @@ void playOffense(int robotNumber)
 		//play_go_to_ball(ally1, ball, 1);
 		/////skill_goToBall(ally1, ball, 1);
 		/////check_collision(ally1, ball, 1);
-		set_call_play_avoid(true);
+		play_getBehindBall(ally1, ball, 1);
+		//set_call_play_avoid(true);
 	}
 
 	

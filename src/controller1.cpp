@@ -48,7 +48,7 @@ void publish_moveRobot(Vector3d v_world, int robotId)
     if(robotId == 1)						//If robot number 1
     {
         motor_pub1.publish(v);				//Publish the move
-        cout << "Motor Publish: X " << v.linear.x << " Y " << v.linear.y << " Z " << v.angular.z << endl;
+        //cout << "Motor Publish: X " << v.linear.x << " Y " << v.linear.y << " Z " << v.angular.z << endl;
     }
     //else if(robotId == 2)					//If robot number 2
         //motor_pub2.publish(v);				//Publish the move
@@ -108,8 +108,8 @@ void visionCallback(const geometry_msgs::Pose2D::ConstPtr &msg, const std::strin
 */
     else if(robot == "ball")
         ball = utility_toBallPose(*msg);
-    //cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
-    //cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
+  //  cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
+  //  cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
 }
 
 //void gameStateCallback(const soccerref::GameState::ConstPtr &msg)
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 
     reset_ball_values();
 	
-    ros::Rate loop_rate(100);							//30 cycles a second
+    ros::Rate loop_rate(30);							//30 cycles a second
     while(ros::ok())									//Run until ctrl+c
     {
         if (ally1.pos(0) != 0)
@@ -197,7 +197,8 @@ int main(int argc, char **argv)
        // playDefense(1);
 
         //skill_followBallOnLine1(ally1, ball, -2 * FIELD_WIDTH / 6, 1);
-        playDefense(1);
+        //playDefense(1);
+        playOffense(1);
         /*Vector3d v;
         v << 1, 0, -1;
         v = utility_saturateVelocity(v);
