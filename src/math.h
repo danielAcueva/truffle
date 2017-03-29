@@ -22,6 +22,8 @@ int utility_sgn(double val);
 //  Saturate the commanded velocity .
 Vector3d utility_saturateVelocity(Vector3d v);
 
+Vector3d utility_saturateVelocityHard(Vector3d v);
+
 double utility_vecLength(Vector2d v);
 
 Vector2d utility_unitVector(Vector2d v);

@@ -19,8 +19,13 @@
 
 #include <stdlib.h> // abs
 #include <algorithm>
+
+#include <cv.h>
+
+
 using namespace std;
 using namespace cv;
+using namespace geometry_msgs;
 
 #define FIELD_WIDTH     3.175  // in meters
 #define FIELD_HEIGHT    2.22 
@@ -34,25 +39,19 @@ using namespace cv;
 #define FIELD_WIDTH_PIXELS      642.0 // measured from threshold of goal to goal
 #define FIELD_HEIGHT_PIXELS     440.0 // measured from inside of wall to wall
 
-// These colours need to match the Gazebo materials
-Scalar red[]    = {Scalar(158,  80, 200), Scalar(179,  255, 255)}; // first scalar is low, second is high
-Scalar yellow[] = {Scalar(20,  128, 128), Scalar(30,  255, 255)};
-Scalar green[]  = {Scalar(47,  167, 170), Scalar(95,  255, 255)};
-//Scalar blue[]   = {Scalar(92, 53, 214), Scalar(102, 163, 241)};
 
-// 10:00 pm. Pretty dark
-Scalar blue[]   = {Scalar(77, 89, 228), Scalar(101, 156, 255)};
+// Jersey colors
+//Scalar green[]  = {Scalar(31, 24, 229), Scalar(38, 44, 255)};
+Scalar green[]  = {Scalar(30, 19, 220), Scalar(44, 47, 242)}; // green sucks
 
+Scalar blue[]   = {Scalar(94, 80, 222), Scalar(114, 107, 255)}; // 10:00 pm. Pretty dark
+Scalar red[]    = {Scalar(5,  101, 220), Scalar(15,  119, 227)}; // first scalar is low, second is high
+Scalar purple[] = {Scalar(117, 22, 213), Scalar(135, 68, 255)};
 
-//Scalar blue[]   = {Scalar(75, 113, 212), Scalar(103, 199, 255)};
-Scalar purple[] = {Scalar(145, 128, 128), Scalar(155, 255, 255)};
-Scalar white[]  = {Scalar(0,  0, 156), Scalar(150,  10, 255)};
-Scalar gold[]   = {Scalar(19,  106, 152), Scalar(40,  190, 215)};
-Scalar diagColor[] = {Scalar(0, 0, 138), Scalar(179, 255, 255)};
-Scalar pink[]    = {Scalar(170,  24, 180), Scalar(179,  72, 255)}; // ball color
+// Ball color
+Scalar pink[]    = {Scalar(170,  24, 213), Scalar(179,  72, 255)};
+
 Scalar field[]    = {Scalar(42,  29, 120), Scalar(80,  242, 211)}; 
-// Scalar pink[]    = {Scalar(128,  41, 180), Scalar(179,  255, 255)}; // ball color
-
 
 float topYBorder;
 float bottomYBorder;
@@ -74,13 +73,15 @@ int V_MAX = 255;
 Mat global_frame; 
 int firstRun = 0;
 
-//Ptr<LineSegmentDetector> ls = createLineSegmentDetector(LSD_REFINE_ADV);
+
+int thresh_val_home1 = 0;
+int thresh_val_home2 = 0;
+int thresh_val_away1 = 0;
+int thresh_val_away2 = 0;
 
 
-Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20); // better?
-
-//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 3.0, 13.0, 20);
-//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 3.0, 13.0, 20);
+//Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20); // better?
+Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 1, 2.0, 15.0, 20, 0.1, 2048); // better?
 
 
 /*
@@ -116,22 +117,23 @@ n_bins – Number of bins in pseudo-ordering of gradient modulus.
 
 // Handlers for vision position publishers
 ros::Publisher home1_pub;
-//ros::Publisher home2_pub;
-//ros::Publisher away1_pub;
-//ros::Publisher away2_pub;
+ros::Publisher home2_pub;
+ros::Publisher away1_pub;
+ros::Publisher away2_pub;
 ros::Publisher ball_pub;
 //ros::Publisher ball_position_pub; // for publishing internally from the vision window
 
 // Use variables to store position of objects. These variables are very
 // useful when the ball cannot be seen, otherwise we'll get the position (0, 0)
-geometry_msgs::Pose2D poseHome1;
-//geometry_msgs::Pose2D poseHome2;
-//geometry_msgs::Pose2D poseAway1;
-//geometry_msgs::Pose2D poseAway2;
-geometry_msgs::Pose2D poseBall;
+Pose2D poseHome1;
+Pose2D poseHome2;
+Pose2D poseAway1;
+Pose2D poseAway2;
+Pose2D poseBall;
 
 void thresholdImage(Mat& imgHSV, Mat& imgGray, Scalar color[])
 {
+
     inRange(imgHSV, color[0], color[1], imgGray);
 
     if (color == blue) // robot
@@ -180,8 +182,6 @@ Point2d imageToWorldCoordinates(Point2d point_i)
     center_w.y *= (FIELD_HEIGHT/FIELD_HEIGHT_PIXELS);
 
 
-    //cout << "x: " << center_w.x << ", Y: " << center_w.y << endl;
-
     // Reflect y
     center_w.y = -center_w.y;
     
@@ -197,7 +197,6 @@ Point2d centerToWorldCoordinates(Point2d point_i)
     center_w.x *= (FIELD_WIDTH/FIELD_WIDTH_PIXELS);
     center_w.y *= (FIELD_HEIGHT/FIELD_HEIGHT_PIXELS);
 
-
     //cout << "x: " << center_w.x << ", Y: " << center_w.y << endl;
 
     // Reflect y
@@ -206,29 +205,101 @@ Point2d centerToWorldCoordinates(Point2d point_i)
     return center_w;
 }
 
-void getRobotPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& robotPose)
+void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
 {
 
     Mat imgGray;
 
     //imgHsv and imgGray are passed by reference
     thresholdImage(imgHsv, imgGray, color);
-        imshow("hsv", imgHsv);
+    //imshow("hsv", imgHsv);
 
 
-    imshow("threshold me", imgGray);
-    waitKey(60);
+   // imshow("threshold me", imgGray);
+   // waitKey(60);
 
+    // grayscale source image
+    // threshold value which is used to classify the pixel values. 
+    // maxVal which represents the value to be given if pixel value is more than (sometimes less than) the threshold value.
+    // Adaptive Method - It decides how thresholding value is calculated.
+    // Block Size - It decides the size of neighbourhood area.
+    // C - It is just a constant which is subtracted from the mean or weighted mean calculated.
+
+    //adaptiveThreshold(InputArray src, OutputArray dst, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C)
+    //void cvAdaptiveThreshold(const CvArr* src, CvArr* dst, double max_value, int adaptive_method=CV_ADAPTIVE_THRESH_MEAN_C, int threshold_type=CV_THRESH_BINARY, int block_size=3, double param1=5 )
+    //Mat th3 = adaptiveThreshold(imgGray, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 11, 2)
+    
+    //Mat blur;
+
+    //GaussianBlur(imgGray, blur, (5,5),0)
+    Mat th3;
+
+    // This call returns a threshold value
+    // Only use OTSU for the FIRST TIME
+    // make sure the robot is on the field
+    // if it isn't, OTSU will choose a bogus value
+    // afterwards, use the returned threshold value from now on
+    // Also, Hamad says they did something where in the beginning, they click their robot (with imshow)
+    // which gets the HSV values, then they do like +- on the values do get a
+
+    if (&robotPose == &poseHome1)
+    {
+
+
+        if (!firstRun)
+        {
+           thresh_val_home1 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
+        }
+        else
+        {
+           threshold(imgGray, th3, thresh_val_home1, 255, THRESH_BINARY);
+        }
+          //  imshow("adapt me", th3);
+          //  waitKey(60); 
+
+    }
+    else if (&robotPose == &poseHome2)
+    {
+        if (!firstRun)
+        {
+           thresh_val_home2 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
+        }
+        else
+        {
+           threshold(imgGray, th3, thresh_val_home2, 255, THRESH_BINARY);
+        }
+    }
+    else if (&robotPose == &poseAway1)
+    {
+        if (!firstRun)
+        {
+           thresh_val_away1 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
+        }
+        else
+        {
+           threshold(imgGray, th3, thresh_val_away1, 255, THRESH_BINARY);
+        }
+ 
+    }
+    else if (&robotPose == &poseAway2)
+    {
+        if (!firstRun)
+        {
+           thresh_val_away2 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
+        }
+        else
+        {
+           threshold(imgGray, th3, thresh_val_away2, 255, THRESH_BINARY);
+        }
+
+    }   
 
     vector< vector<Point> > contours;
     vector<Moments> mm;
     vector<Vec4i> hierarchy;
 
     //Find countour, fill up the vector
-    findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-
-
-    //cout << "get robo" << endl;
+    findContours(th3, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
     //Heirarchy shows how many objects are found.
     //We want to make sure there are two
@@ -257,14 +328,9 @@ void getRobotPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& robotPose)
 
     //convert angle to degrees
     angle = angle *180/M_PI;
-    robotPose.x = robotCenter.x;// - 2.52 ;
-    robotPose.y = robotCenter.y;// + 1.5 ;
+    robotPose.x = robotCenter.x;
+    robotPose.y = robotCenter.y;
     robotPose.theta = angle;
-
-    cout << "ROBOT X_POS: " << robotPose.x << endl;
-    cout << "ROBOT_Y_POS: " << robotPose.y << endl;
-    cout << "THETA: " << robotPose.theta << endl;
-
 }
 
 // We need this function to define how to sort
@@ -284,21 +350,26 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
     Mat imgGray;
     thresholdImage(imgHsv, imgGray, color);
 
-    //imshow("HSV", imgHsv);
 
-    //imshow(GUI_NAME, imgGray);
+    imshow("adapt me", imgGray);
+    waitKey(60); 
 
-    //waitKey(60);
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
     findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
    
-
-    //waitKey(60);
-
     if (hierarchy.size() != 1)
+    {
+        //cout << "hierarchy fail" << endl;
         return;
+    }
+    else
+    {
+       // cout << "hierarchy good" << endl;
+    }
+
+
 
     Moments mm = moments((Mat)contours[0]);
     Point2d ballCenter = imageToWorldCoordinates(getCenterOfMass(mm));
@@ -307,8 +378,7 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
     ballPose.y = ballCenter.y;   //Center of field offset
     ballPose.theta = 0;
 
-   //cout << "Ball X: " << ballPose.x << endl;
-    //cout << "Ball Y: " << ballPose.y << endl;
+   // cout << "[Vision] Ball: " << ballPose.x << ", " << ballPose.y << endl;
 }
 
 
@@ -319,32 +389,33 @@ void processImage(Mat frame)
     Mat gray;
     cvtColor(frame, imgHsv, COLOR_BGR2HSV);
 
-    Rect roi(30, 0, 790, 480);
-    Mat roiFrame1 = imgHsv(roi);
-
-    Rect roi2(leftXBorder + 4, topYBorder + 6, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
-    Mat roiFrame2 = roiFrame1(roi2);
-
-
-
-    imshow("original", roiFrame2);
-    waitKey(60);
 
     //Calculate the robot position. imgHsv and poseHome1 are passed by reference
-    getRobotPose(roiFrame2, blue, poseHome1);
+    getRobotPose(imgHsv, red, poseHome1);
+    getRobotPose(imgHsv, purple, poseHome2);
+    getRobotPose(imgHsv, green, poseAway1);
+    getRobotPose(imgHsv, blue, poseAway2);
+
+    //Print out robot positions
+   // cout << "[Vision] Robot Home 1: " << poseHome1.x << ", " << poseHome1.y << ", " << poseHome1.theta << endl;
+    cout << "[Vision] Robot Home 2: " << poseHome2.x << ", " << poseHome2.y << ", " << poseHome2.theta << endl;
+   // cout << "[Vision] Robot Away 1: " << poseAway1.x << ", " << poseAway1.y << ", " << poseAway1.theta << endl;
+  //  cout << "[Vision] Robot Away 2: " << poseAway2.x << ", " << poseAway2.y << ", " << poseAway2.theta << endl;
 
     // Calculate the ball position
-    getBallPose(roiFrame2, pink, poseBall);
+    getBallPose(imgHsv, pink, poseBall);
 
     // Publish positions
     home1_pub.publish(poseHome1);
+    home2_pub.publish(poseHome2);
+    away1_pub.publish(poseAway1);
+    away2_pub.publish(poseAway2);
 
-    //cout << "Ball X: " << poseBall.x << endl;
-    //cout << "Ball Y: " << poseBall.y << endl;
     ball_pub.publish(poseBall);
 
 }
 
+// TODO: Dallon, try background subtraction!
 void getCenter(Mat frame)
 {
     Mat imgHsv;
@@ -367,13 +438,11 @@ void getCenter(Mat frame)
     ls2->detect(roiImage, lines_std2);
     Mat drawnLines2(roiImage);
 
-
-    dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(5, 5)));
+    //dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(5, 5)));
+    dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(10, 10)));
 
     // Undo the dilation a little
     erode(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(4, 4)));
-
-   // imshow("ugh", drawnLines2);
 
     // Sort lines into vertical and horizontal groups
     vector<Vec4f> v_lines; // (x,y) (x, y)
@@ -405,6 +474,9 @@ void getCenter(Mat frame)
 
     ls2->drawSegments(drawnLines2, lines_std2);
 
+        //dilate(drawnLines2, drawnLines2, getStructuringElement(MORPH_RECT, Size(8, 2)));
+
+
     int leftCount = 0;
     float leftSum = 0;
     int rightCount = 0;
@@ -413,8 +485,6 @@ void getCenter(Mat frame)
     float topSum = 0;
     int bottomCount = 0;
     float bottomSum = 0;
-
-
 
     // x < 340 => left side
     // x > 420 => right side
@@ -431,7 +501,6 @@ void getCenter(Mat frame)
             rightCount++;
         }
     }
-
 
     // lines with y < 30 is top
     // lines with y > 420 is bottom
@@ -456,8 +525,7 @@ void getCenter(Mat frame)
 
     rightXBorder = rightSum/rightCount;
 
-  //  imshow("LS222", drawnLines2);
-
+    imshow("lines", drawnLines2);
     waitKey(60);
 
 
@@ -468,7 +536,6 @@ void getCenter(Mat frame)
 
     Mat roiImage2 = drawnLines2(roi2);
 
-
     // calculate the center using the ROI
     float centerY = (bottomYBorder - topYBorder)/2;
     float centerX = (rightXBorder - leftXBorder)/2;
@@ -478,17 +545,9 @@ void getCenter(Mat frame)
 
     cout << "Center: " << center_field.x << ", " << center_field.y << endl;
 
-
     Point2d center_point (centerX, centerY);
 
     centerToWorldCoordinates(center_point);
-
-
-    // The center is DIFFERENT for the ROI image.
-
-  //  imshow("LS222", drawnLines2);
-
-  //  waitKey(60);
 }
 
 //Called when data is subscribed
@@ -503,21 +562,23 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
         if (firstRun == 0)
         {
              getCenter(frame);
-             firstRun = 1;
         }
         //getCenter(frame);
-        processImage(frame);
+       // processImage(frame);
 
         // Show the cropped field
         Rect roi(30, 0, 790, 480);
         Mat roiFrame1 = frame(roi);
 
         Rect roi2(leftXBorder + 4, topYBorder + 6, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
-        //Rect roi2(leftXBorder, topYBorder, rightXBorder - leftXBorder, bottomYBorder - topYBorder);
-
         Mat roiFrame2 = roiFrame1(roi2);
 
-         imshow("Cropped Frame", roiFrame2);
+        processImage(roiFrame2);
+
+
+        firstRun = 1;
+
+        imshow("Cropped Frame", roiFrame2);
         waitKey(60);
     }
     catch (cv_bridge::Exception& e)
@@ -548,16 +609,13 @@ void mouseCallback(int event, int x, int y, int flags, void* userdata) {
 
 // This function is called whenever a trackbar changes
 void on_trackbar( int, void* ) {
+    pink[0](0) = H_MIN;
+    pink[0](1) = S_MIN;
+    pink[0](2) = V_MIN;
 
-    //cout << "Trackbar" << endl;
-
-    blue[0](0) = H_MIN;
-    blue[0](1) = S_MIN;
-    blue[0](2) = V_MIN;
-
-    blue[1](0) = H_MAX;
-    blue[1](1) = S_MAX;
-    blue[1](2) = V_MAX;
+    pink[1](0) = H_MAX;
+    pink[1](1) = S_MAX;
+    pink[1](2) = V_MAX;
 
 }
 
@@ -612,6 +670,9 @@ int main(int argc, char **argv)
 
     // Publish the robot's position (x and y)
     home1_pub = nh.advertise<geometry_msgs::Pose2D>("truffle/home1", 5);
+    home2_pub = nh.advertise<geometry_msgs::Pose2D>("truffle/home2", 5);
+    away1_pub = nh.advertise<geometry_msgs::Pose2D>("truffle/away1", 5);
+    away2_pub = nh.advertise<geometry_msgs::Pose2D>("truffle/away2", 5);
     ball_pub = nh.advertise<geometry_msgs::Pose2D>("truffle/ball", 5);
 
     ros::spin();

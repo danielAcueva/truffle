@@ -5,12 +5,92 @@ using namespace std;
 using namespace geometry_msgs; 
 using namespace Eigen;
 
+#define USE_PID FALSE
+
+
+#if USE_PID
+Ts = 20;
+sigma = 50;
+kp_x = 0.5;//not used right now
+kd_x = 0.3;
+ki_x = 0;//0.2;
+kp_y = 0.5;//not used right now
+kd_y = 0.3;
+ki_y = 0;//0.2;
+
+double get_x_velocity(pos_d, pos,kp,kd,ki)
+{
+    static posdot=0;
+    static pos_d1=0;
+    static integrator=0;
+    static error_d1=0;
+    
+    //compute the error
+    error = pos_r - pos;
+    
+    // use a digital differentiator to find posdot  
+    posdot = (2*sigma-Ts)/(2*sigma+Ts)*posdot+2/(2*sigma+Ts)*(pos-pos_d1);
+    if (abs(posdot)<0.05)
+    {
+        integrator = integrator + (Ts/2)*(error+error_d1);
+    }
+    // implement integrator
+    error_d1 = error;
+    pos_d1 = pos;
+    vel_unsat = kp*error + ki*integrator - kd*zdot;
+    vel = vel_unsat;//sat( vel_unsat, vel_max);
+    
+    //anti-windup
+    if(ki)
+    {
+        integrator = integrator + Ts/ki*(vel-vel_unsat);
+    }
+    return vel;
+}
+
+double get_y_velocity(pos_d, pos,kp,kd,ki)
+{
+    static posdot=0;
+    static pos_d1=0;
+    static integrator=0;
+    static error_d1=0;
+    
+    //compute the error
+    error = pos_r - pos;
+    
+    // use a digital differentiator to find posdot  
+    posdot = (2*sigma-Ts)/(2*sigma+Ts)*posdot+2/(2*sigma+Ts)*(pos-pos_d1);
+    if (abs(posdot)<0.05)
+    {
+        integrator = integrator + (Ts/2)*(error+error_d1);
+    }
+    // implement integrator
+    error_d1 = error;
+    pos_d1 = pos;
+    vel_unsat = kp*error + ki*integrator - kd*zdot;
+    vel = vel_unsat;//sat( vel_unsat, vel_max);
+    
+    //anti-windup
+    if(ki)
+    {
+        integrator = integrator + Ts/ki*(vel-vel_unsat);
+    }
+    return vel;
+}
+
+#endif 
+
+
 //Strategy Functions
 // skill - follow ball on line
 //   Follows the y-position of the ball, while maintaining x-position at x_pos. 
 //   Angle always faces the goal.
 void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int robotId)
 {
+    #if USE_PID
+    double vx = get_x_velocity(x_pos,robot.pos(0),kp_x,kd_x,ki_x);
+    double vy = get_x_velocity(ball(1),robot.pos(1),kp_y,kd_y,ki_y);
+    #else
     // control x position to stay on current line
     //CONTROL_K_XY is constant value of 5. multiplied by offset.
     //x pos is -2 * field width. 
@@ -18,7 +98,9 @@ void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int ro
 
     // control y position to match the ball's y-position
     //CONTROL times offset between ball(y) and robot Y position
-    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
+    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));check_collision;
+
+    #endif
 
     /*if (abs(ball(1)) > 0.75) // if playing defense_arch, keeps out of corners
     {
@@ -85,7 +167,7 @@ void play_rushGoal(RobotPose robot, Vector2d ball, int robotId)
     // compute position 10cm behind ball, but aligned with goal.
     // Ball position - 10 cm (nomalized vector aligning the ball and goal)
     //This should put the robot behind the ball
-    Vector2d position = ball - 0.2*n;
+    Vector2d position = ball - 0.4*n;
 
     //Keep going towards goal
     if(utility_vecLength(position - robot.pos) < 0.21){
@@ -105,6 +187,7 @@ void skill_goToBall(RobotPose robot, Vector2d point, int robotId)
     Vector2d vxy;                                       //Create a vector
     if ((utility_vecLength(robot.pos - ball)) > .6){    //When we are far from ball
         vxy = pointDiff * (CONTROL_K_XY/2);                 //Go to max velocity
+
     }
     else if ((utility_vecLength(robot.pos - ball)) < .1){   //When we are close to the ball
         vxy = pointDiff * (CONTROL_K_XY/2);                     //Go to a slower velocity
@@ -121,6 +204,35 @@ void skill_goToBall(RobotPose robot, Vector2d point, int robotId)
     Vector3d v;
     v << vxy, omega;
     v = utility_saturateVelocity(v);
+    publish_moveRobot(v, robotId);
+}
+
+// skill - go to point
+//   Travels towards a point. Angle always faces the goal.
+void skill_goToBallHard(RobotPose robot, Vector2d point, int robotId)
+{
+    //Find the unit vector from point to robot difference
+    Vector2d pointDiff = utility_unitVector(point - robot.pos);
+    Vector2d vxy;                                       //Create a vector
+    //if ((utility_vecLength(robot.pos - ball)) > .6){    //When we are far from ball
+        vxy = pointDiff * CONTROL_K_XY;                 //Go to max velocity
+
+    //}
+    //else if ((utility_vecLength(robot.pos - ball)) < .1){   //When we are close to the ball
+        //vxy = pointDiff * (CONTROL_K_XY/2);                     //Go to a slower velocity
+    //}
+    //else{
+      //  vxy = pointDiff;                                //Go to a slower velocity       
+    //}
+    // control angle to face the goal
+    Vector2d dirGoal = goal - robot.pos;
+    double theta_d = atan2(dirGoal(1), dirGoal(0));
+    double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+
+    // Output velocities to motors
+    Vector3d v;
+    v << vxy, omega;
+    v = utility_saturateVelocityHard(v);
     publish_moveRobot(v, robotId);
 }
 
@@ -245,12 +357,12 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
 
         //This is the point we want to get to. we may be in front of the ball though
         //This would cause us to go straight for the point, hitting the ball in the wrong direction
-        if(utility_vecLength(point - robot.pos) < 0.21)
+        //if(utility_vecLength(point - robot.pos) < 0.21)
+        if ((fabs(robot.pos(0) - point(0)) < 0.05) && (fabs(robot.pos(1) - point(1)) < 0.05))
         { 
               //point = avoid_robots(ball);
              // skill_goToBall(robot, point, robotId);
-              skill_goToBall(robot, ball, robotId);
-
+              skill_goToBallHard(robot, ball, robotId);
               return;
         }
     
@@ -258,7 +370,6 @@ void play_getBehindBall(RobotPose robot, Vector2d ball, int robotId)
     //point = avoid_robots(point);
     skill_goToBall(robot, point, robotId);
     return;
-
 }
 
 void play_go_to_ball(RobotPose robot, Vector2d ball, int robotId)
@@ -427,14 +538,30 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 	}*/
 
     //Draw a line from position we want to go and current robot location
-	Vector2d my_unit_vector = utility_unitVector(robot.pos - point);
-	////////////FIXED TO ALLY 2. CHANGE IN FUTURE
-	Vector2d ally_unit_vector = utility_unitVector(ally2.pos - point);
-	Vector2d opp1_unit_vector = utility_unitVector(opp1.pos - point);
-	Vector2d opp2_unit_vector = utility_unitVector(opp2.pos - point);
+    Vector2d my_unit_vector = utility_unitVector(robot.pos - point);;
+    Vector2d ally_unit_vector;
+    //Draw a line from position we want to go and current robot location
+    if (robotId == 1)
+    {
+        Vector2d ally_unit_vector = utility_unitVector(ally2.pos - point);
+    }
+    else
+    {
+        Vector2d ally_unit_vector = utility_unitVector(ally1.pos - point);            
+    }
+    Vector2d opp1_unit_vector = utility_unitVector(opp1.pos - point);
+    Vector2d opp2_unit_vector = utility_unitVector(opp2.pos - point);
 
-	double dist = utility_vecLength(robot.pos - point);
-	double dist_from_ally = utility_vecLength(ally2.pos - point);
+    double dist = utility_vecLength(robot.pos - point);
+    double dist_from_ally;
+    if (robotId == 1)
+    {
+        double dist_from_ally = utility_vecLength(ally2.pos - point);
+    }
+    else
+    {
+        double dist_from_ally = utility_vecLength(ally1.pos - point);            
+    }
 	double dist_from_opp1 = utility_vecLength(opp1.pos - point);
 	double dist_from_opp2 = utility_vecLength(opp2.pos - point);
 
@@ -447,9 +574,16 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 		(dist_from_ally < dist) &&
 		(abs(dist - dist_from_ally) > .4))
 	{
-		pos_calc_1 = avoid_point_calc(ally2.pos, 1);
-		pos_calc_2 = avoid_point_calc(ally2.pos, 2);
-
+        if (robotId == 1)
+        {
+            pos_calc_1 = avoid_point_calc(ally2.pos, 1);
+            pos_calc_2 = avoid_point_calc(ally2.pos, 2);
+        }
+        else
+        {
+            pos_calc_1 = avoid_point_calc(ally1.pos, 1);
+            pos_calc_2 = avoid_point_calc(ally1.pos, 2);           
+        }
 		//Check to see which calculated point is closer
 		if (utility_vecLength(pos_calc_1 - robot.pos) < utility_vecLength(pos_calc_2 - robot.pos))
 		{
@@ -523,7 +657,7 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 	return point;
 }
 
-bool object_in_path(RobotPose robot)
+bool object_in_path(RobotPose robot, int robotNumber)
 {
     /*
     *   ___________________________
@@ -560,17 +694,32 @@ bool object_in_path(RobotPose robot)
         //This returns a normalized vector alligned with ball and goal
         //Vector2d n = utility_unitVector(goal - ball);
 
-	    //Draw a line from position we want to go and current robot location
-		Vector2d my_unit_vector = utility_unitVector(robot.pos - point);
-		////////////FIXED TO ALLY 2. CHANGE IN FUTURE
-		Vector2d ally_unit_vector = utility_unitVector(ally2.pos - point);
-		Vector2d opp1_unit_vector = utility_unitVector(opp1.pos - point);
-		Vector2d opp2_unit_vector = utility_unitVector(opp2.pos - point);
+        Vector2d my_unit_vector = utility_unitVector(robot.pos - point);;
+        Vector2d ally_unit_vector;
+        //Draw a line from position we want to go and current robot location
+        if (robotNumber == 1)
+        {
+            Vector2d ally_unit_vector = utility_unitVector(ally2.pos - point);
+        }
+        else
+        {
+            Vector2d ally_unit_vector = utility_unitVector(ally1.pos - point);            
+        }
+        Vector2d opp1_unit_vector = utility_unitVector(opp1.pos - point);
+        Vector2d opp2_unit_vector = utility_unitVector(opp2.pos - point);
 
-		double dist = utility_vecLength(robot.pos - point);
-		double dist_from_ally = utility_vecLength(ally2.pos - point);
-		double dist_from_opp1 = utility_vecLength(opp1.pos - point);
-		double dist_from_opp2 = utility_vecLength(opp2.pos - point);
+        double dist = utility_vecLength(robot.pos - point);
+        double dist_from_ally;
+        if (robotNumber == 1)
+        {
+            double dist_from_ally = utility_vecLength(ally2.pos - point);
+        }
+        else
+        {
+            double dist_from_ally = utility_vecLength(ally1.pos - point);            
+        }
+        double dist_from_opp1 = utility_vecLength(opp1.pos - point);
+        double dist_from_opp2 = utility_vecLength(opp2.pos - point);
 
 		//If the vector is within 5 degrees, This object is in our path
 		//If so, change the point path to avoid collision

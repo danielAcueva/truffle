@@ -22,6 +22,8 @@ using namespace Eigen;
 
 bool is_avoid_running();
 
+void set_robot(int robot_number_in);
+
 void set_call_play_avoid(bool input);
 
 void intercept_avoid_tick();

@@ -17,7 +17,7 @@ using namespace Eigen;
 
 //Controller constants
 #define PI 3.14159
-#define ROBOT_MAX_VXY 2.0
+#define ROBOT_MAX_VXY 1.0
 #define ROBOT_MAX_OMEGA 6*PI //Was 2*M_PI
 #define CONTROL_K_XY 5
 #define CONTROL_K_OMEGA 2
@@ -47,6 +47,7 @@ extern Vector2d goal;
 extern RobotPose ally1, ally2;						//Ally's are made of struct pose
 extern RobotPose opp1, opp2;						//Opponents are made of struct pose
 extern Vector2d ball;								//Ball is a 2d vector
+extern Vector2d ball_expected;								//Ball is a 2d vector
 extern Vector2d ally1_startingPos;					//starting position. 2d vector
 extern Vector2d ally2_startingPos;					//starting position. 2d vector
 

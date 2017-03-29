@@ -16,6 +16,8 @@ int state_count = 0;
 Vector2d avoid_point;
 bool call_play_avoid = false;
 bool avoid_running = false;
+int robot_number = 1;
+RobotPose robot = ally1;
 
 bool is_avoid_running()
 {
@@ -25,6 +27,20 @@ bool is_avoid_running()
 void set_call_play_avoid(bool input)
 {
 	call_play_avoid = input;
+}
+
+void set_robot(int robot_number_in)
+{
+	if (robot_number_in == 1)
+	{
+		robot = ally1;
+		robot_number = 1;
+	}
+	else
+	{
+		robot = ally2;
+		robot_number = 2;
+	}
 }
 
 void intercept_avoid_tick()
@@ -47,13 +63,13 @@ void intercept_avoid_tick()
 
 			//cout << "new point: " << avoid_point(0) << ", " << avoid_point(1) << endl;
 
-			skill_goToPoint(ally1, avoid_point, 1);
+			skill_goToPoint(robot, avoid_point, robot_number);
 			state_count++;
 			break;
 		}
 		case go_to_ball:
 		{
-			play_getBehindBall(ally1, ball, 1);
+			play_getBehindBall(robot, ball, robot_number);
 			state_count++;
 			break;
 		}
@@ -76,10 +92,10 @@ void intercept_avoid_tick()
 		case check_avoid_point:
 		{
 			//Check if there is an abject in my way
-			if (object_in_path(ally1))
+			if (object_in_path(robot, robot_number))
 			{
 				//Set the point so we can move toward it 
-				avoid_point = check_collision(ally1, ball, 1);
+				avoid_point = check_collision(robot, ball, robot_number);
 				//Go to the avoid point state
 				state_count = 0;
 				IA_state = go_to_avoid_point;

@@ -3,13 +3,23 @@
 
 
         <node name="vision1" pkg="truffle" type="vision1" output="screen">
-            
+
+
         </node>
         <node name="controller1" pkg="truffle" type="controller1" output="screen">
+        	
             <remap from="ally1_vision" to="/truffle/home1" />
+            <remap from="ally2_vision" to="/truffle/home2" />
+            <remap from="opponent1_vision" to="/truffle/away1" />
+            <remap from="opponent2_vision" to="/truffle/away2" />
 
             <remap from="ball_vision" to="/truffle/ball" />
+            <!--<remap from="ball_vision" to="/game_state" />-->
+            
 
         </node>
+
+        <depend package="soccerref" />
+
 
 </launch>

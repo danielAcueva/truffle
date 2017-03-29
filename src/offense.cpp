@@ -38,13 +38,16 @@ void playOffense(int robotNumber)
 		//play_go_to_ball(ally1, ball, 1);
 		/////skill_goToBall(ally1, ball, 1);
 		/////check_collision(ally1, ball, 1);
-		play_getBehindBall(ally1, ball, 1);
-		//set_call_play_avoid(true);
+		//play_getBehindBall(ally1, ball, 1);
+		set_call_play_avoid(true);
+		//play_rushGoal(ally2, ball, 2)
 	}
 
 	
 	else if (robotNumber == 2)
 	{
+		set_robot(2);
+		set_call_play_avoid(true);
 		// if the other team has control of the ball
 		/*if (robot_has_ball(opp1, false))
 		{
@@ -62,6 +65,7 @@ void playOffense(int robotNumber)
 			play_getBehindBall(ally2, ball, 2);
 		}*/
 
-		play_getBehindBall(ally2, ball, 2);
+		//play_getBehindBall(ally2, ball, 2);
+		//play_rushGoal(ally2, ball, 2);
 	}
 }
