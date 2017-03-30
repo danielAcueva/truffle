@@ -30,7 +30,7 @@ using namespace geometry_msgs;
 #define FIELD_WIDTH     3.175  // in meters
 #define FIELD_HEIGHT    2.22 
 #define ROBOT_RADIUS    0.10
-#define GUI_NAME "Soccer Overhead Camera"
+#define GUI_NAME "Camera"
 #define LINES_WINDOW "Trackbars"
 
 // Mouse click parameters, empirically found
@@ -38,6 +38,8 @@ using namespace geometry_msgs;
 // (i.e., it will be above the mouse in +y region)
 #define FIELD_WIDTH_PIXELS      642.0 // measured from threshold of goal to goal
 #define FIELD_HEIGHT_PIXELS     440.0 // measured from inside of wall to wall
+
+#define DEBUG 1 // 1 for extra debug print statements
 
 
 // Jersey colors
@@ -79,9 +81,13 @@ int thresh_val_home2 = 0;
 int thresh_val_away1 = 0;
 int thresh_val_away2 = 0;
 
+char lastKeyPressed;
 
 //Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 0.6, 2.0, 13.0, 20); // better?
 Ptr<LineSegmentDetector> ls2 = createLineSegmentDetector(LSD_REFINE_ADV, 0.3, 1, 2.0, 15.0, 20, 0.1, 2048); // better?
+
+
+Mat ballGray; // ball position
 
 
 /*
@@ -94,7 +100,7 @@ C++: Ptr<LineSegmentDetector> createLineSegmentDetector
 
 LSD_REFINE_NONE - No refinement applied.
 LSD_REFINE_STD - Standard refinement is applied. E.g. breaking arches into smaller straighter line approximations.
-LSD_REFINE_ADV - Advanced refinement. Number of false alarms is calculated, lines are refined through increase of precision, decrement in size, etc.
+LSD_REFINE_ADV - Advanced erfinement. Number of false alarms is calculated, lines are refined through increase of precision, decrement in size, etc.
 scale – The scale of the image that will be used to find the lines. Range (0..1].
 
 sigma_scale – Sigma for Gaussian filter. It is computed as sigma = _sigma_scale/_scale.
@@ -242,9 +248,12 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
     // Also, Hamad says they did something where in the beginning, they click their robot (with imshow)
     // which gets the HSV values, then they do like +- on the values do get a
 
+
+
+
+
     if (&robotPose == &poseHome1)
     {
-
 
         if (!firstRun)
         {
@@ -254,8 +263,12 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
         {
            threshold(imgGray, th3, thresh_val_home1, 255, THRESH_BINARY);
         }
-          //  imshow("adapt me", th3);
-          //  waitKey(60); 
+
+        if(lastKeyPressed == 'd')
+        {
+            imshow(GUI_NAME, th3);
+            waitKey(60); 
+        }
 
     }
     else if (&robotPose == &poseHome2)
@@ -268,6 +281,13 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
         {
            threshold(imgGray, th3, thresh_val_home2, 255, THRESH_BINARY);
         }
+
+        if(lastKeyPressed == 'e')
+        {
+            imshow(GUI_NAME, th3);
+            waitKey(60); 
+        }
+
     }
     else if (&robotPose == &poseAway1)
     {
@@ -278,6 +298,12 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
         else
         {
            threshold(imgGray, th3, thresh_val_away1, 255, THRESH_BINARY);
+        }
+
+        if(lastKeyPressed == 'f')
+        {
+            imshow(GUI_NAME, th3);
+            waitKey(60); 
         }
  
     }
@@ -290,6 +316,12 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
         else
         {
            threshold(imgGray, th3, thresh_val_away2, 255, THRESH_BINARY);
+        }
+
+        if(lastKeyPressed == 'g')
+        {
+            imshow(GUI_NAME, th3);
+            waitKey(60); 
         }
 
     }   
@@ -331,6 +363,30 @@ void getRobotPose(Mat& imgHsv, Scalar color[], Pose2D &robotPose)
     robotPose.x = robotCenter.x;
     robotPose.y = robotCenter.y;
     robotPose.theta = angle;
+
+
+    if (DEBUG)
+    {
+        switch(lastKeyPressed)
+        {
+            case 'd':
+                cout << "[Vision] Robot Home 1: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+                break;
+            case 'e':
+                cout << "[Vision] Robot Home 2: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+                break;
+            case 'f':
+                cout << "[Vision] Robot Away 1: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+                break;
+            case 'g':
+                cout << "[Vision] Robot Away 2: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+                break;
+            default:        
+                break;
+        }
+    }
+
+
 }
 
 // We need this function to define how to sort
@@ -350,10 +406,14 @@ void getBallPose(Mat& imgHsv, Scalar color[], geometry_msgs::Pose2D& ballPose)
     Mat imgGray;
     thresholdImage(imgHsv, imgGray, color);
 
+    // save the ball positing mat (before finding contours)
 
-    imshow("adapt me", imgGray);
-    waitKey(60); 
-
+    // if C
+    if(lastKeyPressed == 'c')
+    {
+        // Show ball position
+        imshow(GUI_NAME, imgGray);
+    }
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -398,7 +458,7 @@ void processImage(Mat frame)
 
     //Print out robot positions
    // cout << "[Vision] Robot Home 1: " << poseHome1.x << ", " << poseHome1.y << ", " << poseHome1.theta << endl;
-    cout << "[Vision] Robot Home 2: " << poseHome2.x << ", " << poseHome2.y << ", " << poseHome2.theta << endl;
+    //cout << "[Vision] Robot Home 2: " << poseHome2.x << ", " << poseHome2.y << ", " << poseHome2.theta << endl;
    // cout << "[Vision] Robot Away 1: " << poseAway1.x << ", " << poseAway1.y << ", " << poseAway1.theta << endl;
   //  cout << "[Vision] Robot Away 2: " << poseAway2.x << ", " << poseAway2.y << ", " << poseAway2.theta << endl;
 
@@ -525,8 +585,8 @@ void getCenter(Mat frame)
 
     rightXBorder = rightSum/rightCount;
 
-    imshow("lines", drawnLines2);
-    waitKey(60);
+    //imshow("lines", drawnLines2);
+    //waitKey(60);
 
 
     // Using border values, crop the image.
@@ -553,18 +613,24 @@ void getCenter(Mat frame)
 //Called when data is subscribed
 void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 {
+    Mat result;
     try
     {
         //capture the data
         Mat frame = cv_bridge::toCvShare(msg, "bgr8")->image;
         //Process the image. This will process the data
 
+
+
         if (firstRun == 0)
         {
              getCenter(frame);
         }
-        //getCenter(frame);
-       // processImage(frame);
+
+
+
+
+
 
         // Show the cropped field
         Rect roi(30, 0, 790, 480);
@@ -575,11 +641,30 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
         processImage(roiFrame2);
 
-
         firstRun = 1;
 
-        imshow("Cropped Frame", roiFrame2);
-        waitKey(60);
+        if (lastKeyPressed == 'a')
+        {
+            imshow(GUI_NAME, frame);
+        }
+        else if (lastKeyPressed == 'b')
+        {
+            imshow(GUI_NAME, roiFrame2);
+        }
+
+       
+    // Wait for key press (for the display menu)
+    char key = waitKey(60);
+    if(key != -1) // no key pressed
+    {
+        lastKeyPressed = key;
+    }
+
+    if(key == 'q')
+    {
+        ros::shutdown();
+    }
+
     }
     catch (cv_bridge::Exception& e)
     {
@@ -643,10 +728,23 @@ void createHSVTrackbars() {
     */
 }
 
-void setPlayerColors(int val[])
+
+
+void printMenu()
 {
-    for(int i = 0; i < 6; i++)
-        playerColor[i] = val[i];
+    printf("Menu: Make sure the 'Display' Window is in focus to type\n");
+    printf("a - Show original image\n");
+    printf("b - Show cropped image\n");
+    
+    cout << "c - Show ball position" << endl;
+    cout << "d - Show ally1 position" << endl;
+    cout << "e - Show ally2 position" << endl;
+    cout << "f - Show opp1 position" << endl;
+    cout << "g - show opp2 position" << endl;
+
+    printf("e - Show borders and ball location\n");
+    printf("z - Modify borders of field\n");
+    printf("q - Quit\n");
 }
 
 int main(int argc, char **argv)
@@ -660,6 +758,8 @@ int main(int argc, char **argv)
     // Create OpenCV Window and add a mouse callback for clicking
     namedWindow(GUI_NAME, CV_WINDOW_AUTOSIZE);
     setMouseCallback(GUI_NAME, mouseCallback, NULL);
+    printMenu();
+
     createHSVTrackbars();
 
     // Subscribe to camera

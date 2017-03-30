@@ -66,7 +66,7 @@ void publish_moveRobot(Vector3d v_world, int robotId)
     else if(robotId == 2)					//If robot number 2
     {
         motor_pub2.publish(v);				//Publish the move
-        cout << "Motor Publish 2: X " << v.linear.x << " Y " << v.linear.y << " Z " << v.angular.z << endl;
+        //cout << "Motor Publish 2: X " << v.linear.x << " Y " << v.linear.y << " Z " << v.angular.z << endl;
     }
 }
 
