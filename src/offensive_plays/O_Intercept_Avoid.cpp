@@ -5,7 +5,8 @@ using namespace geometry_msgs;
 using namespace Eigen;
 
 //FIXED TO ROBOT ALLY1. CHANGE AT SOME POINT!!!!!!!!
-#define STATE_EXPIRE 10
+#define STATE_EXPIRE 30
+#define POSITION_EXPIRE 5
 
 //Create an enumerated type for all of the states in the SM
 //The starting point will be wait_for_play
@@ -18,6 +19,8 @@ bool call_play_avoid = false;
 bool avoid_running = false;
 int robot_number = 1;
 RobotPose robot = ally1;
+int position_count = 0;
+
 
 bool is_avoid_running()
 {

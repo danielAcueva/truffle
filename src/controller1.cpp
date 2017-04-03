@@ -5,7 +5,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Twist.h>
-//#include <soccerref/GameState.h>
+#include "soccerref/GameState.h"
 #include "globals.h"
 #include "helper.h"
 #include "controller1.h"
@@ -25,8 +25,8 @@ ros::Publisher motor_pub2;					//Publish motor_pub2
 ros::Subscriber vsub_ally1, vsub_ally2;		//Subscribe to vsub_ally1, vsub_ally2
 ros::Subscriber vsub_opp1, vsub_opp2;		//Subscribe to vsub_opp1, vsub_opp2
 ros::Subscriber ball_pub;					//Subscribe to the ball
-//ros::Subscriber game_state_sub;				//subscribe to the game state
-//soccerref::GameState gameState;				//Soccer referee
+ros::Subscriber game_state_sub;				//subscribe to the game state
+soccerref::GameState gameState;				//Soccer referee
 
 string team;
 Vector2d goal;
@@ -36,6 +36,11 @@ Vector2d ball;								//Ball is a 2d vector
 Vector2d ball_expected;                              //Ball is a 2d vector
 Vector2d ally1_startingPos;					//starting position. 2d vector
 Vector2d ally2_startingPos;					//starting position. 2d vector
+
+
+
+
+bool global_is_home = false;
 
 //function to move the robot 
 void publish_moveRobot(Vector3d v_world, int robotId)
@@ -50,11 +55,15 @@ void publish_moveRobot(Vector3d v_world, int robotId)
     {
         v.linear.x = v_world(0);               //Move X
     }*/
-    //////HOME
-    v.linear.x = v_world(0);               //Move X
-    //////AWAY 
-    //v.linear.x = -v_world(0);				//Move X
-    ////
+
+    if(global_is_home) // HOME 
+    {
+        v.linear.x = v_world(0);               //Move X
+    }
+    else // AWAY
+    {
+        v.linear.x = -v_world(0);             //Move X
+    }
     v.linear.y = v_world(1);				//Move Y
     v.angular.z = v_world(2);				//Move z
 
@@ -87,11 +96,13 @@ RobotPose utility_toRobotPose(Pose2D robot)
         robot.theta  = utility_angleMod(robot.theta + 180);
     }
     */
-    ///////HOME COMMENT OUT AWAY
-    ///////AWAY
-    //robot.x = -robot.x;
-    //robot.theta  = utility_angleMod(robot.theta + 180);
-    /////////////
+    
+    if(!global_is_home)//AWAY
+    {
+        robot.x = -robot.x;
+        robot.theta  = utility_angleMod(robot.theta + 180);
+    }
+
     Vector2d pos;
     pos << robot.x, robot.y;
     return (RobotPose){pos, robot.theta};
@@ -106,10 +117,11 @@ Vector2d utility_toBallPose(Pose2D ball)
         ball.x = -ball.x;
     }
     */
-    ///////HOME COMMENT OUT AWAY
-    ///////AWAY
-    //ball.x = -ball.x;
-    /////////////////
+
+    if(!global_is_home)//AWAY
+    {
+        ball.x = -ball.x;
+    }
 
     Vector2d pos;
     pos << ball.x, ball.y;
@@ -146,10 +158,10 @@ void visionCallback(const geometry_msgs::Pose2D::ConstPtr &msg, const std::strin
   //  cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
 }
 
-//void gameStateCallback(const soccerref::GameState::ConstPtr &msg)
-//{
-  //  gameState = *msg;
-//}
+void gameStateCallback(const soccerref::GameState::ConstPtr &msg)
+{
+    gameState = *msg;
+}
 
 int main(int argc, char **argv)
 {
@@ -170,7 +182,7 @@ int main(int argc, char **argv)
     vsub_opp1 = nh.subscribe<geometry_msgs::Pose2D>("opponent1_vision", 1, boost::bind(visionCallback, _1, "opponent1"));
     vsub_opp2 = nh.subscribe<geometry_msgs::Pose2D>("opponent2_vision", 1, boost::bind(visionCallback, _1, "opponent2"));
     ball_pub = nh.subscribe<geometry_msgs::Pose2D>("ball_vision", 1, boost::bind(visionCallback, _1, "ball"));
-    //game_state_sub = nh.subscribe<soccerref::GameState>("/game_state", 1, gameStateCallback);
+    game_state_sub = nh.subscribe<soccerref::GameState>("/game_state", 1, gameStateCallback);
     motor_pub1 = nh.advertise<geometry_msgs::Twist>("ally1/vel_cmds", 5);
     ////motor_pub1 = nh.advertise<geometry_msgs::Twist>("truffle/vel_cmds", 5);
 

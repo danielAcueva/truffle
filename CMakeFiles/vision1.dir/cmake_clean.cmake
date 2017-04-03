@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/vision1.dir/src/vision1.cpp.o"
-  "../devel/lib/truffle/vision1.pdb"
-  "../devel/lib/truffle/vision1"
+  "/home/robot/catkin_ws/devel/lib/truffle/vision1.pdb"
+  "/home/robot/catkin_ws/devel/lib/truffle/vision1"
 )
 
 # Per-language clean rules from dependency scanning.
