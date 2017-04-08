@@ -2,9 +2,7 @@
 <launch>
 
 	<group ns="truffle">
-        <node name="vision1" pkg="truffle" type="vision1" launch-prefix="xterm -e" output="screen">
-
-
+            <node name="truffle_vision" pkg="truffle" type="truffle_vision" launch-prefix="xterm -e" output="screen">
         </node>
         <node name="controller1" pkg="truffle" type="controller1" output="screen">
         	

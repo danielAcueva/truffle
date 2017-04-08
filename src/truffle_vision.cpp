@@ -27,7 +27,7 @@ void updateTrackbarValues();
 // Jersey colors
 
 // Home Jersey Colors
-Scalar blue[] = {Scalar(93, 103, 233), Scalar(102, 144, 249)}; 
+Scalar blue[] = {Scalar(89, 124, 225), Scalar(105, 172, 248)}; 
 Scalar purple[] = {Scalar(140, 26, 220), Scalar(154, 50, 240)};
 
 // Away Jersey Colors
@@ -135,7 +135,24 @@ Point2d centerToWorldCoordinates(Point2d point_i) {
     return center_w;
 }
 
-void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
+
+/*
+* Sorts contours by area (descending order)
+*/
+vector<vector<Point>> sortContours(vector<vector<Point>> contours, vector<Vec4i> hierarchy)
+{
+    auto sortRuleLambda = [] (const vector<Point>& c1, const vector<Point>& c2) -> bool
+    {
+       return contourArea(c1, false) > contourArea(c2, false);
+    };
+
+    sort(contours.begin(), contours.end(), sortRuleLambda);
+
+    return contours;
+}
+
+
+void getRobotPose(Mat &imgHsv, Scalar color[], Pose2D &robotPose) {
     Mat imgGray;
 
     //imgHsv and imgGray are passed by reference
@@ -231,41 +248,50 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
     // We want to make sure there are two
     // we have two colored identifiers on the robot jersey
     if (hierarchy.size() != 2) {
-        if (DEBUG) {
-            switch (lastKeyPressed) {
-                case 'd':
-                    if (&robotPose == &poseHome1)
-                    {
-                        cout << "[Vision] Robot Blue - Bad hierarchy" << endl;
-                    }
-                    break;
-                case 'e':
-                    if (&robotPose == &poseHome2)
-                    {
-                        cout << "[Vision] Robot Purple - Bad hierarchy" << endl;
-                    }
-                    break;
-                case 'f':
-                    if (&robotPose == &poseAway1)
-                    {
-                      cout << "[Vision] Robot Red - Bad hierarchy" << endl;
-                    }
-                    break;
-                case 'g':
-                    if (&robotPose == &poseAway2)
-                    {
-                        cout << "[Vision] Robot Yellow - Bad hierarchy" << endl;
-                    }
-                    break;
-                default:
-                    break;
+
+        if (hierarchy.size() < 2)
+        {
+            if (DEBUG) {
+                switch (lastKeyPressed) {
+                    case 'd':
+                        if (&robotPose == &poseHome1)
+                        {
+                            cout << "[Vision] Robot Blue - Bad hierarchy" << endl;
+                        }
+                        break;
+                    case 'e':
+                        if (&robotPose == &poseHome2)
+                        {
+                            cout << "[Vision] Robot Purple - Bad hierarchy" << endl;
+                        }
+                        break;
+                    case 'f':
+                        if (&robotPose == &poseAway1)
+                        {
+                          cout << "[Vision] Robot Red - Bad hierarchy" << endl;
+                        }
+                        break;
+                    case 'g':
+                        if (&robotPose == &poseAway2)
+                        {
+                            cout << "[Vision] Robot Yellow - Bad hierarchy" << endl;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            return;
         }
-        return;
+
+        // Delete all contours except two largest
+        // This is an attempt to get rid of small contours that show up that we don't want
+        contours = sortContours(contours, hierarchy); // sort by area (descending)
+        contours.resize(2); // keep only first 2 elements of vector
     }
 
     //Add to vector of moments, the heirarchy data
-    for (int i = 0; i < hierarchy.size(); i++)
+    for (int i = 0; i < contours.size(); i++)
         mm.push_back(moments((Mat) contours[i]));
 
     //Function helps with the sort
@@ -309,7 +335,7 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
         case 'g':
             if (&robotPose == &poseAway2)
             {
-            cout << "[Vision] Robot Away 2: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            cout << "[Vision] Robot Yellow: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
             }
             break;
         default:
@@ -331,8 +357,8 @@ void getBallPose(Mat & imgHsv, Scalar color[], geometry_msgs::Pose2D & ballPose)
         updateTrackbarValues();
     }
 
-    vector < vector < Point > > contours;
-    vector < Vec4i > hierarchy;
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
     findContours(imgGray, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
     if (hierarchy.size() != 1) {
@@ -407,7 +433,7 @@ void getCenter(Mat frame) {
 }
 
 //Called when data is subscribed
-void imageCallback(const sensor_msgs::ImageConstPtr & msg) {
+void imageCallback(const sensor_msgs::ImageConstPtr &msg) {
     Mat result;
     try {
         //capture the data
@@ -498,8 +524,18 @@ void mouseCallback(int event, int x, int y, int flags, void * userdata) {
             refPt[1] = point2;
             cropping = false;
 
-            roi_x = refPt[0].x;
-            roi_y = refPt[0].y;
+
+            if (refPt[0].x < refPt[1].x) // user dragged from left like a normal person
+            {
+                roi_x = refPt[0].x;
+                roi_y = refPt[0].y;
+            }
+            else // user is weird and dragged from right
+            {
+                roi_x = refPt[1].x;
+                roi_y = refPt[1].y;
+            }
+
             roi_width = abs(refPt[1].x - refPt[0].x);
             roi_height = abs(refPt[1].y - refPt[0].y);
 

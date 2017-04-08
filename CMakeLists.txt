@@ -26,10 +26,10 @@ catkin_package(CATKIN_DEPENDS roscpp rospy std_msgs std_srvs geometry_msgs messa
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
 # Declare C++ executables
-add_executable(vision1 src/vision1.cpp)
+add_executable(truffle_vision src/truffle_vision.cpp)
 find_package( OpenCV REQUIRED )
-target_link_libraries(vision1 ${OpenCV_LIBS})
-target_link_libraries(vision1 ${catkin_LIBRARIES})
+target_link_libraries(truffle_vision ${OpenCV_LIBS})
+target_link_libraries(truffle_vision ${catkin_LIBRARIES})
 
 # Declare a C++ executable (original)
 add_executable(controller1 src/controller1.cpp src/globals.cpp src/helper.cpp src/math.cpp src/strategy/strategy.cpp src/offense.cpp src/defense.cpp src/skills.cpp src/quadrant.cpp src/defensive_plays/D_Moving_Screen.cpp src/offensive_plays/O_Avoid_Corner.cpp src/offensive_plays/O_Dribble_Ball.cpp src/offensive_plays/O_Intercept_Ball.cpp src/offensive_plays/O_Intercept_Avoid.cpp)
