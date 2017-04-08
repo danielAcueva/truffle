@@ -8,8 +8,8 @@ using namespace Eigen;
 
 void playDefense(int robotNumber)
 {
-
-	skill_followBallOnLine(ally2, ball, -1.2, 2);
+	skill_on_ball_defense(ally2, ball, 2);
+	//skill_followBallOnLine(ally2, ball, -1.2, 2);
 	//playTriDefense(2);
 	/*if(robotNumber == 1)
 	{

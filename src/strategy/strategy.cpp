@@ -98,7 +98,7 @@ void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int ro
 
     // control y position to match the ball's y-position
     //CONTROL times offset between ball(y) and robot Y position
-    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));check_collision;
+    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
 
     #endif
 
@@ -129,6 +129,61 @@ void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int ro
     v << vx, vy, omega;					//Fill vector with calculated values
     v = utility_saturateVelocity(v);	//MIGHT BE USEFUL. I DONT KNOW WHAT IT DOES
     publish_moveRobot(v, robotId);				//Move the robot the calculated value
+}
+
+//Strategy Functions
+// 
+
+void skill_on_ball_defense(RobotPose robot, Vector2d ball, int robotId)
+{
+    //#if USE_PID
+    //double vx = get_x_velocity(x_pos,robot.pos(0),kp_x,kd_x,ki_x);
+    //double vy = get_x_velocity(ball(1),robot.pos(1),kp_y,kd_y,ki_y);
+    //#else
+    //Find the goal we are protecting
+    Vector2d our_goal = goal;
+    our_goal(0) -= FIELD_WIDTH;
+
+    Vector2d calculated_position;
+    calculated_position(0) = (ball(0) - our_goal(0));
+    calculated_position(1) = (ball(1) - our_goal(1)); 
+
+    skill_goToPoint(robot, calculated_position, robotId);
+/*
+    double vx = CONTROL_K_XY * (x_pos - robot.pos(0));
+    // control y position to match the ball's y-position
+    //CONTROL times offset between ball(y) and robot Y position
+    double vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
+
+    #endif
+
+    if (abs(ball(1)) > 0.75) // if playing defense_arch, keeps out of corners
+    {
+        if(ball(1) < 0)
+            vy = CONTROL_K_XY * (-0.5 - robot.pos(1)); 
+        else
+            vy = CONTROL_K_XY * (0.5 - robot.pos(1));
+    }
+    else
+        vy = CONTROL_K_XY * (ball(1) - robot.pos(1));
+
+    
+
+    // control angle to face the goal
+    Vector2d dirGoal = goal - robot.pos;                        //Offset from robot to goal
+    double theta_d = atan2(dirGoal(1), dirGoal(0));             //Theta is the arc tan of the goal
+                                                                //This ensures that the robot faces the goal
+                                                                //Arctan (y, x)
+    //robot is of type robotpose. this is a struct with 2d coordinates, and theta
+    //CONTROL_K_OMEGA is constant value 2
+    //this negative value is multiplied by theta difference between robot and calculated
+    double omega = -CONTROL_K_OMEGA * (robot.theta - theta_d); 
+    
+    // Output velocities to motors  
+    Vector3d v;                         //Create a 3d vector. XY and Z
+    v << vx, vy, omega;                 //Fill vector with calculated values
+    v = utility_saturateVelocity(v);    //MIGHT BE USEFUL. I DONT KNOW WHAT IT DOES
+    publish_moveRobot(v, robotId);              //Move the robot the calculated value*/
 }
 
 // skill - go to point
@@ -505,7 +560,7 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 
     point1(0) = 100000;
     point1(1) = 100000;
-    /*if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
+    if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
                                         //the robot is in Q1 or Q4 
         if (robot.pos(1) < ball(1)){    //The robot is in Q1
             point = ball;
@@ -515,12 +570,12 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
             point = ball;
             point(1) += .2;             //Go to a point below the ball
         }
-    }*/
-    //else
-    //{
+    }
+    else
+    {
     	Vector2d n = utility_unitVector(goal - ball);
     	point = ball - 0.2*n;
-    //}
+    }
 	/*if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
                                         //the robot is in Q1 or Q4 
         if (robot.pos(1) < ball(1)){    //The robot is in Q1
@@ -657,6 +712,7 @@ Vector2d check_collision(RobotPose robot, Vector2d ball, int robotId)
 	return point;
 }
 
+int global_cnt = 0;
 bool object_in_path(RobotPose robot, int robotNumber)
 {
     /*
@@ -673,7 +729,7 @@ bool object_in_path(RobotPose robot, int robotNumber)
     Vector2d point1;                     //Create a point
     point1(0) = 100000;
     point1(1) = 100000;
-    /*if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
+    if (robot.pos(0) > ball(0)){        //if the robot is in front of the ball
                                         //the robot is in Q1 or Q4 
         if (robot.pos(1) < ball(1)){    //The robot is in Q1
             point = ball;
@@ -683,12 +739,12 @@ bool object_in_path(RobotPose robot, int robotNumber)
             point = ball;
             point(1) += .2;             //Go to a point below the ball
         }
-    }*/
-    //else
-    //{
+    }
+    else
+    {
     	Vector2d n = utility_unitVector(goal - ball);
     	point = ball - 0.2*n;
-    //}
+    }
         //Go to the ball
         // normal vector from ball to goal
         //This returns a normalized vector alligned with ball and goal
@@ -728,7 +784,7 @@ bool object_in_path(RobotPose robot, int robotNumber)
 			(dist_from_ally < dist) &&
 			(abs(dist - dist_from_ally) > .4))
 		{
-			cout << "This dude is in my way!" << endl;
+			cout << "This ally is in my way!" << global_cnt++ << endl;
 			return true;
 		}
 
@@ -741,7 +797,7 @@ bool object_in_path(RobotPose robot, int robotNumber)
 			(dist_from_opp1 < dist) &&
 			(abs(dist - dist_from_opp1) > .4))
 		{
-			cout << "This dude is in my way!" << endl;
+			cout << "This opp1 is in my way!" << global_cnt++ << endl;
 			return true;
 		}
 		//If the vector is within 5 degrees, This object is in our path
@@ -751,7 +807,7 @@ bool object_in_path(RobotPose robot, int robotNumber)
 			(dist_from_opp2 < dist) &&
 			(abs(dist - dist_from_opp2) > .4))
 		{
-			cout << "This dude is in my way!" << endl;
+			cout << "This opp2 is in my way!" << global_cnt++ << endl;
 			return true;
 		}
 		

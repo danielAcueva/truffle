@@ -1,25 +1,34 @@
 <?xml version="1.0"?>
 <launch>
 
-
-        <node name="vision1" pkg="truffle" type="vision1" output="screen">
+	<group ns="truffle">
+        <node name="vision1" pkg="truffle" type="vision1" launch-prefix="xterm -e" output="screen">
 
 
         </node>
         <node name="controller1" pkg="truffle" type="controller1" output="screen">
         	
-            <remap from="ally1_vision" to="/truffle/home1" />
-            <remap from="ally2_vision" to="/truffle/home2" />
-            <remap from="opponent1_vision" to="/truffle/away1" />
-            <remap from="opponent2_vision" to="/truffle/away2" />
+            <remap from="ally1_vision" to="home1" />
+            <remap from="ally2_vision" to="home2" />
+            <remap from="opponent1_vision" to="away1" />
+            <remap from="opponent2_vision" to="away2" />
 
-            <remap from="ball_vision" to="/truffle/ball" />
-            <!--<remap from="ball_vision" to="/game_state" />-->
-            
+            <remap from="ball_vision" to="ball" />
+            <remap from="ally1/vel_cmds" to="robot1/ally1/vel_cmds" />
+            <remap from="ally2/vel_cmds" to="robot2/ally2/vel_cmds" />
 
+            <!-- For competition mode, uncomment the below line. -->
+            <!-- For hardware testing, we want `game_state` to be namespaced, so comment the below line -->
+            <!--remap from="game_state" to="/game_state" /-->
         </node>
 
-        <depend package="soccerref" />
+		<!-- For HW testing only -->
+	        <include file="$(find soccerref)/launch/referee.launch">
+            <arg name="half_duration_secs" value="120" />
+            <arg name="use_timer" value="false" />
+            <arg name="simulation_mode" value="false" />
+        </include>
+    </group>
 
 
 </launch>

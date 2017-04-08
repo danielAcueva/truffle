@@ -47,23 +47,23 @@ void publish_moveRobot(Vector3d v_world, int robotId)
 {
 	//v_world is a 3d vector
     geometry_msgs::Twist v;					//Create a geometry msg. twist. v
-    /*if((team == "away") ^ gameState.second_half)
+    if((team == "away") ^ gameState.second_half)
     {
         v.linear.x = -v_world(0);               //Move X
     }
     else
     {
         v.linear.x = v_world(0);               //Move X
-    }*/
+    }
 
-    if(global_is_home) // HOME 
+    /*if(global_is_home) // HOME 
     {
         v.linear.x = v_world(0);               //Move X
     }
     else // AWAY
     {
         v.linear.x = -v_world(0);             //Move X
-    }
+    }*/
     v.linear.y = v_world(1);				//Move Y
     v.angular.z = v_world(2);				//Move z
 
@@ -88,20 +88,20 @@ void param_init()
 // also look up "TMUX"
 RobotPose utility_toRobotPose(Pose2D robot)
 {
-    /*
+    
     // Flip coordinates if team is away or if we've swapped sides
     if((team == "away") ^ gameState.second_half)
     {
         robot.x = -robot.x;
         robot.theta  = utility_angleMod(robot.theta + 180);
     }
-    */
     
-    if(!global_is_home)//AWAY
+    
+    /*if(!global_is_home)//AWAY
     {
         robot.x = -robot.x;
         robot.theta  = utility_angleMod(robot.theta + 180);
-    }
+    }*/
 
     Vector2d pos;
     pos << robot.x, robot.y;
@@ -112,16 +112,15 @@ RobotPose utility_toRobotPose(Pose2D robot)
 Vector2d utility_toBallPose(Pose2D ball)
 {
     // Flip coordinates if team is away or if we've swapped sides
-  /*  if((team == "away") ^ gameState.second_half)
+    if((team == "away") ^ gameState.second_half)
     {
         ball.x = -ball.x;
     }
-    */
 
-    if(!global_is_home)//AWAY
+    /*if(!global_is_home)//AWAY
     {
         ball.x = -ball.x;
-    }
+    }*/
 
     Vector2d pos;
     pos << ball.x, ball.y;
@@ -132,20 +131,34 @@ void visionCallback(const geometry_msgs::Pose2D::ConstPtr &msg, const std::strin
 {
     if(robot == "ally1")
     {
-        ally1 = utility_toRobotPose(*msg);
+        if(team == "home")
+            ally1 = utility_toRobotPose(*msg);
+        else
+            opp1 = utility_toRobotPose(*msg);
     }
     else if(robot == "ally2")
     {
-        ally2 = utility_toRobotPose(*msg);
-        intercept_avoid_tick();                         //Tick function for intercept with avoidance
+        if(team == "home")
+            ally2 = utility_toRobotPose(*msg);
+        else
+            opp2 = utility_toRobotPose(*msg);
+        
+        //intercept_avoid_tick();                         //Tick function for intercept with avoidance
     }
     else if(robot == "opponent1")
     {
-        opp1 = utility_toRobotPose(*msg);
+        if(team == "home")
+            opp1 = utility_toRobotPose(*msg);
+        else
+            ally2 = utility_toRobotPose(*msg);
+        
     }
     else if(robot == "opponent2")
     {
-        opp2 = utility_toRobotPose(*msg);
+        if(team == "home")
+            opp2 = utility_toRobotPose(*msg);
+        else
+            ally1 = utility_toRobotPose(*msg);
     }
     else if(robot == "ball")
     {
@@ -167,22 +180,23 @@ int main(int argc, char **argv)
 {
     cout << "frickin go" << endl;
     param_init();										//Init parameters
-    //ros::init(argc, argv, "home");						//Init ros. Call it home
-    ros::init(argc, argv, "home");                      //Init ros. Call it home
+    ros::init(argc, argv, "home");						//Init ros. Call it home
+    //ros::init(argc, argv, "away");                      //Init ros. Call it home
     ros::NodeHandle nh;									//Create node handle
 
     // Private node handle to get whether we are home or away.
     // Having the nh private properly namespaces it.
     ros::NodeHandle priv_nh("~");						//Create private nado handle
-    //priv_nh.param<string>("team", team, "home");
     priv_nh.param<string>("team", team, "home");
+    //priv_nh.param<string>("team", team, "away");
+    
 
     vsub_ally1 = nh.subscribe<geometry_msgs::Pose2D>("ally1_vision", 1, boost::bind(visionCallback, _1, "ally1"));
     vsub_ally2 = nh.subscribe<geometry_msgs::Pose2D>("ally2_vision", 1, boost::bind(visionCallback, _1, "ally2"));
     vsub_opp1 = nh.subscribe<geometry_msgs::Pose2D>("opponent1_vision", 1, boost::bind(visionCallback, _1, "opponent1"));
     vsub_opp2 = nh.subscribe<geometry_msgs::Pose2D>("opponent2_vision", 1, boost::bind(visionCallback, _1, "opponent2"));
     ball_pub = nh.subscribe<geometry_msgs::Pose2D>("ball_vision", 1, boost::bind(visionCallback, _1, "ball"));
-    game_state_sub = nh.subscribe<soccerref::GameState>("/game_state", 1, gameStateCallback);
+    game_state_sub = nh.subscribe<soccerref::GameState>("game_state", 1, gameStateCallback);
     motor_pub1 = nh.advertise<geometry_msgs::Twist>("ally1/vel_cmds", 5);
     ////motor_pub1 = nh.advertise<geometry_msgs::Twist>("truffle/vel_cmds", 5);
 
@@ -197,17 +211,23 @@ int main(int argc, char **argv)
     reset_ball_values();
 	
     ros::Rate loop_rate(30);							//30 cycles a second
+    set_robot(2);
     while(ros::ok())									//Run until ctrl+c
     {
+        Vector2d findGoal;
+        findGoal(0) = goal(0) - ball(0);
+        findGoal(1) = goal(1) - ball(1);
+        cout << "XPos: " << findGoal(0) << " YPos " << findGoal(1) << endl;
        // if (ally1.pos(0) != 0)
             //cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
        // if (ball(0) != 0)
             //cout << "ball: x " << ball(0) << " y " << ball(1) << endl;
         //cout << "x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
         //intercept_avoid_tick();                         //Tick function for intercept with avoidance
-        /*if (gameState.play)								//We are playing. Play ball!
+        if (gameState.play)								//We are playing. Play ball!
         {
-            push_ball_values(ball);
+            //intercept_avoid_tick(); 
+            /*push_ball_values(ball);
             Vector2d avgValues = avg_distance_between_samples(); 
             intercept_avoid_tick();                         //Tick function for intercept with avoidance
             dribble_ball_tick();                            //Tick function for dribble
@@ -223,14 +243,20 @@ int main(int argc, char **argv)
             predict(1) = predict(1) - .5;
             //skill_go_to_point(ally2, predict, 2);
             //playDefense(2);
-            cout << "PLAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+            cout << "PLAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;*/
+
+            //playDefense(1);
+            // playDefense(2);
+            //playDefense(1);
+            playOffense(2);
+            //playDefense(2);
 			
            
         }
         else if (gameState.reset_field)					//Reset the game
         {
-            skill_goToPoint(ally1, ally1_startingPos, 1);	
-            skill_goToPoint(ally2, ally2_startingPos, 2);
+            skill_goToPoint(ally1, ally2_startingPos, 1);	
+            skill_goToPoint(ally2, ally1_startingPos, 2);
             cout << "RESET FIELD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
         }
         else 											//paused - stop moving
@@ -241,14 +267,10 @@ int main(int argc, char **argv)
             publish_moveRobot(zeroVel, 2);						//keep robot still. Move with no parameters
         }
         // process any callbacks
-*/
+
        // playDefense(1);
 
         //skill_followBallOnLine1(ally1, ball, -2 * FIELD_WIDTH / 6, 1);
-        //playDefense(1);
-       // playDefense(2);
-        playOffense(2);
-        //playDefense(2);
         /*Vector3d v;
         v << 1, 0, -1;
         v = utility_saturateVelocity(v);

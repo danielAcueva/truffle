@@ -26,31 +26,32 @@ using namespace std;
 using namespace cv;
 using namespace geometry_msgs;
 
-#define FIELD_WIDTH 3.175 // in meters
+//#define FIELD_WIDTH 3.175 // in meters
+#define FIELD_WIDTH 3.38
 #define FIELD_HEIGHT 2.22
 #define ROBOT_RADIUS 0.10
 #define GUI_NAME "Camera"
 
-#define FIELD_WIDTH_PIXELS 642.0 // measured from threshold of goal to goal
-#define FIELD_HEIGHT_PIXELS 440.0 // measured from inside of wall to wall
-
 # define DEBUG 1 // 1 for extra debug print statements
+
+double field_width_pixels = 0; // goal to goal, normally about 643
+double field_height_pixels = 0; // wall to wall, normally about 427
+
 bool newKey = false;
 void updateTrackbarValues();
 
 // Jersey colors
-Scalar green[] = {Scalar(30, 19, 220), Scalar(44, 47, 242)}; // green sucks
 
 // Home Jersey Colors
-Scalar blue[] = {Scalar(112, 36, 213), Scalar(125, 64, 246)}; // 10:00 pm. Pretty dark
-Scalar purple[] = {Scalar(117, 22, 213), Scalar(135, 68, 255)};
+Scalar blue[] = {Scalar(93, 103, 233), Scalar(102, 144, 249)}; 
+Scalar purple[] = {Scalar(140, 26, 220), Scalar(154, 50, 240)};
 
 // Away Jersey Colors
-Scalar red[] = {Scalar(5, 101, 220), Scalar(15, 119, 227)}; // first scalar is low, second is high
-//Scalar yellow[]
+Scalar red[] = {Scalar(5, 82, 220), Scalar(15, 113, 227)}; // first scalar is low, second is high
+Scalar yellow[] = {Scalar(0, 0, 228), Scalar(5, 6, 237)};
 
 // Ball color
-Scalar pink[] = {Scalar(170, 24, 213), Scalar(179, 72, 255)};
+Scalar pink[] = {Scalar(170, 65, 213), Scalar(179, 86, 255)};
 
 Scalar * colorPtr; // global pointer used to change color values
 bool trackbarShown = false;
@@ -136,8 +137,8 @@ Point2d imageToWorldCoordinates(Point2d point_i) {
 
     // You have to split up the pixel to meter conversion
     // because it is a rect, not a square!
-    center_w.x *= (FIELD_WIDTH / FIELD_WIDTH_PIXELS); //-.005; // quick hack
-    center_w.y *= (FIELD_HEIGHT / FIELD_HEIGHT_PIXELS);
+    center_w.x *= (FIELD_WIDTH/field_width_pixels); 
+    center_w.y *= (FIELD_HEIGHT/field_height_pixels);
 
     // Reflect y
     center_w.y = -center_w.y;
@@ -150,8 +151,8 @@ Point2d centerToWorldCoordinates(Point2d point_i) {
 
     // You have to split up the pixel to meter conversion
     // because it is a rect, not a square!
-    center_w.x *= (FIELD_WIDTH / FIELD_WIDTH_PIXELS);
-    center_w.y *= (FIELD_HEIGHT / FIELD_HEIGHT_PIXELS);
+    center_w.x *= (FIELD_WIDTH/field_width_pixels);
+    center_w.y *= (FIELD_HEIGHT/field_height_pixels);
 
     // Reflect y
     center_w.y = -center_w.y;
@@ -189,7 +190,7 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
     // Also, Hamad says they did something where in the beginning, they click their robot (with imshow)
     // which gets the HSV values, then they do like +- on the values do get a
 
-    if ( & robotPose == & poseHome1) {
+    if (&robotPose == & poseHome1) {
 
         if (!firstRun) {
             thresh_val_home1 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
@@ -203,7 +204,7 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
             imshow(GUI_NAME, th3);
         }
 
-    } else if ( & robotPose == & poseHome2) {
+    } else if (&robotPose == &poseHome2) {
         if (!firstRun) {
             thresh_val_home2 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
         } else {
@@ -216,7 +217,7 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
             imshow(GUI_NAME, th3);
         }
 
-    } else if ( & robotPose == & poseAway1) {
+    } else if (&robotPose == &poseAway1) {
         if (!firstRun) {
             thresh_val_away1 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
         } else {
@@ -229,7 +230,7 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
             imshow(GUI_NAME, th3);
         }
 
-    } else if ( & robotPose == & poseAway2) {
+    } else if (&robotPose == &poseAway2) {
         if (!firstRun) {
             thresh_val_away2 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
         } else {
@@ -237,16 +238,16 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
         }
 
         if (lastKeyPressed == 'g') {
-            colorPtr = green;
+            colorPtr = yellow;
             updateTrackbarValues();
             imshow(GUI_NAME, th3);
         }
 
     }
 
-    vector < vector < Point > > contours;
-    vector < Moments > mm;
-    vector < Vec4i > hierarchy;
+    vector<vector<Point>> contours;
+    vector<Moments> mm;
+    vector<Vec4i> hierarchy;
 
     //Find countour, fill up the vector
     findContours(th3, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
@@ -256,25 +257,34 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
     // we have two colored identifiers on the robot jersey
     if (hierarchy.size() != 2) {
         if (DEBUG) {
-
-            /*
             switch (lastKeyPressed) {
-            case 'd':
-                cout << "[Vision] Robot Home 1 - Bad hierarchy" << endl;
-                break;
-            case 'e':
-                cout << "[Vision] Robot Home 2 - Bad hierarchy" << endl;
-                break;
-            case 'f':
-                cout << "[Vision] Robot Away 1: - Bad hierarchy" << endl;
-                break;
-            case 'g':
-                cout << "[Vision] Robot Away 2 - Bad hierarchy" << endl;
-                break;
-            default:
-                break;
+                case 'd':
+                    if (&robotPose == &poseHome1)
+                    {
+                        cout << "[Vision] Robot Blue - Bad hierarchy" << endl;
+                    }
+                    break;
+                case 'e':
+                    if (&robotPose == &poseHome2)
+                    {
+                        cout << "[Vision] Robot Purple - Bad hierarchy" << endl;
+                    }
+                    break;
+                case 'f':
+                    if (&robotPose == &poseAway1)
+                    {
+                      cout << "[Vision] Robot Red - Bad hierarchy" << endl;
+                    }
+                    break;
+                case 'g':
+                    if (&robotPose == &poseAway2)
+                    {
+                        cout << "[Vision] Robot Yellow - Bad hierarchy" << endl;
+                    }
+                    break;
+                default:
+                    break;
             }
-            */
         }
         return;
     }
@@ -304,16 +314,28 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
     if (DEBUG) {
         switch (lastKeyPressed) {
         case 'd':
-            cout << "[Vision] Robot Home 1: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            if (&robotPose == &poseHome1)
+            {
+                cout << "[Vision] Robot Blue: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            }
             break;
         case 'e':
-            cout << "[Vision] Robot Home 2: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            if (&robotPose == &poseHome2)
+            {
+                cout << "[Vision] Robot Purple: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            }
             break;
         case 'f':
-            cout << "[Vision] Robot Away 1: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            if (&robotPose == &poseAway1)
+            {
+              cout << "[Vision] Robot Red: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            }
             break;
         case 'g':
+            if (&robotPose == &poseAway2)
+            {
             cout << "[Vision] Robot Away 2: " << robotPose.x << ", " << robotPose.y << ", " << robotPose.theta << endl;
+            }
             break;
         default:
             break;
@@ -378,7 +400,7 @@ void processImage(Mat frame) {
     getRobotPose(imgHsv, blue, poseHome1);
     getRobotPose(imgHsv, purple, poseHome2);
     getRobotPose(imgHsv, red, poseAway1);
-    getRobotPose(imgHsv, green, poseAway2);
+    getRobotPose(imgHsv, yellow, poseAway2);
 
     // Calculate the ball position
     getBallPose(imgHsv, pink, poseBall);
@@ -393,7 +415,6 @@ void processImage(Mat frame) {
 
 }
 
-// TODO: Dallon, try background subtraction!
 void getCenter(Mat frame) {
     Mat bgImage;
     Mat imgHsv;
@@ -419,7 +440,6 @@ void getCenter(Mat frame) {
     Point2d center_point(centerX, centerY);
 
     centerToWorldCoordinates(center_point);
-
 }
 
 //Called when data is subscribed
@@ -436,17 +456,18 @@ void imageCallback(const sensor_msgs::ImageConstPtr & msg) {
             waitKey(60);
             // Wait for user to crop
             // And calculate center
-            //getCenter(frame);
         } else {
             if (!firstRun) {
                 getCenter(frame);
-
             }
 
             // Crop the field
-
             Rect roi(roi_x, roi_y, roi_width, roi_height);
             Mat roiFrame = frame(roi);
+
+            // update field_width_pixels and field_width_height
+            field_width_pixels = roi_width;
+            field_height_pixels = roi_height;
 
             processImage(roiFrame);
 
@@ -469,7 +490,6 @@ void imageCallback(const sensor_msgs::ImageConstPtr & msg) {
         }
         if (key != -1) {
             lastKeyPressed = key;
-
         }
 
         if (key == 'q') {
@@ -487,8 +507,6 @@ void mouseCallback(int event, int x, int y, int flags, void * userdata) {
     // if the left mouse button was clicked, record the starting
     // (x, y) coordinates and indicate that cropping is being
     // performed
-    //  if (lastKeyPressed == 'z')
-    //  {
     if (!cropped) {
         if (event == EVENT_LBUTTONDOWN) {
             Point point1;
@@ -609,8 +627,7 @@ int main(int argc, char * * argv) {
     ros::init(argc, argv, "vision_sim");
     ros::NodeHandle nh;
 
-    ros::NodeHandle priv_nh("~"); //Create private nado handle
-    //priv_nh.param<string>("team", team, "home");
+    ros::NodeHandle priv_nh("~"); //Create private node handle
 
     // Create OpenCV Window and add a mouse callback for clicking
     namedWindow(GUI_NAME, CV_WINDOW_AUTOSIZE);
@@ -626,11 +643,11 @@ int main(int argc, char * * argv) {
     image_transport::Subscriber image_sub = it.subscribe("/usb_cam_away/image_raw", 1, imageCallback);
 
     // Publish the robot's position (x and y)
-    home1_pub = nh.advertise < geometry_msgs::Pose2D > ("truffle/home1", 5);
-    home2_pub = nh.advertise < geometry_msgs::Pose2D > ("truffle/home2", 5);
-    away1_pub = nh.advertise < geometry_msgs::Pose2D > ("truffle/away1", 5);
-    away2_pub = nh.advertise < geometry_msgs::Pose2D > ("truffle/away2", 5);
-    ball_pub = nh.advertise < geometry_msgs::Pose2D > ("truffle/ball", 5);
+    home1_pub = nh.advertise < geometry_msgs::Pose2D > ("home1", 5);
+    home2_pub = nh.advertise < geometry_msgs::Pose2D > ("home2", 5);
+    away1_pub = nh.advertise < geometry_msgs::Pose2D > ("away1", 5);
+    away2_pub = nh.advertise < geometry_msgs::Pose2D > ("away2", 5);
+    ball_pub = nh.advertise < geometry_msgs::Pose2D > ("ball", 5);
 
     ros::spin();
     return 0;

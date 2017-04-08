@@ -22,6 +22,8 @@ using namespace Eigen;
 //   Angle always faces the goal.
 void skill_followBallOnLine(RobotPose robot, Vector2d ball, double x_pos, int robotId);
 
+void skill_on_ball_defense(RobotPose robot, Vector2d ball, int robotId);
+
 // skill - go to point
 //   Travels towards a point. Angle always faces the goal.
 void skill_goToPoint(RobotPose robot, Vector2d point, int robotId);

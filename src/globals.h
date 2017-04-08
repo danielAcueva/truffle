@@ -17,13 +17,17 @@ using namespace Eigen;
 
 //Controller constants
 #define PI 3.14159
-#define ROBOT_MAX_VXY 1.0
+#define ROBOT_MAX_VXY 1.5
 #define ROBOT_MAX_OMEGA 6*PI //Was 2*M_PI
 #define CONTROL_K_XY 5
 #define CONTROL_K_OMEGA 2
-#define FIELD_WIDTH 3.40  // in meters
-#define FIELD_HEIGHT 2.38 
+#define FIELD_WIDTH 3.38  // in meters
+#define FIELD_HEIGHT 2.22 
 #define ROBOT_RADIUS 0.10
+
+#define GOAL_BOX_WIDTH 0.5 // meters
+#define GOAL_BOX_HEIGHT 1.12 // meters
+#define BOX_FROM_CENTER GOAL_BOX_HEIGHT/2
 
 //use the standard queue
 //This standard queue is infinite

@@ -5,7 +5,8 @@ using namespace geometry_msgs;
 using namespace Eigen;
 
 //FIXED TO ROBOT ALLY1. CHANGE AT SOME POINT!!!!!!!!
-#define STATE_EXPIRE 30
+#define STATE_EXPIRE 5
+#define STATE_1_EXPIRE 30
 #define POSITION_EXPIRE 5
 
 //Create an enumerated type for all of the states in the SM
@@ -14,6 +15,7 @@ enum IA_states { wait_for_play, check_avoid_point, go_to_avoid_point,
 			go_to_ball, arrived} IA_state = wait_for_play; 
 
 int state_count = 0;
+int state_count1 = 0;
 Vector2d avoid_point;
 bool call_play_avoid = false;
 bool avoid_running = false;
@@ -73,7 +75,7 @@ void intercept_avoid_tick()
 		case go_to_ball:
 		{
 			play_getBehindBall(robot, ball, robot_number);
-			state_count++;
+			state_count1++;
 			break;
 		}
 		case arrived:
@@ -101,11 +103,13 @@ void intercept_avoid_tick()
 				avoid_point = check_collision(robot, ball, robot_number);
 				//Go to the avoid point state
 				state_count = 0;
+				state_count1 = 0;
 				IA_state = go_to_avoid_point;
 			}
 			else
 			{
 				state_count = 0;
+				state_count1 = 0;
 				//Nothing in the way, go to the ball
 				IA_state = go_to_ball;
 			}
@@ -121,7 +125,7 @@ void intercept_avoid_tick()
 		}
 		case go_to_ball:
 		{
-			if (state_count == STATE_EXPIRE)
+			if (state_count1 == STATE_1_EXPIRE)
 			{
 				IA_state = check_avoid_point;
 			}
