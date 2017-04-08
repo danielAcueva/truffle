@@ -214,10 +214,11 @@ int main(int argc, char **argv)
     set_robot(2);
     while(ros::ok())									//Run until ctrl+c
     {
-        Vector2d findGoal;
-        findGoal(0) = goal(0) - ball(0);
-        findGoal(1) = goal(1) - ball(1);
-        cout << "XPos: " << findGoal(0) << " YPos " << findGoal(1) << endl;
+        // Find goal Test
+        // Vector2d findGoal;
+        // findGoal(0) = goal(0) - ball(0);
+        // findGoal(1) = goal(1) - ball(1);
+        // cout << "XPos: " << findGoal(0) << " YPos " << findGoal(1) << endl;
        // if (ally1.pos(0) != 0)
             //cout << "robot: x " << ally1.pos(0) << " y " << ally1.pos(1) << endl;
        // if (ball(0) != 0)

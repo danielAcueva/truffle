@@ -5,34 +5,18 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <cv_bridge/cv_bridge.h>
-
-// Line Segment Detector
-#include "opencv2/core/utility.hpp"
-#include <opencv2/imgproc.hpp> 
-#include <opencv2/features2d.hpp>
-#include <opencv2/imgcodecs.hpp>
-
-#include <cmath> 
 #include <iostream> 
-#include <cv.h> 
-#include <highgui.h>
-
 #include <stdlib.h> // abs
-#include <algorithm>
-
-#include <cv.h>
 
 using namespace std;
 using namespace cv;
 using namespace geometry_msgs;
 
-//#define FIELD_WIDTH 3.175 // in meters
 #define FIELD_WIDTH 3.38
 #define FIELD_HEIGHT 2.22
 #define ROBOT_RADIUS 0.10
 #define GUI_NAME "Camera"
-
-# define DEBUG 1 // 1 for extra debug print statements
+#define DEBUG 1 // 1 for extra debug print statements
 
 double field_width_pixels = 0; // goal to goal, normally about 643
 double field_height_pixels = 0; // wall to wall, normally about 427
@@ -54,7 +38,6 @@ Scalar yellow[] = {Scalar(0, 0, 228), Scalar(5, 6, 237)};
 Scalar pink[] = {Scalar(170, 65, 213), Scalar(179, 86, 255)};
 
 Scalar * colorPtr; // global pointer used to change color values
-bool trackbarShown = false;
 
 // default these values to blue or whatever
 int H_MIN = 0;
@@ -64,28 +47,20 @@ int S_MAX = 255;
 int V_MIN = 0;
 int V_MAX = 255;
 
-float topYBorder;
-float bottomYBorder;
-float leftXBorder;
-float rightXBorder;
-
 Point2d center_field;
 
 Mat img;
 int firstRun = 0;
-
 bool cropped = false; // if 0, haven't cropped yet
+bool cropping;
+char lastKeyPressed;
+Point refPt[2];
 
+// robot vision thresholding
 int thresh_val_home1 = 0;
 int thresh_val_home2 = 0;
 int thresh_val_away1 = 0;
 int thresh_val_away2 = 0;
-
-char lastKeyPressed;
-
-bool cropping;
-
-Point refPt[2];
 
 // roi_x and roi_y = top left
 float roi_x, roi_y, roi_width, roi_height;
@@ -344,21 +319,10 @@ void getRobotPose(Mat & imgHsv, Scalar color[], Pose2D & robotPose) {
 
 }
 
-// We need this function to define how to sort
-// the vector. We will pass this function into the
-// third parameter and it will tell it to sort descendingly.
-bool wayToSort(Vec4f a, Vec4f b) {
-    if (a[0] < b[0]) {
-        return true;
-    }
-    return false;
-}
-
 void getBallPose(Mat & imgHsv, Scalar color[], geometry_msgs::Pose2D & ballPose) {
     Mat imgGray;
     thresholdImage(imgHsv, imgGray, color);
 
-    // save the ball positing mat (before finding contours)
 
     // Show the ball if C was last pressed
     if (lastKeyPressed == 'c') {
