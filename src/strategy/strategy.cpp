@@ -145,8 +145,8 @@ void skill_on_ball_defense(RobotPose robot, Vector2d ball, int robotId)
     our_goal(0) -= FIELD_WIDTH;
 
     Vector2d calculated_position;
-    calculated_position(0) = (ball(0) - our_goal(0));
-    calculated_position(1) = (ball(1) - our_goal(1)); 
+    calculated_position(0) = (ball(0) + our_goal(0));
+    calculated_position(1) = (ball(1) + our_goal(1)); 
 
     skill_goToPoint(robot, calculated_position, robotId);
 /*

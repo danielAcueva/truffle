@@ -18,7 +18,7 @@ using namespace Eigen;
 //Controller constants
 #define PI 3.14159
 #define ROBOT_MAX_VXY 1.5
-#define ROBOT_MAX_OMEGA 6*PI //Was 2*M_PI
+#define ROBOT_MAX_OMEGA PI /4 //Was 2*M_PI
 #define CONTROL_K_XY 5
 #define CONTROL_K_OMEGA 2
 #define FIELD_WIDTH 3.38  // in meters

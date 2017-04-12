@@ -5,8 +5,8 @@ using namespace geometry_msgs;
 using namespace Eigen;
 
 //FIXED TO ROBOT ALLY1. CHANGE AT SOME POINT!!!!!!!!
-#define STATE_EXPIRE 5
-#define STATE_1_EXPIRE 30
+#define STATE_EXPIRE 1 //5
+#define STATE_1_EXPIRE 1 //30
 #define POSITION_EXPIRE 5
 
 //Create an enumerated type for all of the states in the SM
@@ -99,6 +99,7 @@ void intercept_avoid_tick()
 			//Check if there is an abject in my way
 			if (object_in_path(robot, robot_number))
 			{
+				cout << "object in way!!!" << endl;
 				//Set the point so we can move toward it 
 				avoid_point = check_collision(robot, ball, robot_number);
 				//Go to the avoid point state
@@ -117,18 +118,18 @@ void intercept_avoid_tick()
 		}
 		case go_to_avoid_point:
 		{
-			if (state_count == STATE_EXPIRE)
-			{
+			//if (state_count >= STATE_EXPIRE)
+			//{
 				IA_state = check_avoid_point;
-			}
+			//}
 			break;
 		}
 		case go_to_ball:
 		{
-			if (state_count1 == STATE_1_EXPIRE)
-			{
+			//if (state_count1 >= STATE_1_EXPIRE)
+			//{
 				IA_state = check_avoid_point;
-			}
+			//}
 			break;
 		}
 		case arrived:

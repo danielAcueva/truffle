@@ -8,10 +8,21 @@ using namespace Eigen;
 
 void playDefense(int robotNumber)
 {
-	skill_on_ball_defense(ally2, ball, 2);
+	//skill_on_ball_defense(ally2, ball, 2);
 	//skill_followBallOnLine(ally2, ball, -1.2, 2);
-	//playTriDefense(2);
-	/*if(robotNumber == 1)
+	//
+
+	//playTriDefense(1);
+	if(robotNumber == 1)
+	{
+		playTriDefense(1);
+	}
+	else
+	{
+		playTriDefense(2);
+	}
+	/*
+	if(robotNumber == 1)
 	{
 		if( ( ((ally1.pos(0) - ball(0)) > -0.2) ) && (abs(ball(1)- ally1.pos(1)) < 0.1))
 		{
@@ -19,9 +30,6 @@ void playDefense(int robotNumber)
 		}
 		else
 		{
-			if(ball(0) > 0)
-				playMovingScreen(1);
-			else
 				playTriDefense(1);
 		}
 	}
@@ -33,9 +41,6 @@ void playDefense(int robotNumber)
 		}
 		else
 		{
-			if(ball(0) > 0)
-				playMovingScreen(2);
-			else
 				playTriDefense(2);
 		}
 	}*/
@@ -68,11 +73,19 @@ void playTriDefense(int robotNumber)
 
 	//Triangle Calculations
 
-	double abs_ball = abs(ball(1));
+	double abs_ball = abs(ball(0));
 
-	double x_posTri = (abs_ball + 2) / -1.5; // y = mx + b
-											// x = (y - b)/m
-
+	double x_posTri = -0.8 - abs_ball;
+	double y_posTri = ball(1);
+	if(x_posTri < -1.2)
+		x_posTri = -1.2;
+	if(abs(y_posTri) > 0.25)
+	{
+		if(y_posTri > 0)
+			y_posTri = 0.25;
+		else
+			y_posTri = -0.25;
+	}
 	if (robotNumber == 1)
 		skill_followBallOnLine(ally1, ball, x_posTri, 1);
 	else if (robotNumber == 2)

@@ -7,6 +7,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <iostream> 
 #include <stdlib.h> // abs
+#include <time.h>
 
 using namespace std;
 using namespace cv;
@@ -24,18 +25,22 @@ double field_height_pixels = 0; // wall to wall, normally about 427
 bool newKey = false;
 void updateTrackbarValues();
 
+int counter = 0;
+
 // Jersey colors
 
 // Home Jersey Colors
 Scalar blue[] = {Scalar(89, 124, 225), Scalar(105, 172, 248)}; 
-Scalar purple[] = {Scalar(140, 26, 220), Scalar(154, 50, 240)};
+//Scalar purple[] = {Scalar(140, 26, 220), Scalar(154, 50, 240)};
+Scalar purple[] = {Scalar(140, 26, 220), Scalar(161, 65, 244)};
+
 
 // Away Jersey Colors
 Scalar red[] = {Scalar(5, 82, 220), Scalar(15, 113, 227)}; // first scalar is low, second is high
 Scalar yellow[] = {Scalar(0, 0, 228), Scalar(5, 6, 237)};
 
 // Ball color
-Scalar pink[] = {Scalar(170, 65, 213), Scalar(179, 86, 255)};
+Scalar pink[] = {Scalar(168, 65, 213), Scalar(179, 86, 255)};
 
 Scalar * colorPtr; // global pointer used to change color values
 
@@ -183,6 +188,12 @@ void getRobotPose(Mat &imgHsv, Scalar color[], Pose2D &robotPose) {
     // which gets the HSV values, then they do like +- on the values do get a
 
     if (&robotPose == & poseHome1) {
+
+        // time test
+        //robotPose.x = -1;
+       // robotPose.y = -1;
+      //  robotPose.theta = -1;
+
 
         if (!firstRun) {
             thresh_val_home1 = threshold(imgGray, th3, 0, 255, THRESH_BINARY | THRESH_OTSU);
@@ -363,7 +374,7 @@ void getBallPose(Mat & imgHsv, Scalar color[], geometry_msgs::Pose2D & ballPose)
 
     if (hierarchy.size() != 1) {
         if (DEBUG) {
-            cout << "[Vision] ERROR: Ball hierarchy failed";
+            //cout << "[Vision] ERROR: Ball hierarchy failed";
         }
         return;
     }
@@ -395,7 +406,30 @@ void processImage(Mat frame) {
     // Calculate the ball position
     getBallPose(imgHsv, pink, poseBall);
 
+  //  time_t          s;  // Seconds
+   // struct timespec spec;
+
     // Publish positions
+    
+    /*
+    if (counter > 20)
+    {
+        counter = 0;
+
+        clock_gettime(CLOCK_REALTIME, &spec);
+
+        s  = spec.tv_sec;
+        ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+        printf("Current time: .%03ld seconds since the Epoch\n",  (intmax_t)s);
+    }
+    else
+    {
+        
+        counter++;
+    }
+
+*/
+
     home1_pub.publish(poseHome1);
     home2_pub.publish(poseHome2);
     away1_pub.publish(poseAway1);
